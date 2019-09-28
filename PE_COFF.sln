@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PE_COFF", "src\PE_COFF\PE_COFF.vcxproj", "{A212AD35-E3CB-470E-868F-F0FD7F5A5FE9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4CA2ECE6-8C5E-48F1-9B46-FE7738B3A363} = {4CA2ECE6-8C5E-48F1-9B46-FE7738B3A363}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UEFI_Min", "src\UEFI_Min\UEFI_Min.vcxproj", "{4CA2ECE6-8C5E-48F1-9B46-FE7738B3A363}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A212AD35-E3CB-470E-868F-F0FD7F5A5FE9}.Debug|x64.ActiveCfg = Debug|x64
+		{A212AD35-E3CB-470E-868F-F0FD7F5A5FE9}.Debug|x64.Build.0 = Debug|x64
+		{A212AD35-E3CB-470E-868F-F0FD7F5A5FE9}.Release|x64.ActiveCfg = Debug|x64
+		{A212AD35-E3CB-470E-868F-F0FD7F5A5FE9}.Release|x64.Build.0 = Debug|x64
+		{4CA2ECE6-8C5E-48F1-9B46-FE7738B3A363}.Debug|x64.ActiveCfg = Release|x64
+		{4CA2ECE6-8C5E-48F1-9B46-FE7738B3A363}.Debug|x64.Build.0 = Release|x64
+		{4CA2ECE6-8C5E-48F1-9B46-FE7738B3A363}.Release|x64.ActiveCfg = Release|x64
+		{4CA2ECE6-8C5E-48F1-9B46-FE7738B3A363}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FA916947-8302-4F34-96C2-A844815D3F8F}
+	EndGlobalSection
+EndGlobal

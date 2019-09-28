@@ -1,0 +1,816 @@
+TP_COFF_FILE_HEADER:
+    uint16_t Machine(8664);
+    uint16_t NumberOfSections(a);
+    uint32_t TimeDateStamp(5d8f0ce1);
+    uint32_t PointerToSymbolTable(a09);
+    uint32_t NumberOfSymbols(20);
+    uint16_t SizeOfOptionalHeader(0);
+    uint16_t Characteristics(0);
+
+uint16_t Machine : TP_IMAGE_FILE_MACHINE_AMD64
+
+
+TP_COFF_SYMBOL_TABLE(0):
+    uint8_t ShortName(@comp.id);
+    uint32_t Zeroes(6d6f6340);
+    uint32_t Offset(64692e70);
+    uint8_t LongName();
+    uint32_t Value(1046dc9);
+    int16_t SectionNumber(ffffffff);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+int16_t SectionNumber is TP_IMAGE_SYM_ABSOLUTE.
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_SYMBOL_TABLE(1):
+    uint8_t ShortName(@feat.00);
+    uint32_t Zeroes(61656640);
+    uint32_t Offset(30302e74);
+    uint8_t LongName();
+    uint32_t Value(80000090);
+    int16_t SectionNumber(ffffffff);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+int16_t SectionNumber is TP_IMAGE_SYM_ABSOLUTE.
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_SYMBOL_TABLE(2):
+    uint8_t ShortName(.drectve);
+    uint32_t Zeroes(6572642e);
+    uint32_t Offset(65767463);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(1);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(1);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_AUX_SYMBOL_RECORD_SECTION(0):
+    uint32_t Length(2f);
+    uint16_t NumberOfRelocations(0);
+    uint16_t NumberOfLinenumbers(0);
+    uint32_t CheckSum(0);
+    int16_t Number(0);
+    uint8_t Selection(0);
+    uint8_t Unused();
+
+
+
+TP_COFF_SYMBOL_TABLE(4):
+    uint8_t ShortName(.debug$S);
+    uint32_t Zeroes(6265642e);
+    uint32_t Offset(53246775);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(2);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(1);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_AUX_SYMBOL_RECORD_SECTION(0):
+    uint32_t Length(258);
+    uint16_t NumberOfRelocations(a);
+    uint16_t NumberOfLinenumbers(0);
+    uint32_t CheckSum(0);
+    int16_t Number(0);
+    uint8_t Selection(0);
+    uint8_t Unused();
+
+
+
+TP_COFF_SYMBOL_TABLE(6):
+    uint8_t ShortName(.text$mn);
+    uint32_t Zeroes(7865742e);
+    uint32_t Offset(6e6d2474);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(3);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(1);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_AUX_SYMBOL_RECORD_SECTION(0):
+    uint32_t Length(7c);
+    uint16_t NumberOfRelocations(9);
+    uint16_t NumberOfLinenumbers(0);
+    uint32_t CheckSum(8581fd4);
+    int16_t Number(0);
+    uint8_t Selection(1);
+    uint8_t Unused();
+
+    uint8_t Selection is TP_IMAGE_COMDAT_SELECT_NODUPLICATES.
+
+
+TP_COFF_SYMBOL_TABLE(8):
+    uint8_t ShortName(.debug$S);
+    uint32_t Zeroes(6265642e);
+    uint32_t Offset(53246775);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(4);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(1);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_AUX_SYMBOL_RECORD_SECTION(0):
+    uint32_t Length(260);
+    uint16_t NumberOfRelocations(1a);
+    uint16_t NumberOfLinenumbers(0);
+    uint32_t CheckSum(0);
+    int16_t Number(3);
+    uint8_t Selection(5);
+    uint8_t Unused();
+
+    uint8_t Selection is TP_IMAGE_COMDAT_SELECT_ASSOCIATIVE.
+
+
+TP_COFF_SYMBOL_TABLE(a):
+    uint8_t ShortName(efi_main);
+    uint32_t Zeroes(5f696665);
+    uint32_t Offset(6e69616d);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(3);
+    uint16_t Type(20);
+    uint8_t StorageClass(2);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_EXTERNAL.
+
+TP_COFF_SYMBOL_TABLE(b):
+    uint8_t ShortName($LN10);
+    uint32_t Zeroes(314e4c24);
+    uint32_t Offset(30);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(3);
+    uint16_t Type(0);
+    uint8_t StorageClass(6);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is OTHER.
+
+TP_COFF_SYMBOL_TABLE(c):
+    uint8_t ShortName(.xdata);
+    uint32_t Zeroes(6164782e);
+    uint32_t Offset(6174);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(5);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(1);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_AUX_SYMBOL_RECORD_SECTION(0):
+    uint32_t Length(8);
+    uint16_t NumberOfRelocations(0);
+    uint16_t NumberOfLinenumbers(0);
+    uint32_t CheckSum(fc539d1);
+    int16_t Number(3);
+    uint8_t Selection(5);
+    uint8_t Unused();
+
+    uint8_t Selection is TP_IMAGE_COMDAT_SELECT_ASSOCIATIVE.
+
+
+TP_COFF_SYMBOL_TABLE(e):
+    uint8_t ShortName();
+    uint32_t Zeroes(0);
+    uint32_t Offset(4);
+    uint8_t LongName(	
+);
+    uint32_t Value(0);
+    int16_t SectionNumber(5);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_SYMBOL_TABLE(f):
+    uint8_t ShortName(.pdata);
+    uint32_t Zeroes(6164702e);
+    uint32_t Offset(6174);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(6);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(1);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_AUX_SYMBOL_RECORD_SECTION(0):
+    uint32_t Length(c);
+    uint16_t NumberOfRelocations(3);
+    uint16_t NumberOfLinenumbers(0);
+    uint32_t CheckSum(fbff84df);
+    int16_t Number(3);
+    uint8_t Selection(5);
+    uint8_t Unused();
+
+    uint8_t Selection is TP_IMAGE_COMDAT_SELECT_ASSOCIATIVE.
+
+
+TP_COFF_SYMBOL_TABLE(11):
+    uint8_t ShortName();
+    uint32_t Zeroes(0);
+    uint32_t Offset(15);
+    uint8_t LongName(tve);
+    uint32_t Value(0);
+    int16_t SectionNumber(6);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_SYMBOL_TABLE(12):
+    uint8_t ShortName(.bss);
+    uint32_t Zeroes(7373622e);
+    uint32_t Offset(0);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(1);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_AUX_SYMBOL_RECORD_SECTION(0):
+    uint32_t Length(28);
+    uint16_t NumberOfRelocations(0);
+    uint16_t NumberOfLinenumbers(0);
+    uint32_t CheckSum(0);
+    int16_t Number(0);
+    uint8_t Selection(0);
+    uint8_t Unused();
+
+
+
+TP_COFF_SYMBOL_TABLE(14):
+    uint8_t ShortName();
+    uint32_t Zeroes(0);
+    uint32_t Offset(25);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_SYMBOL_TABLE(15):
+    uint8_t ShortName(ST);
+    uint32_t Zeroes(5453);
+    uint32_t Offset(0);
+    uint8_t LongName();
+    uint32_t Value(8);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_SYMBOL_TABLE(16):
+    uint8_t ShortName(RT);
+    uint32_t Zeroes(5452);
+    uint32_t Offset(0);
+    uint8_t LongName();
+    uint32_t Value(10);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_SYMBOL_TABLE(17):
+    uint8_t ShortName(IN);
+    uint32_t Zeroes(4e49);
+    uint32_t Offset(0);
+    uint8_t LongName();
+    uint32_t Value(18);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_SYMBOL_TABLE(18):
+    uint8_t ShortName(OUT);
+    uint32_t Zeroes(54554f);
+    uint32_t Offset(0);
+    uint8_t LongName();
+    uint32_t Value(20);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_SYMBOL_TABLE(19):
+    uint8_t ShortName(.rdata);
+    uint32_t Zeroes(6164722e);
+    uint32_t Offset(6174);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(8);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(1);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_AUX_SYMBOL_RECORD_SECTION(0):
+    uint32_t Length(62);
+    uint16_t NumberOfRelocations(0);
+    uint16_t NumberOfLinenumbers(0);
+    uint32_t CheckSum(a86d180e);
+    int16_t Number(0);
+    uint8_t Selection(2);
+    uint8_t Unused();
+
+    uint8_t Selection is TP_IMAGE_COMDAT_SELECT_ANY.
+
+
+TP_COFF_SYMBOL_TABLE(1b):
+    uint8_t ShortName();
+    uint32_t Zeroes(0);
+    uint32_t Offset(31);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(8);
+    uint16_t Type(0);
+    uint8_t StorageClass(2);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_EXTERNAL.
+
+TP_COFF_SYMBOL_TABLE(1c):
+    uint8_t ShortName(.debug$T);
+    uint32_t Zeroes(6265642e);
+    uint32_t Offset(54246775);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(9);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(1);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_AUX_SYMBOL_RECORD_SECTION(0):
+    uint32_t Length(5c);
+    uint16_t NumberOfRelocations(0);
+    uint16_t NumberOfLinenumbers(0);
+    uint32_t CheckSum(0);
+    int16_t Number(0);
+    uint8_t Selection(0);
+    uint8_t Unused();
+
+
+
+TP_COFF_SYMBOL_TABLE(1e):
+    uint8_t ShortName(.chks64);
+    uint32_t Zeroes(6b68632e);
+    uint32_t Offset(343673);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(a);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(1);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_AUX_SYMBOL_RECORD_SECTION(0):
+    uint32_t Length(50);
+    uint16_t NumberOfRelocations(0);
+    uint16_t NumberOfLinenumbers(0);
+    uint32_t CheckSum(0);
+    int16_t Number(0);
+    uint8_t Selection(0);
+    uint8_t Unused();
+
+
+
+TP_SECTION_TABLE(3):
+    uint8_t Name(.text$mn);
+    uint32_t VirtualSize(0);
+    uint32_t VirtualAddress(0);
+    uint32_t SizeOfRawData(7c);
+    uint32_t PointerToRawData(48f);
+    uint32_t PointerToRelocations(50b);
+    uint32_t PointerToLinenumbers(0);
+    uint16_t NumberOfRelocations(9);
+    uint16_t NumberOfLinenumbers(0);
+    uint32_t Characteristics(60501020);
+
+uint32_t Characteristics & TP_IMAGE_SCN_CNT_CODE
+uint32_t Characteristics & TP_IMAGE_SCN_LNK_COMDAT
+uint32_t Characteristics is TP_IMAGE_SCN_ALIGN_16BYTES.
+uint16_t Characteristics & TP_IMAGE_SCN_MEM_EXECUTE
+uint16_t Characteristics & TP_IMAGE_SCN_MEM_READ
+
+section_data_RawData:
+    48 83 ec 28 48 8b 42 58 48 89 05 00 00 00 00 48 
+    8b 42 30 48 89 05 00 00 00 00 48 8b 42 40 48 89 
+    15 00 00 00 00 48 8b c8 48 8d 15 00 00 00 00 48 
+    89 05 00 00 00 00 ff 50 08 0f 1f 80 00 00 00 00 
+    48 8b 05 00 00 00 00 48 8d 54 24 38 48 8b c8 ff 
+    50 08 48 8b 15 00 00 00 00 48 3b d0 75 e2 48 8b 
+    05 00 00 00 00 45 33 c9 45 33 c0 33 c9 ff 50 68 
+    48 8b 05 00 00 00 00 48 83 c4 28 c3 
+    H É Ï ( H ã B X H â          H 
+    ã B 0 H â          H ã B @ H â 
+             H ã » H ç          H 
+    â          ˇ P    Ä         
+    H ã          H ç T $ 8 H ã » ˇ 
+    P  H ã          H ; – u ‚ H ã 
+             E 3 … E 3 ¿ 3 … ˇ P h 
+    H ã          H É ƒ ( √ 
+
+TP_COFF_RELOCATIONS(0):
+    uint32_t VirtualAddress(b);
+    uint32_t RelocCount(b);
+    uint32_t SymbolTableIndex(16);
+    uint16_t Type(4);
+
+uint16_t Type is TP_IMAGE_REL_AMD64_REL32.
+
+TP_COFF_SYMBOL_TABLE(16):
+    uint8_t ShortName(RT);
+    uint32_t Zeroes(5452);
+    uint32_t Offset(0);
+    uint8_t LongName();
+    uint32_t Value(10);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_RELOCATIONS(1):
+    uint32_t VirtualAddress(16);
+    uint32_t RelocCount(16);
+    uint32_t SymbolTableIndex(17);
+    uint16_t Type(4);
+
+uint16_t Type is TP_IMAGE_REL_AMD64_REL32.
+
+TP_COFF_SYMBOL_TABLE(17):
+    uint8_t ShortName(IN);
+    uint32_t Zeroes(4e49);
+    uint32_t Offset(0);
+    uint8_t LongName();
+    uint32_t Value(18);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_RELOCATIONS(2):
+    uint32_t VirtualAddress(21);
+    uint32_t RelocCount(21);
+    uint32_t SymbolTableIndex(15);
+    uint16_t Type(4);
+
+uint16_t Type is TP_IMAGE_REL_AMD64_REL32.
+
+TP_COFF_SYMBOL_TABLE(15):
+    uint8_t ShortName(ST);
+    uint32_t Zeroes(5453);
+    uint32_t Offset(0);
+    uint8_t LongName();
+    uint32_t Value(8);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_RELOCATIONS(3):
+    uint32_t VirtualAddress(2b);
+    uint32_t RelocCount(2b);
+    uint32_t SymbolTableIndex(1b);
+    uint16_t Type(4);
+
+uint16_t Type is TP_IMAGE_REL_AMD64_REL32.
+
+TP_COFF_SYMBOL_TABLE(1b):
+    uint8_t ShortName();
+    uint32_t Zeroes(0);
+    uint32_t Offset(31);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(8);
+    uint16_t Type(0);
+    uint8_t StorageClass(2);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_EXTERNAL.
+
+TP_COFF_RELOCATIONS(4):
+    uint32_t VirtualAddress(32);
+    uint32_t RelocCount(32);
+    uint32_t SymbolTableIndex(18);
+    uint16_t Type(4);
+
+uint16_t Type is TP_IMAGE_REL_AMD64_REL32.
+
+TP_COFF_SYMBOL_TABLE(18):
+    uint8_t ShortName(OUT);
+    uint32_t Zeroes(54554f);
+    uint32_t Offset(0);
+    uint8_t LongName();
+    uint32_t Value(20);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_RELOCATIONS(5):
+    uint32_t VirtualAddress(43);
+    uint32_t RelocCount(43);
+    uint32_t SymbolTableIndex(17);
+    uint16_t Type(4);
+
+uint16_t Type is TP_IMAGE_REL_AMD64_REL32.
+
+TP_COFF_SYMBOL_TABLE(17):
+    uint8_t ShortName(IN);
+    uint32_t Zeroes(4e49);
+    uint32_t Offset(0);
+    uint8_t LongName();
+    uint32_t Value(18);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_RELOCATIONS(6):
+    uint32_t VirtualAddress(55);
+    uint32_t RelocCount(55);
+    uint32_t SymbolTableIndex(14);
+    uint16_t Type(4);
+
+uint16_t Type is TP_IMAGE_REL_AMD64_REL32.
+
+TP_COFF_SYMBOL_TABLE(14):
+    uint8_t ShortName();
+    uint32_t Zeroes(0);
+    uint32_t Offset(25);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_RELOCATIONS(7):
+    uint32_t VirtualAddress(61);
+    uint32_t RelocCount(61);
+    uint32_t SymbolTableIndex(16);
+    uint16_t Type(4);
+
+uint16_t Type is TP_IMAGE_REL_AMD64_REL32.
+
+TP_COFF_SYMBOL_TABLE(16):
+    uint8_t ShortName(RT);
+    uint32_t Zeroes(5452);
+    uint32_t Offset(0);
+    uint8_t LongName();
+    uint32_t Value(10);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_COFF_RELOCATIONS(8):
+    uint32_t VirtualAddress(73);
+    uint32_t RelocCount(73);
+    uint32_t SymbolTableIndex(14);
+    uint16_t Type(4);
+
+uint16_t Type is TP_IMAGE_REL_AMD64_REL32.
+
+TP_COFF_SYMBOL_TABLE(14):
+    uint8_t ShortName();
+    uint32_t Zeroes(0);
+    uint32_t Offset(25);
+    uint8_t LongName();
+    uint32_t Value(0);
+    int16_t SectionNumber(7);
+    uint16_t Type(0);
+    uint8_t StorageClass(3);
+    uint8_t NumberOfAuxSymbols(0);
+
+
+uint16_t Type_LSB is TP_IMAGE_SYM_TYPE_NULL.
+uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
+
+uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
+
+TP_SECTION_TABLE(7):
+    uint8_t Name(.bss);
+    uint32_t VirtualSize(0);
+    uint32_t VirtualAddress(0);
+    uint32_t SizeOfRawData(28);
+    uint32_t PointerToRawData(0);
+    uint32_t PointerToRelocations(0);
+    uint32_t PointerToLinenumbers(0);
+    uint16_t NumberOfRelocations(0);
+    uint16_t NumberOfLinenumbers(0);
+    uint32_t Characteristics(c0400080);
+
+uint32_t Characteristics & TP_IMAGE_SCN_CNT_UNINITIALIZED_DATA
+uint32_t Characteristics is TP_IMAGE_SCN_ALIGN_8BYTES.
+uint16_t Characteristics & TP_IMAGE_SCN_MEM_READ
+uint16_t Characteristics & TP_IMAGE_SCN_MEM_WRITE
+
+TP_SECTION_TABLE(8):
+    uint8_t Name(.rdata);
+    uint32_t VirtualSize(0);
+    uint32_t VirtualAddress(0);
+    uint32_t SizeOfRawData(62);
+    uint32_t PointerToRawData(8fb);
+    uint32_t PointerToRelocations(0);
+    uint32_t PointerToLinenumbers(0);
+    uint16_t NumberOfRelocations(0);
+    uint16_t NumberOfLinenumbers(0);
+    uint32_t Characteristics(40501040);
+
+uint32_t Characteristics & TP_IMAGE_SCN_CNT_INITIALIZED_DATA
+uint32_t Characteristics & TP_IMAGE_SCN_LNK_COMDAT
+uint32_t Characteristics is TP_IMAGE_SCN_ALIGN_16BYTES.
+uint16_t Characteristics & TP_IMAGE_SCN_MEM_READ
+
+section_data_RawData:
+    57 00 68 00 65 00 6e 00 20 00 79 00 6f 00 75 00 
+    20 00 70 00 72 00 65 00 73 00 73 00 20 00 61 00 
+    6e 00 79 00 20 00 6b 00 65 00 79 00 2c 00 20 00 
+    74 00 68 00 65 00 20 00 73 00 79 00 73 00 74 00 
+    65 00 6d 00 20 00 77 00 69 00 6c 00 6c 00 20 00 
+    72 00 65 00 62 00 6f 00 6f 00 74 00 2e 00 0a 00 
+    00 00 
+    W   h   e   n       y   o   u   
+        p   r   e   s   s       a   
+    n   y       k   e   y   ,       
+    t   h   e       s   y   s   t   
+    e   m       w   i   l   l       
+    r   e   b   o   o   t   .   
+   
+        
+
