@@ -17,7 +17,7 @@ C 言語で書かれていて、Visual Studio の標準 C ライブラリと Win
 コマンドプロンプトで以下のコマンドを投入し、ゾーン情報を削除します。
 
 ```
-C:\>echo.>PE_COFF.zip:Zone.Identifier
+C:\>echo.>PE_COFF-master.zip:Zone.Identifier
 ```
 
 ## 開発環境
