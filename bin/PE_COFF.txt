@@ -1,8 +1,8 @@
 TP_COFF_FILE_HEADER:
     uint16_t Machine(8664);
     uint16_t NumberOfSections(a);
-    uint32_t TimeDateStamp(5d8f0ce1);
-    uint32_t PointerToSymbolTable(a09);
+    uint32_t TimeDateStamp(5da3d3c3);
+    uint32_t PointerToSymbolTable(9f1);
     uint32_t NumberOfSymbols(20);
     uint16_t SizeOfOptionalHeader(0);
     uint16_t Characteristics(0);
@@ -92,7 +92,7 @@ uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
 uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
 
 TP_AUX_SYMBOL_RECORD_SECTION(0):
-    uint32_t Length(258);
+    uint32_t Length(248);
     uint16_t NumberOfRelocations(a);
     uint16_t NumberOfLinenumbers(0);
     uint32_t CheckSum(0);
@@ -227,8 +227,7 @@ TP_COFF_SYMBOL_TABLE(e):
     uint8_t ShortName();
     uint32_t Zeroes(0);
     uint32_t Offset(4);
-    uint8_t LongName(	
-);
+    uint8_t LongName(ind$efi_main);
     uint32_t Value(0);
     int16_t SectionNumber(5);
     uint16_t Type(0);
@@ -274,7 +273,7 @@ TP_COFF_SYMBOL_TABLE(11):
     uint8_t ShortName();
     uint32_t Zeroes(0);
     uint32_t Offset(15);
-    uint8_t LongName(tve);
+    uint8_t LongName(ta$efi_main);
     uint32_t Value(0);
     int16_t SectionNumber(6);
     uint16_t Type(0);
@@ -319,7 +318,7 @@ TP_COFF_SYMBOL_TABLE(14):
     uint8_t ShortName();
     uint32_t Zeroes(0);
     uint32_t Offset(25);
-    uint8_t LongName();
+    uint8_t LongName(SUCCESS);
     uint32_t Value(0);
     int16_t SectionNumber(7);
     uint16_t Type(0);
@@ -433,7 +432,7 @@ TP_COFF_SYMBOL_TABLE(1b):
     uint8_t ShortName();
     uint32_t Zeroes(0);
     uint32_t Offset(31);
-    uint8_t LongName();
+    uint8_t LongName(@_1GC@BLBHELEK@?$AAW?$AAh?$AAe?$AAn?$AA?5?$AAy?$AAo?$AAu?$AA?5?$AAp?$AAr?$AAe?$AAs?$AAs?$AA?5@);
     uint32_t Value(0);
     int16_t SectionNumber(8);
     uint16_t Type(0);
@@ -464,7 +463,7 @@ uint16_t Type_MSB is TP_IMAGE_SYM_DTYPE_NULL.
 uint8_t StorageClass is TP_IMAGE_SYM_CLASS_STATIC.
 
 TP_AUX_SYMBOL_RECORD_SECTION(0):
-    uint32_t Length(5c);
+    uint32_t Length(54);
     uint16_t NumberOfRelocations(0);
     uint16_t NumberOfLinenumbers(0);
     uint32_t CheckSum(0);
@@ -507,8 +506,8 @@ TP_SECTION_TABLE(3):
     uint32_t VirtualSize(0);
     uint32_t VirtualAddress(0);
     uint32_t SizeOfRawData(7c);
-    uint32_t PointerToRawData(48f);
-    uint32_t PointerToRelocations(50b);
+    uint32_t PointerToRawData(47f);
+    uint32_t PointerToRelocations(4fb);
     uint32_t PointerToLinenumbers(0);
     uint16_t NumberOfRelocations(9);
     uint16_t NumberOfLinenumbers(0);
@@ -625,7 +624,7 @@ TP_COFF_SYMBOL_TABLE(1b):
     uint8_t ShortName();
     uint32_t Zeroes(0);
     uint32_t Offset(31);
-    uint8_t LongName();
+    uint8_t LongName(@_1GC@BLBHELEK@?$AAW?$AAh?$AAe?$AAn?$AA?5?$AAy?$AAo?$AAu?$AA?5?$AAp?$AAr?$AAe?$AAs?$AAs?$AA?5@);
     uint32_t Value(0);
     int16_t SectionNumber(8);
     uint16_t Type(0);
@@ -700,7 +699,7 @@ TP_COFF_SYMBOL_TABLE(14):
     uint8_t ShortName();
     uint32_t Zeroes(0);
     uint32_t Offset(25);
-    uint8_t LongName();
+    uint8_t LongName(SUCCESS);
     uint32_t Value(0);
     int16_t SectionNumber(7);
     uint16_t Type(0);
@@ -750,7 +749,7 @@ TP_COFF_SYMBOL_TABLE(14):
     uint8_t ShortName();
     uint32_t Zeroes(0);
     uint32_t Offset(25);
-    uint8_t LongName();
+    uint8_t LongName(SUCCESS);
     uint32_t Value(0);
     int16_t SectionNumber(7);
     uint16_t Type(0);
@@ -785,7 +784,7 @@ TP_SECTION_TABLE(8):
     uint32_t VirtualSize(0);
     uint32_t VirtualAddress(0);
     uint32_t SizeOfRawData(62);
-    uint32_t PointerToRawData(8fb);
+    uint32_t PointerToRawData(8eb);
     uint32_t PointerToRelocations(0);
     uint32_t PointerToLinenumbers(0);
     uint16_t NumberOfRelocations(0);

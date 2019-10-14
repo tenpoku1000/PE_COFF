@@ -239,7 +239,9 @@ static bool make_PE_COFF_dump_file_COFF_STRING_TABLE(FILE* write_file)
 
     memcpy(&string_table_size, (pe_coff_buffer + pe_coff_current_offset), sizeof(uint32_t));
 
-    if ( ! seek_PE_COFF_file((long)sizeof(uint32_t), 0)){
+    offset += sizeof(uint32_t);
+
+    if ( ! seek_PE_COFF_file((long)(coff_file_header->PointerToSymbolTable), (long)offset)){
 
         return false;
     }
