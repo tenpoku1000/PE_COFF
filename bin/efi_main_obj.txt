@@ -1,0 +1,461 @@
+"dumpbin efi_main.obj /DIRECTIVES /DISASM /HEADERS /RAWDATA /RELOCATIONS /SYMBOLS > efi_main_obj.txt"   
+  
+Microsoft (R) COFF/PE Dumper Version 14.23.28106.4
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file efi_main.obj
+
+File Type: COFF OBJECT
+
+FILE HEADER VALUES
+            8664 machine (x64)
+               A number of sections
+        5DB11CEA time date stamp Thu Oct 24 12:39:22 2019
+             A09 file pointer to symbol table
+              20 number of symbols
+               0 size of optional header
+               0 characteristics
+
+SECTION HEADER #1
+.drectve name
+       0 physical address
+       0 virtual address
+      2F size of raw data
+     1A4 file pointer to raw data (000001A4 to 000001D2)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+  100A00 flags
+         Info
+         Remove
+         1 byte align
+
+RAW DATA #1
+  00000000: 20 20 20 2F 44 45 46 41 55 4C 54 4C 49 42 3A 22     /DEFAULTLIB:"
+  00000010: 4D 53 56 43 52 54 22 20 2F 44 45 46 41 55 4C 54  MSVCRT" /DEFAULT
+  00000020: 4C 49 42 3A 22 4F 4C 44 4E 41 4D 45 53 22 20     LIB:"OLDNAMES" 
+
+   Linker Directives
+   -----------------
+   /DEFAULTLIB:MSVCRT
+   /DEFAULTLIB:OLDNAMES
+
+SECTION HEADER #2
+.debug$S name
+       0 physical address
+       0 virtual address
+     258 size of raw data
+     1D3 file pointer to raw data (000001D3 to 0000042A)
+     42B file pointer to relocation table
+       0 file pointer to line numbers
+       A number of relocations
+       0 number of line numbers
+42100040 flags
+         Initialized Data
+         Discardable
+         1 byte align
+         Read Only
+
+RAW DATA #2
+  00000000: 04 00 00 00 F1 00 00 00 84 00 00 00 46 00 01 11  ....n.......F...
+  00000010: 00 00 00 00 43 3A 5C 55 73 65 72 73 5C 74 65 6E  ....C:\Users\ten
+  00000020: 70 6F 5C 73 6F 75 72 63 65 5C 72 65 70 6F 73 5C  po\source\repos\
+  00000030: 50 45 5F 43 4F 46 46 5C 4F 75 74 70 75 74 5C 52  PE_COFF\Output\R
+  00000040: 65 6C 65 61 73 65 5C 65 66 69 5F 6D 61 69 6E 2E  elease\efi_main.
+  00000050: 6F 62 6A 00 3A 00 3C 11 00 40 00 00 D0 00 13 00  obj.:.<..@..D...
+  00000060: 17 00 CA 6D 04 00 13 00 17 00 CA 6D 04 00 4D 69  ..Em......Em..Mi
+  00000070: 63 72 6F 73 6F 66 74 20 28 52 29 20 4F 70 74 69  crosoft (R) Opti
+  00000080: 6D 69 7A 69 6E 67 20 43 6F 6D 70 69 6C 65 72 00  mizing Compiler.
+  00000090: F1 00 00 00 08 01 00 00 18 00 0C 11 23 00 00 00  n...........#...
+  000000A0: 00 00 00 00 00 00 45 46 49 5F 53 55 43 43 45 53  ......EFI_SUCCES
+  000000B0: 53 00 0F 00 0C 11 01 10 00 00 00 00 00 00 00 00  S...............
+  000000C0: 53 54 00 0F 00 0C 11 08 10 00 00 00 00 00 00 00  ST..............
+  000000D0: 00 52 54 00 0F 00 0C 11 04 10 00 00 00 00 00 00  .RT.............
+  000000E0: 00 00 49 4E 00 10 00 0C 11 06 10 00 00 00 00 00  ..IN............
+  000000F0: 00 00 00 4F 55 54 00 17 00 08 11 28 10 00 00 45  ...OUT.....(...E
+  00000100: 46 49 5F 54 41 42 4C 45 5F 48 45 41 44 45 52 00  FI_TABLE_HEADER.
+  00000110: 1D 00 08 11 18 10 00 00 53 49 4D 50 4C 45 5F 49  ........SIMPLE_I
+  00000120: 4E 50 55 54 5F 49 4E 54 45 52 46 41 43 45 00 23  NPUT_INTERFACE.#
+  00000130: 00 08 11 1E 10 00 00 53 49 4D 50 4C 45 5F 54 45  .......SIMPLE_TE
+  00000140: 58 54 5F 4F 55 54 50 55 54 5F 49 4E 54 45 52 46  XT_OUTPUT_INTERF
+  00000150: 41 43 45 00 17 00 08 11 0A 10 00 00 45 46 49 5F  ACE.........EFI_
+  00000160: 53 59 53 54 45 4D 5F 54 41 42 4C 45 00 1B 00 08  SYSTEM_TABLE....
+  00000170: 11 10 10 00 00 45 46 49 5F 52 55 4E 54 49 4D 45  .....EFI_RUNTIME
+  00000180: 5F 53 45 52 56 49 43 45 53 00 14 00 08 11 23 10  _SERVICES.....#.
+  00000190: 00 00 45 46 49 5F 49 4E 50 55 54 5F 4B 45 59 00  ..EFI_INPUT_KEY.
+  000001A0: F4 00 00 00 18 00 00 00 01 00 00 00 10 01 76 40  o.............v@
+  000001B0: 20 B8 EA 45 5E 41 C0 DA C8 65 57 5B DC AA 00 00   CeE^AAUEeW[Ua..
+  000001C0: F3 00 00 00 7D 00 00 00 00 43 3A 5C 55 73 65 72  o...}....C:\User
+  000001D0: 73 5C 74 65 6E 70 6F 5C 73 6F 75 72 63 65 5C 72  s\tenpo\source\r
+  000001E0: 65 70 6F 73 5C 50 45 5F 43 4F 46 46 5C 73 72 63  epos\PE_COFF\src
+  000001F0: 5C 55 45 46 49 5F 4D 69 6E 5C 65 66 69 5F 6D 61  \UEFI_Min\efi_ma
+  00000200: 69 6E 2E 63 00 43 3A 5C 55 73 65 72 73 5C 74 65  in.c.C:\Users\te
+  00000210: 6E 70 6F 5C 73 6F 75 72 63 65 5C 72 65 70 6F 73  npo\source\repos
+  00000220: 5C 50 45 5F 43 4F 46 46 5C 4F 75 74 70 75 74 5C  \PE_COFF\Output\
+  00000230: 52 65 6C 65 61 73 65 5C 65 66 69 5F 6D 61 69 6E  Release\efi_main
+  00000240: 2E 6F 62 6A 00 00 00 00 F1 00 00 00 08 00 00 00  .obj....n.......
+  00000250: 06 00 4C 11 11 10 00 00                          ..L.....
+
+RELOCATIONS #2
+                                                Symbol    Symbol
+ Offset    Type              Applied To         Index     Name
+ --------  ----------------  -----------------  --------  ------
+ 000000A0  SECREL                     00000000        14  EFI_SUCCESS
+ 000000A4  SECTION                        0000        14  EFI_SUCCESS
+ 000000BA  SECREL                     00000000        15  ST
+ 000000BE  SECTION                        0000        15  ST
+ 000000CB  SECREL                     00000000        16  RT
+ 000000CF  SECTION                        0000        16  RT
+ 000000DC  SECREL                     00000000        17  IN
+ 000000E0  SECTION                        0000        17  IN
+ 000000ED  SECREL                     00000000        18  OUT
+ 000000F1  SECTION                        0000        18  OUT
+
+SECTION HEADER #3
+.text$mn name
+       0 physical address
+       0 virtual address
+      7C size of raw data
+     48F file pointer to raw data (0000048F to 0000050A)
+     50B file pointer to relocation table
+       0 file pointer to line numbers
+       9 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= efi_main
+         16 byte align
+         Execute Read
+
+efi_main:
+  0000000000000000: 48 83 EC 28        sub         rsp,28h
+  0000000000000004: 48 8B 42 58        mov         rax,qword ptr [rdx+58h]
+  0000000000000008: 48 89 05 00 00 00  mov         qword ptr [RT],rax
+                    00
+  000000000000000F: 48 8B 42 30        mov         rax,qword ptr [rdx+30h]
+  0000000000000013: 48 89 05 00 00 00  mov         qword ptr [IN],rax
+                    00
+  000000000000001A: 48 8B 42 40        mov         rax,qword ptr [rdx+40h]
+  000000000000001E: 48 89 15 00 00 00  mov         qword ptr [ST],rdx
+                    00
+  0000000000000025: 48 8B C8           mov         rcx,rax
+  0000000000000028: 48 8D 15 00 00 00  lea         rdx,[??_C@_1GC@BLBHELEK@?$AAW?$AAh?$AAe?$AAn?$AA?5?$AAy?$AAo?$AAu?$AA?5?$AAp?$AAr?$AAe?$AAs?$AAs?$AA?5@]
+                    00
+  000000000000002F: 48 89 05 00 00 00  mov         qword ptr [OUT],rax
+                    00
+  0000000000000036: FF 50 08           call        qword ptr [rax+8]
+  0000000000000039: 0F 1F 80 00 00 00  nop         dword ptr [rax]
+                    00
+  0000000000000040: 48 8B 05 00 00 00  mov         rax,qword ptr [IN]
+                    00
+  0000000000000047: 48 8D 54 24 38     lea         rdx,[rsp+38h]
+  000000000000004C: 48 8B C8           mov         rcx,rax
+  000000000000004F: FF 50 08           call        qword ptr [rax+8]
+  0000000000000052: 48 8B 15 00 00 00  mov         rdx,qword ptr [EFI_SUCCESS]
+                    00
+  0000000000000059: 48 3B D0           cmp         rdx,rax
+  000000000000005C: 75 E2              jne         0000000000000040
+  000000000000005E: 48 8B 05 00 00 00  mov         rax,qword ptr [RT]
+                    00
+  0000000000000065: 45 33 C9           xor         r9d,r9d
+  0000000000000068: 45 33 C0           xor         r8d,r8d
+  000000000000006B: 33 C9              xor         ecx,ecx
+  000000000000006D: FF 50 68           call        qword ptr [rax+68h]
+  0000000000000070: 48 8B 05 00 00 00  mov         rax,qword ptr [EFI_SUCCESS]
+                    00
+  0000000000000077: 48 83 C4 28        add         rsp,28h
+  000000000000007B: C3                 ret
+
+RAW DATA #3
+  00000000: 48 83 EC 28 48 8B 42 58 48 89 05 00 00 00 00 48  H.i(H.BXH......H
+  00000010: 8B 42 30 48 89 05 00 00 00 00 48 8B 42 40 48 89  .B0H......H.B@H.
+  00000020: 15 00 00 00 00 48 8B C8 48 8D 15 00 00 00 00 48  .....H.EH......H
+  00000030: 89 05 00 00 00 00 FF 50 08 0F 1F 80 00 00 00 00  ......yP........
+  00000040: 48 8B 05 00 00 00 00 48 8D 54 24 38 48 8B C8 FF  H......H.T$8H.Ey
+  00000050: 50 08 48 8B 15 00 00 00 00 48 3B D0 75 E2 48 8B  P.H......H;DuaH.
+  00000060: 05 00 00 00 00 45 33 C9 45 33 C0 33 C9 FF 50 68  .....E3EE3A3EyPh
+  00000070: 48 8B 05 00 00 00 00 48 83 C4 28 C3              H......H.A(A
+
+RELOCATIONS #3
+                                                Symbol    Symbol
+ Offset    Type              Applied To         Index     Name
+ --------  ----------------  -----------------  --------  ------
+ 0000000B  REL32                      00000000        16  RT
+ 00000016  REL32                      00000000        17  IN
+ 00000021  REL32                      00000000        15  ST
+ 0000002B  REL32                      00000000        1B  ??_C@_1GC@BLBHELEK@?$AAW?$AAh?$AAe?$AAn?$AA?5?$AAy?$AAo?$AAu?$AA?5?$AAp?$AAr?$AAe?$AAs?$AAs?$AA?5@ (`string')
+ 00000032  REL32                      00000000        18  OUT
+ 00000043  REL32                      00000000        17  IN
+ 00000055  REL32                      00000000        14  EFI_SUCCESS
+ 00000061  REL32                      00000000        16  RT
+ 00000073  REL32                      00000000        14  EFI_SUCCESS
+
+SECTION HEADER #4
+.debug$S name
+       0 physical address
+       0 virtual address
+     260 size of raw data
+     565 file pointer to raw data (00000565 to 000007C4)
+     7C5 file pointer to relocation table
+       0 file pointer to line numbers
+      1A number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+RAW DATA #4
+  00000000: 04 00 00 00 F1 00 00 00 E2 01 00 00 2E 00 47 11  ....n...a.....G.
+  00000010: 00 00 00 00 00 00 00 00 00 00 00 00 7C 00 00 00  ............|...
+  00000020: 04 00 00 00 77 00 00 00 06 10 00 00 00 00 00 00  ....w...........
+  00000030: 00 00 80 65 66 69 5F 6D 61 69 6E 00 15 00 3E 11  ...efi_main...>.
+  00000040: 03 06 00 00 01 00 69 6D 61 67 65 5F 68 61 6E 64  ......image_hand
+  00000050: 6C 65 00 0E 00 41 11 4A 01 00 00 00 00 00 00 00  le...A.J........
+  00000060: 00 28 00 06 00 44 11 30 00 00 00 15 00 3E 11 01  .(...D.0.....>..
+  00000070: 10 00 00 01 00 73 79 73 74 65 6D 5F 74 61 62 6C  .....system_tabl
+  00000080: 65 00 0E 00 41 11 4B 01 00 00 00 00 00 00 00 00  e...A.K.........
+  00000090: 2F 00 15 00 3E 11 23 00 00 00 00 00 6C 6F 63 61  /...>.#.....loca
+  000000A0: 6C 5F 73 74 61 74 75 73 00 0E 00 41 11 48 01 00  l_status...A.H..
+  000000B0: 00 52 00 00 00 00 00 13 00 0E 00 41 11 48 01 01  .R.........A.H..
+  000000C0: 00 40 00 00 00 00 00 07 00 0C 00 3E 11 23 10 00  .@.........>.#..
+  000000D0: 00 00 00 6B 65 79 00 0E 00 42 11 38 00 00 00 40  ...key...B.8...@
+  000000E0: 00 00 00 00 00 3C 00 18 00 53 11 23 00 00 00 3D  .....<...S.#...=
+  000000F0: 00 00 00 00 06 45 46 49 5F 53 55 43 43 45 53 53  .....EFI_SUCCESS
+  00000100: 00 0E 00 41 11 4B 01 00 00 59 00 00 00 00 00 17  ...A.K...Y......
+  00000110: 00 10 00 53 11 06 10 00 00 3D 00 00 00 00 06 4F  ...S.....=.....O
+  00000120: 55 54 00 0E 00 41 11 48 01 00 00 1E 00 00 00 00  UT...A.H........
+  00000130: 00 18 00 0F 00 53 11 04 10 00 00 3D 00 00 00 00  .....S.....=....
+  00000140: 06 49 4E 00 0E 00 41 11 48 01 00 00 47 00 00 00  .IN...A.H...G...
+  00000150: 00 00 0B 00 1C 00 12 10 28 00 00 00 00 00 00 00  ........(.......
+  00000160: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 42  ...............B
+  00000170: 11 00 19 00 11 11 30 00 00 00 03 06 00 00 4F 01  ......0.......O.
+  00000180: 69 6D 61 67 65 5F 68 61 6E 64 6C 65 00 19 00 11  image_handle....
+  00000190: 11 38 00 00 00 01 10 00 00 4F 01 73 79 73 74 65  .8.......O.syste
+  000001A0: 6D 5F 74 61 62 6C 65 00 10 00 11 11 38 00 00 00  m_table.....8...
+  000001B0: 23 10 00 00 4F 01 6B 65 79 00 0E 00 39 11 36 00  #...O.key...9.6.
+  000001C0: 00 00 00 00 00 00 1C 10 00 00 0E 00 39 11 4F 00  ............9.O.
+  000001D0: 00 00 00 00 00 00 16 10 00 00 0E 00 39 11 6D 00  ............9.m.
+  000001E0: 00 00 00 00 00 00 0E 10 00 00 02 00 4F 11 00 00  ............O...
+  000001F0: F2 00 00 00 68 00 00 00 00 00 00 00 00 00 00 00  o...h...........
+  00000200: 7C 00 00 00 00 00 00 00 0A 00 00 00 5C 00 00 00  |...........\...
+  00000210: 00 00 00 00 61 00 00 80 04 00 00 00 63 00 00 80  ....a.......c...
+  00000220: 0F 00 00 00 64 00 00 80 1A 00 00 00 65 00 00 80  ....d.......e...
+  00000230: 25 00 00 00 67 00 00 80 40 00 00 00 6E 00 00 80  %...g...@...n...
+  00000240: 52 00 00 00 70 00 00 80 5E 00 00 00 72 00 00 80  R...p...^...r...
+  00000250: 70 00 00 00 74 00 00 80 77 00 00 00 75 00 00 80  p...t...w...u...
+
+RELOCATIONS #4
+                                                Symbol    Symbol
+ Offset    Type              Applied To         Index     Name
+ --------  ----------------  -----------------  --------  ------
+ 0000002C  SECREL                     00000000         A  efi_main
+ 00000030  SECTION                        0000         A  efi_main
+ 0000005B  SECREL                     00000000         A  efi_main
+ 0000005F  SECTION                        0000         A  efi_main
+ 0000008A  SECREL                     00000000         A  efi_main
+ 0000008E  SECTION                        0000         A  efi_main
+ 000000B1  SECREL                     00000052         A  efi_main
+ 000000B5  SECTION                        0000         A  efi_main
+ 000000C1  SECREL                     00000040         A  efi_main
+ 000000C5  SECTION                        0000         A  efi_main
+ 000000DF  SECREL                     00000040         A  efi_main
+ 000000E3  SECTION                        0000         A  efi_main
+ 00000109  SECREL                     00000059         A  efi_main
+ 0000010D  SECTION                        0000         A  efi_main
+ 0000012B  SECREL                     0000001E         A  efi_main
+ 0000012F  SECTION                        0000         A  efi_main
+ 0000014C  SECREL                     00000047         A  efi_main
+ 00000150  SECTION                        0000         A  efi_main
+ 000001BE  SECREL                     00000036         A  efi_main
+ 000001C2  SECTION                        0000         A  efi_main
+ 000001CE  SECREL                     0000004F         A  efi_main
+ 000001D2  SECTION                        0000         A  efi_main
+ 000001DE  SECREL                     0000006D         A  efi_main
+ 000001E2  SECTION                        0000         A  efi_main
+ 000001F8  SECREL                     00000000         A  efi_main
+ 000001FC  SECTION                        0000         A  efi_main
+
+SECTION HEADER #5
+  .xdata name
+       0 physical address
+       0 virtual address
+       8 size of raw data
+     8C9 file pointer to raw data (000008C9 to 000008D0)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+40301040 flags
+         Initialized Data
+         COMDAT; sym= $unwind$efi_main
+         4 byte align
+         Read Only
+
+RAW DATA #5
+  00000000: 01 04 01 00 04 42 00 00                          .....B..
+
+SECTION HEADER #6
+  .pdata name
+       0 physical address
+       0 virtual address
+       C size of raw data
+     8D1 file pointer to raw data (000008D1 to 000008DC)
+     8DD file pointer to relocation table
+       0 file pointer to line numbers
+       3 number of relocations
+       0 number of line numbers
+40301040 flags
+         Initialized Data
+         COMDAT; sym= $pdata$efi_main
+         4 byte align
+         Read Only
+
+RAW DATA #6
+  00000000: 00 00 00 00 7C 00 00 00 00 00 00 00              ....|.......
+
+RELOCATIONS #6
+                                                Symbol    Symbol
+ Offset    Type              Applied To         Index     Name
+ --------  ----------------  -----------------  --------  ------
+ 00000000  ADDR32NB                   00000000         B  $LN10
+ 00000004  ADDR32NB                   0000007C         B  $LN10
+ 00000008  ADDR32NB                   00000000         E  $unwind$efi_main
+
+SECTION HEADER #7
+    .bss name
+       0 physical address
+       0 virtual address
+      28 size of raw data
+       0 file pointer to raw data
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+C0400080 flags
+         Uninitialized Data
+         8 byte align
+         Read Write
+
+SECTION HEADER #8
+  .rdata name
+       0 physical address
+       0 virtual address
+      62 size of raw data
+     8FB file pointer to raw data (000008FB to 0000095C)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+40501040 flags
+         Initialized Data
+         COMDAT; sym= "`string'" (??_C@_1GC@BLBHELEK@?$AAW?$AAh?$AAe?$AAn?$AA?5?$AAy?$AAo?$AAu?$AA?5?$AAp?$AAr?$AAe?$AAs?$AAs?$AA?5@)
+         16 byte align
+         Read Only
+
+RAW DATA #8
+  00000000: 57 00 68 00 65 00 6E 00 20 00 79 00 6F 00 75 00  W.h.e.n. .y.o.u.
+  00000010: 20 00 70 00 72 00 65 00 73 00 73 00 20 00 61 00   .p.r.e.s.s. .a.
+  00000020: 6E 00 79 00 20 00 6B 00 65 00 79 00 2C 00 20 00  n.y. .k.e.y.,. .
+  00000030: 74 00 68 00 65 00 20 00 73 00 79 00 73 00 74 00  t.h.e. .s.y.s.t.
+  00000040: 65 00 6D 00 20 00 77 00 69 00 6C 00 6C 00 20 00  e.m. .w.i.l.l. .
+  00000050: 72 00 65 00 62 00 6F 00 6F 00 74 00 2E 00 0A 00  r.e.b.o.o.t.....
+  00000060: 00 00                                            ..
+
+SECTION HEADER #9
+.debug$T name
+       0 physical address
+       0 virtual address
+      5C size of raw data
+     95D file pointer to raw data (0000095D to 000009B8)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+42100040 flags
+         Initialized Data
+         Discardable
+         1 byte align
+         Read Only
+
+RAW DATA #9
+  00000000: 04 00 00 00 56 00 15 15 A3 96 2A 98 F5 85 BC 4A  ....V...’.*.o.?J
+  00000010: B5 B5 40 18 8E 16 85 1D 01 00 00 00 43 3A 5C 55  ƒÊƒÊ@.........C:\U
+  00000020: 73 65 72 73 5C 74 65 6E 70 6F 5C 73 6F 75 72 63  sers\tenpo\sourc
+  00000030: 65 5C 72 65 70 6F 73 5C 50 45 5F 43 4F 46 46 5C  e\repos\PE_COFF\
+  00000040: 4F 75 74 70 75 74 5C 52 65 6C 65 61 73 65 5C 76  Output\Release\v
+  00000050: 63 31 34 32 2E 70 64 62 00 F3 F2 F1              c142.pdb.oon
+
+SECTION HEADER #A
+ .chks64 name
+       0 physical address
+       0 virtual address
+      50 size of raw data
+     9B9 file pointer to raw data (000009B9 to 00000A08)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+     A00 flags
+         Info
+         Remove
+         (no align specified)
+
+RAW DATA #A
+  00000000: 76 F6 AB FB 56 48 DE C7 01 D7 F8 81 5D 16 FA FB  voáuVHTC.~o.].uu
+  00000010: D2 1E 6C 3F 87 6C 20 B9 7F A3 28 37 E1 95 06 69  O.l?.l 1.’(7a..i
+  00000020: 2D 88 67 F0 28 F3 9E F5 3C 1C 4F E2 6B 9A 2B 7D  -.gd(o.o<.Oak.+}
+  00000030: 00 00 00 00 00 00 00 00 7B 08 36 D3 CB 04 07 60  ........{.6OE..`
+  00000040: 70 C1 40 BE F4 DD 42 73 00 00 00 00 00 00 00 00  pA@?oYBs........
+
+COFF SYMBOL TABLE
+000 01046DCA ABS    notype       Static       | @comp.id
+001 80000090 ABS    notype       Static       | @feat.00
+002 00000000 SECT1  notype       Static       | .drectve
+    Section length   2F, #relocs    0, #linenums    0, checksum        0
+004 00000000 SECT2  notype       Static       | .debug$S
+    Section length  258, #relocs    A, #linenums    0, checksum        0
+006 00000000 SECT3  notype       Static       | .text$mn
+    Section length   7C, #relocs    9, #linenums    0, checksum  8581FD4, selection    1 (pick no duplicates)
+008 00000000 SECT4  notype       Static       | .debug$S
+    Section length  260, #relocs   1A, #linenums    0, checksum        0, selection    5 (pick associative Section 0x3)
+00A 00000000 SECT3  notype ()    External     | efi_main
+00B 00000000 SECT3  notype       Label        | $LN10
+00C 00000000 SECT5  notype       Static       | .xdata
+    Section length    8, #relocs    0, #linenums    0, checksum  FC539D1, selection    5 (pick associative Section 0x3)
+00E 00000000 SECT5  notype       Static       | $unwind$efi_main
+00F 00000000 SECT6  notype       Static       | .pdata
+    Section length    C, #relocs    3, #linenums    0, checksum FBFF84DF, selection    5 (pick associative Section 0x3)
+011 00000000 SECT6  notype       Static       | $pdata$efi_main
+012 00000000 SECT7  notype       Static       | .bss
+    Section length   28, #relocs    0, #linenums    0, checksum        0
+014 00000000 SECT7  notype       Static       | EFI_SUCCESS
+015 00000008 SECT7  notype       Static       | ST
+016 00000010 SECT7  notype       Static       | RT
+017 00000018 SECT7  notype       Static       | IN
+018 00000020 SECT7  notype       Static       | OUT
+019 00000000 SECT8  notype       Static       | .rdata
+    Section length   62, #relocs    0, #linenums    0, checksum A86D180E, selection    2 (pick any)
+01B 00000000 SECT8  notype       External     | ??_C@_1GC@BLBHELEK@?$AAW?$AAh?$AAe?$AAn?$AA?5?$AAy?$AAo?$AAu?$AA?5?$AAp?$AAr?$AAe?$AAs?$AAs?$AA?5@ (`string')
+01C 00000000 SECT9  notype       Static       | .debug$T
+    Section length   5C, #relocs    0, #linenums    0, checksum        0
+01E 00000000 SECTA  notype       Static       | .chks64
+    Section length   50, #relocs    0, #linenums    0, checksum        0
+
+String Table Size = 0x94 bytes
+
+  Summary
+
+          28 .bss
+          50 .chks64
+         4B8 .debug$S
+          5C .debug$T
+          2F .drectve
+           C .pdata
+          62 .rdata
+          7C .text$mn
+           8 .xdata

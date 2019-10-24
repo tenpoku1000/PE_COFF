@@ -18,6 +18,24 @@
     <ClCompile Include="PE_COFF.c">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="tp_coff_section_table.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_coff_string_table.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_coff_symbol_table.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_pe.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_pe_coff_header.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_pe_data_directory.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PE_COFF.h">

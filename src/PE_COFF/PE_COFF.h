@@ -9,6 +9,7 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <memory.h>
@@ -17,6 +18,33 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <share.h>
+
+// ----------------------------------------------------------------------------------------
+// PE File DOS Header
+
+typedef struct TP_PE_DOS_HEADER_{
+    uint16_t e_magic; // Magic number
+    uint16_t e_cblp;
+    uint16_t e_cp;
+    uint16_t e_crlc;
+    uint16_t e_cparhdr;
+    uint16_t e_minalloc;
+    uint16_t e_maxalloc;
+    uint16_t e_ss;
+    uint16_t e_sp;
+    uint16_t e_csum;
+    uint16_t e_ip;
+    uint16_t e_cs;
+    uint16_t e_lfarlc;
+    uint16_t e_ovno;
+    uint16_t e_res[4];
+    uint16_t e_oemid;
+    uint16_t e_oeminfo;
+    uint16_t e_res2[10];
+    int32_t e_lfanew; // File address of PE File header.
+}TP_PE_DOS_HEADER;
+
+#define TP_PE_DOS_HEADER_MAGIC 0x5A4D // MZ
 
 // ----------------------------------------------------------------------------------------
 // COFF File Header
@@ -38,8 +66,155 @@ typedef struct TP_COFF_FILE_HEADER_{
 
 // Characteristics
 
+#define TP_IMAGE_FILE_RELOCS_STRIPPED 0x0001
+#define TP_IMAGE_FILE_EXECUTABLE_IMAGE 0x0002
+#define TP_IMAGE_FILE_LINE_NUMS_STRIPPED 0x0004
+#define TP_IMAGE_FILE_LOCAL_SYMS_STRIPPED 0x0008
+#define TP_IMAGE_FILE_AGGRESIVE_WS_TRIM 0x0010
 #define TP_IMAGE_FILE_LARGE_ADDRESS_AWARE 0x0020
+#define TP_IMAGE_FILE_BYTES_REVERSED_LO 0x0080
+#define TP_IMAGE_FILE_32BIT_MACHINE 0x0100
 #define TP_IMAGE_FILE_DEBUG_STRIPPED 0x0200
+#define TP_IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP 0x0400
+#define TP_IMAGE_FILE_NET_RUN_FROM_SWAP 0x0800
+#define TP_IMAGE_FILE_SYSTEM 0x1000
+#define TP_IMAGE_FILE_DLL 0x2000
+#define TP_IMAGE_FILE_UP_SYSTEM_ONLY 0x4000
+#define TP_IMAGE_FILE_BYTES_REVERSED_HI 0x8000
+
+// ----------------------------------------------------------------------------------------
+// PE File Data Directory
+
+typedef struct TP_PE_DATA_DIRECTORY_{
+    uint32_t VirtualAddress;
+    uint32_t Size;
+}TP_PE_DATA_DIRECTORY;
+
+// ----------------------------------------------------------------------------------------
+// PE File Optional header
+
+typedef struct TP_PE_OPTIONAL_HEADER64_{
+    uint16_t Magic;
+    uint8_t MajorLinkerVersion;
+    uint8_t MinorLinkerVersion;
+    uint32_t SizeOfCode;
+    uint32_t SizeOfInitializedData;
+    uint32_t SizeOfUninitializedData;
+    uint32_t AddressOfEntryPoint;
+    uint32_t BaseOfCode;
+    uint64_t ImageBase;
+    uint32_t SectionAlignment;
+    uint32_t FileAlignment;
+    uint16_t MajorOperatingSystemVersion;
+    uint16_t MinorOperatingSystemVersion;
+    uint16_t MajorImageVersion;
+    uint16_t MinorImageVersion;
+    uint16_t MajorSubsystemVersion;
+    uint16_t MinorSubsystemVersion;
+    uint32_t Win32VersionValue;
+    uint32_t SizeOfImage;
+    uint32_t SizeOfHeaders;
+    uint32_t CheckSum;
+    uint16_t Subsystem;
+    uint16_t DllCharacteristics;
+    uint64_t SizeOfStackReserve;
+    uint64_t SizeOfStackCommit;
+    uint64_t SizeOfHeapReserve;
+    uint64_t SizeOfHeapCommit;
+    uint32_t LoaderFlags;
+    uint32_t NumberOfRvaAndSizes;
+    TP_PE_DATA_DIRECTORY DataDirectory[];
+}TP_PE_OPTIONAL_HEADER64;
+
+#define TP_IMAGE_OPTIONAL_HEADER64_MAGIC 0x20b // PE32+
+
+#define TP_PE_SECTION_ALIGNMENT 0x1000
+#define TP_PE_FILE_ALIGNMENT 0x200
+
+#define TP_PE_PADDING_SECTION_ALIGNMENT(value) (rsize_t)(-((int64_t)value) & (TP_PE_SECTION_ALIGNMENT - 1))
+#define TP_PE_PADDING_FILE_ALIGNMENT(value) (rsize_t)(-((int64_t)value) & (TP_PE_FILE_ALIGNMENT - 1))
+
+// Subsystem
+
+#define TP_IMAGE_SUBSYSTEM_WINDOWS_GUI 2
+#define TP_IMAGE_SUBSYSTEM_WINDOWS_CUI 3
+#define TP_IMAGE_SUBSYSTEM_EFI_APPLICATION 10
+#define TP_IMAGE_SUBSYSTEM_EFI_BOOT_SERVICE_DRIVER 11
+#define TP_IMAGE_SUBSYSTEM_EFI_RUNTIME_DRIVER 12
+
+// DllCharacteristics
+
+#define TP_IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA 0x0020
+#define TP_IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE 0x0040
+#define TP_IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY 0x0080
+#define TP_IMAGE_DLLCHARACTERISTICS_NX_COMPAT 0x0100
+#define TP_IMAGE_DLLCHARACTERISTICS_NO_ISOLATION 0x0200
+#define TP_IMAGE_DLLCHARACTERISTICS_NO_SEH 0x0400
+#define TP_IMAGE_DLLCHARACTERISTICS_NO_BIND 0x0800
+#define TP_IMAGE_DLLCHARACTERISTICS_APPCONTAINER 0x1000
+#define TP_IMAGE_DLLCHARACTERISTICS_WDM_DRIVER 0x2000
+#define TP_IMAGE_DLLCHARACTERISTICS_GUARD_CF 0x4000
+#define TP_IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE 0x8000
+
+// Data Directory
+
+#define TP_IMAGE_DIRECTORY_ENTRY_EXPORT 0
+#define TP_IMAGE_DIRECTORY_ENTRY_IMPORT 1
+#define TP_IMAGE_DIRECTORY_ENTRY_RESOURCE 2
+#define TP_IMAGE_DIRECTORY_ENTRY_EXCEPTION 3
+#define TP_IMAGE_DIRECTORY_ENTRY_SECURITY 4
+#define TP_IMAGE_DIRECTORY_ENTRY_BASERELOC 5
+#define TP_IMAGE_DIRECTORY_ENTRY_DEBUG 6
+#define TP_IMAGE_DIRECTORY_ENTRY_ARCHITECTURE 7
+#define TP_IMAGE_DIRECTORY_ENTRY_GLOBALPTR 8
+#define TP_IMAGE_DIRECTORY_ENTRY_TLS 9
+#define TP_IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG 10
+#define TP_IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT 11
+#define TP_IMAGE_DIRECTORY_ENTRY_IAT 12
+#define TP_IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT 13
+#define TP_IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR 14
+#define TP_IMAGE_DIRECTORY_ENTRY_REVERSED 15
+
+// ----------------------------------------------------------------------------------------
+// PE File Directory(Based relocation)
+
+typedef struct TP_PE_BASE_RELOCATION_{
+    uint32_t VirtualAddress;
+    uint32_t SizeOfBlock;
+    uint16_t TypeOffset[];
+}TP_PE_BASE_RELOCATION;
+
+#define TP_IMAGE_REL_BASED_TYPE(value) (((value) & 0xF000) >> 12)
+#define TP_IMAGE_REL_BASED_OFFSET(value) ((value) & 0x0FFF)
+
+// Based relocation types
+
+#define TP_IMAGE_REL_BASED_ABSOLUTE 0
+#define TP_IMAGE_REL_BASED_HIGH 1
+#define TP_IMAGE_REL_BASED_LOW 2
+#define TP_IMAGE_REL_BASED_HIGHLOW 3
+#define TP_IMAGE_REL_BASED_HIGHADJ 4
+#define TP_IMAGE_REL_BASED_DIR64 10
+
+// ----------------------------------------------------------------------------------------
+// PE File header
+
+typedef struct TP_PE_HEADER64_READ_{
+    uint32_t Signature;
+    TP_COFF_FILE_HEADER FileHeader;
+    TP_PE_OPTIONAL_HEADER64 OptionalHeader;
+}TP_PE_HEADER64_READ;
+
+typedef struct TP_PE_HEADER64_WRITE_{
+    TP_PE_DOS_HEADER DosHeader;
+    uint32_t Signature;
+    TP_COFF_FILE_HEADER FileHeader;
+    TP_PE_OPTIONAL_HEADER64 OptionalHeader;
+}TP_PE_HEADER64_WRITE;
+
+#define TP_PE_HEADER64_SIGNATURE 0x00004550 // PE\0\0
+
+#define TP_PE_HEADER64_WRITE_DIRECTORY_ENTRY_NUM 16
 
 // ----------------------------------------------------------------------------------------
 // Section Table
@@ -58,6 +233,10 @@ typedef struct TP_SECTION_TABLE_{
     uint16_t NumberOfLinenumbers;
     uint32_t Characteristics;
 }TP_SECTION_TABLE;
+
+// NumberOfRelocations
+
+#define TP_NRELOC_OVFL_NUM 0xFFFF
 
 // Characteristics(Section Flags)
 
@@ -255,13 +434,15 @@ typedef  struct TP_COFF_SYMBOL_TABLE_{
 #pragma pack(pop)
 
 // Section Number Values
-#define TP_IMAGE_SYM_UNDEFINED 0
-#define TP_IMAGE_SYM_ABSOLUTE  -1
-#define TP_IMAGE_SYM_DEBUG  -2
-#define TP_IMAGE_SYM_SECTION_MAX 0xfeff
+#define TP_IMAGE_SYM_TYPE_LSB(symbol) (uint8_t)((symbol)->Type & 0xf);
+#define TP_IMAGE_SYM_TYPE_MSB(symbol) (uint8_t)(((symbol)->Type & 0xf0) >> 4);
 
-// Type Representation
+#define TP_IMAGE_SYM_UNDEFINED 0
+#define TP_IMAGE_SYM_ABSOLUTE -1
+#define TP_IMAGE_SYM_DEBUG -2
+#define TP_IMAGE_SYM_SECTION_MAX 0xfeff // Type Representation
 #define TP_IMAGE_SYM_TYPE_NULL 0
+
 #define TP_IMAGE_SYM_DTYPE_NULL 0
 #define TP_IMAGE_SYM_DTYPE_FUNCTION 2
 
@@ -272,6 +453,129 @@ typedef  struct TP_COFF_SYMBOL_TABLE_{
 #define TP_IMAGE_SYM_CLASS_STATIC 3
 #define TP_IMAGE_SYM_CLASS_FUNCTION 101
 #define TP_IMAGE_SYM_CLASS_FILE 103
+
+// ----------------------------------------------------------------------------------------
+// Environment
+
+// Section Data(Relocations)
+typedef struct TP_COFF_RELOCATIONS_ARRAY_{
+    TP_COFF_RELOCATIONS* member_relocations;
+    rsize_t member_size;
+    rsize_t member_num;
+}TP_COFF_RELOCATIONS_ARRAY;
+
+typedef struct TP_SYMBOL_TABLE_{
+// config section:
+    bool member_is_output_log_file;
+
+// message section:
+    FILE* member_disp_log_file;
+
+// PE COFF section:
+    // PE COFF OBJECT/IMAGE File
+    uint8_t* member_pe_coff_buffer;
+    rsize_t member_pe_coff_size;
+    rsize_t member_pe_coff_current_offset;
+
+    // PE File header
+    TP_PE_DOS_HEADER* member_dos_header_read;  // NOTE: member_dos_header_read must not free memory.
+    TP_PE_HEADER64_READ* member_pe_header64_read;  // NOTE: member_pe_header64_read must not free memory.
+
+    // COFF File Header
+    TP_COFF_FILE_HEADER* member_coff_file_header;  // NOTE: member_coff_file_header must not free memory.
+
+    // Section Table
+    TP_SECTION_TABLE* member_section_table;
+    rsize_t member_section_table_size;
+    rsize_t member_section_table_num;
+
+    // Section Data(Relocations)
+    TP_COFF_RELOCATIONS_ARRAY* member_coff_relocations;
+    rsize_t member_coff_relocations_size;
+
+    // COFF Symbol Table
+    TP_COFF_SYMBOL_TABLE* member_coff_symbol_table;  // NOTE: member_coff_symbol_table must not free memory.
+
+    // COFF String Table
+    rsize_t member_string_table_offset;
+    uint32_t member_string_table_size;
+    uint8_t* member_string_table;  // NOTE: member_string_table must not free memory.
+}TP_SYMBOL_TABLE;
+
+#define TP_MESSAGE_BUFFER_SIZE 1024
+
+#define TP_PUT_LOG_MSG_ILE(symbol_table) \
+    fprintf((symbol_table)->member_disp_log_file, "Internal linker error(%s:%d).\n", __func__, __LINE__)
+#define TP_PUT_LOG_MSG_TRACE(symbol_table) \
+    fprintf((symbol_table)->member_disp_log_file, "TRACE: %s function\n", __func__)
+#define TP_GET_LAST_ERROR(symbol_table) \
+    fprintf((symbol_table)->member_disp_log_file, "GET_LAST_ERROR=%d(%s:%d)\n", GetLastError(), __func__, __LINE__); SetLastError(0)
+#define TP_PRINT_CRT_ERROR(symbol_table) \
+    fprintf((symbol_table)->member_disp_log_file, "CRT_ERROR=%d(%s:%d)\n", errno, __func__, __LINE__); (void)_set_errno(0)
+
+#define IS_PE_IMAGE_FILE(symbol_table) \
+    ((symbol_table)->member_dos_header_read && (TP_PE_DOS_HEADER_MAGIC == (symbol_table)->member_dos_header_read->e_magic))
+
+#define IS_EOF_PE_COFF(symbol_table) \
+    ((symbol_table)->member_pe_coff_size <= (symbol_table)->member_pe_coff_current_offset)
+
+#define TP_PE_COFF_GET_CURRENT_BUFFER(symbol_table) \
+    ((symbol_table)->member_pe_coff_buffer + (symbol_table)->member_pe_coff_current_offset)
+
+#define TP_COFF_OBJECT_DEFAULT_FNAME "efi_main"
+#define TP_COFF_OBJECT_DEFAULT_EXT "obj"
+
+#define TP_COFF_CODE_DEFAULT_FNAME "efi_main"
+#define TP_COFF_CODE_DEFAULT_EXT "bin"
+
+#define TP_PE_CODE_DEFAULT_FNAME "bootx64"
+#define TP_PE_CODE_DEFAULT_EXT "bin"
+
+#define TP_PE_UEFI_DEFAULT_FNAME "bootx64"
+#define TP_PE_UEFI_DEFAULT_EXT "efi"
+
+#define TP_PE_COFF_TEXT_DEFAULT_EXT "txt"
+
+// ----------------------------------------------------------------------------------------
+// Convert from COFF Object to PE Image. 
+bool tp_make_PE_file_buffer(TP_SYMBOL_TABLE* symbol_table, FILE* write_file, uint8_t* entry_point_symbol);
+
+// ----------------------------------------------------------------------------------------
+// PE File header
+bool tp_make_PE_file_PE_HEADER64(TP_SYMBOL_TABLE* symbol_table, FILE* write_file);
+
+// ----------------------------------------------------------------------------------------
+// PE File Data Directory
+bool tp_make_PE_file_PE_DATA_DIRECTORY(
+    TP_SYMBOL_TABLE* symbol_table, FILE* write_file, TP_PE_OPTIONAL_HEADER64* optional_header
+);
+bool tp_make_PE_file_PE_BASE_RELOCATION(
+    TP_SYMBOL_TABLE* symbol_table, FILE* write_file, uint8_t* raw_data, uint32_t data_size
+);
+
+// ----------------------------------------------------------------------------------------
+// Section Table
+bool tp_make_PE_file_SECTION_TABLE(TP_SYMBOL_TABLE* symbol_table, FILE* write_file);
+
+// ----------------------------------------------------------------------------------------
+// COFF Symbol Table
+bool tp_make_PE_file_COFF_SYMBOL_TABLE(TP_SYMBOL_TABLE* symbol_table, FILE* write_file);
+bool tp_make_PE_file_COFF_SYMBOL_TABLE_content(
+    TP_SYMBOL_TABLE* symbol_table,
+    FILE* write_file, TP_COFF_SYMBOL_TABLE* one_of_coff_symbol_tables, rsize_t index
+);
+
+// ----------------------------------------------------------------------------------------
+// COFF String Table
+bool tp_make_PE_file_COFF_STRING_TABLE(TP_SYMBOL_TABLE* symbol_table, FILE* write_file);
+
+// ----------------------------------------------------------------------------------------
+// Utilities
+bool tp_make_PE_file_raw_data(
+    TP_SYMBOL_TABLE* symbol_table, FILE* write_file, uint8_t* raw_data, rsize_t size
+);
+bool tp_seek_PE_COFF_file(TP_SYMBOL_TABLE* symbol_table, long seek_position, long line_bytes);
+bool tp_write_data(TP_SYMBOL_TABLE* symbol_table, uint8_t* data, rsize_t size, char* fname, char* ext);
 
 #endif
 

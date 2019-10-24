@@ -48,11 +48,21 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)tools\*.*" "$(SolutionDir)bin"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy $(SolutionDir)\tools\*.* $(SolutionDir)\bin</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="PE_COFF.c" />
+    <ClCompile Include="tp_coff_section_table.c" />
+    <ClCompile Include="tp_coff_string_table.c" />
+    <ClCompile Include="tp_coff_symbol_table.c" />
+    <ClCompile Include="tp_make_pe.c" />
+    <ClCompile Include="tp_pe_coff_header.c" />
+    <ClCompile Include="tp_pe_data_directory.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PE_COFF.h" />

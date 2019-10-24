@@ -1,13 +1,12 @@
 
 # PE_COFF
 
-最小限の UEFI アプリの COFF オブジェクトファイルの  
-不要なセクションを無効化し、MS 製 Linker に入力することで、    
-MS 製 Linker の要求する最小限の COFF オブジェクトファイルを  
-確認するためのツールです。使用した MS 製 Linker は以下の通りです。
+MSVC の出力した 1 個の COFF オブジェクトファイルを入力して UEFI アプリを出力する簡易 Linker です。  
+出力した UEFI アプリは、実機(GIGABYTE GA-Z270X-UD5 + Core i3-7100)で動作しました。  
+使用した MSVC は以下の通りです。
 
 ```
-Microsoft (R) Incremental Linker Version 14.23.28105.4
+Microsoft(R) C/C++ Optimizing Compiler Version 19.23.28106.4 for x64
 ```
 
 C 言語で書かれていて、Visual Studio の標準 C ライブラリと Windows API に依存しています。
@@ -22,7 +21,7 @@ C:\>echo.>PE_COFF-master.zip:Zone.Identifier
 
 ## 開発環境
 
-* Visual Studio Community 2019
+* Visual Studio Community 2019  
 https://docs.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk
 * 64 ビット版 Windows 10
 
@@ -33,19 +32,26 @@ Visual Studio 2019 Developer Command Prompt で作業します。
 
 * PE_COFF.exe を実行すると、以下のファイルが出力されます。
 ```
-PE_COFF.obj : UEFI アプリの efi_main.obj の不要なセクションを無効化したものです。
-PE_COFF.txt : UEFI アプリの efi_main.obj の不要なセクション以外をテキスト形式で出力したものです。
-PE_COFF.bin : UEFI アプリの efi_main.obj の .text セクションの Raw Data です。
+efi_main.bin : COFF オブジェクトファイル efi_main.obj の .text セクションの Raw Data です。
+efi_main.txt : efi_main.obj の内容をテキスト化したファイルです。
+bootx64.efi : UEFI アプリの PE32+ Image ファイルです(efi_main.obj を link したものです)。
+bootx64.bin : bootx64.efi の .text セクションの Raw Data です。
+bootx64.txt : bootx64.efi の内容をテキスト化したファイルです。
 ```
 
-* PE_COFF_obj_dump.cmd を実行すると、以下のファイルが出力されます。
+* efi_main_dump.cmd を実行すると、以下のファイルが出力されます。
 ```
-PE_COFF_obj.txt : (PE_COFF.obj を dumpbin した結果)
+efi_main_obj.txt : (efi_main.obj を dumpbin した結果)
 ```
 
-* PE_COFF_link.cmd を実行すると、以下のファイルが出力されます。
+* bootx64_dump.cmd を実行すると、以下のファイルが出力されます。
 ```
-bin\efi\boot\bootx64.efi : UEFI アプリ(PE_COFF.obj を link した結果)
+bootx64_efi.txt : (bootx64.efi を dumpbin した結果)
+```
+
+* efi_copy_app.cmd を実行すると、bootx64.efi が以下にコピーされます(実機での動作確認用)。
+```
+bin\efi\boot\bootx64.efi : UEFI アプリ(efi_main.obj を link した結果)
 ```
 
 ## ビルド方法
