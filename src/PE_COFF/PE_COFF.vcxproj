@@ -42,30 +42,68 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
       <Command>
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>copy $(SolutionDir)\tools\*.* $(SolutionDir)\bin</Command>
+      <Command>copy $(SolutionDir)\tools\*.* $(OutDir)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="PE_COFF.c" />
-    <ClCompile Include="tp_coff_section_table.c" />
-    <ClCompile Include="tp_coff_string_table.c" />
-    <ClCompile Include="tp_coff_symbol_table.c" />
-    <ClCompile Include="tp_make_pe.c" />
-    <ClCompile Include="tp_pe_coff_header.c" />
-    <ClCompile Include="tp_pe_data_directory.c" />
+    <ClCompile Include="tp_compiler\tp_compiler.c" />
+    <ClCompile Include="tp_compiler\tp_init_symbol_table.c" />
+    <ClCompile Include="tp_compiler\tp_make_path.c" />
+    <ClCompile Include="tp_compiler\tp_test.c" />
+    <ClCompile Include="tp_make_parse_tree.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_coff_section_table.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_coff_string_table.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_coff_symbol_table.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_make_coff.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_make_coff_body.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_make_pe.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_make_pe_body.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_pe_coff_header.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_pe_data_directory.c" />
+    <ClCompile Include="tp_make_token.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_expr.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_UEFI.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_UEFI32.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_UEFI64.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_disasm.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_opcode.c" />
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_code.c" />
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_code_body.c" />
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_code_opcode.c" />
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_code_opcode_etc.c" />
+    <ClCompile Include="tp_semantic_analysis.c" />
+    <ClCompile Include="tp_utils\tp_file.c" />
+    <ClCompile Include="tp_utils\tp_leb128.c" />
+    <ClCompile Include="tp_utils\tp_utils.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PE_COFF.h" />
+    <ClInclude Include="tp_compiler.h" />
+    <ClInclude Include="tp_compiler_common.h" />
+    <ClInclude Include="tp_compiler_parse_tree.h" />
+    <ClInclude Include="tp_compiler_pe.h" />
+    <ClInclude Include="tp_compiler_semantic_analysis.h" />
+    <ClInclude Include="tp_compiler_token.h" />
+    <ClInclude Include="tp_compiler_wasm.h" />
+    <ClInclude Include="tp_compiler_x64.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PE_COFF.vcxproj.user" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,23 +1,46 @@
 ﻿
-// Copyright (C) 2019 Shin'ichi Ichikawa. Released under the MIT license.
+// Copyright (C) 2019-2020 Shin'ichi Ichikawa. Released under the MIT license.
 
-#if ! defined(PE_COFF_H_)
-#define PE_COFF_H_
+#if ! defined(TP_COMPILER_PE_H_)
+#define TP_COMPILER_PE_H_
 
-#include <windows.h>
-#include <stdio.h>
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <memory.h>
-#include <io.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <share.h>
+#include "tp_compiler_x64.h"
+
+// ----------------------------------------------------------------------------------------
+// PE/COFF section:
+
+#define TP_COFF_DATA_SIZE_ALLOCATE_UNIT 256
+#define TP_COFF_RDATA_SIZE_ALLOCATE_UNIT 1024
+#define TP_COFF_TEXT_SIZE_ALLOCATE_UNIT 4096
+#define TP_COFF_SYMBOL_SIZE_ALLOCATE_UNIT 256
+
+#define IS_PE_IMAGE_FILE(symbol_table) \
+    ((symbol_table)->member_dos_header_read && (TP_PE_DOS_HEADER_MAGIC == (symbol_table)->member_dos_header_read->e_magic))
+
+#define IS_EOF_PE_COFF(symbol_table) \
+    ((symbol_table)->member_pe_coff_size <= (symbol_table)->member_pe_coff_current_offset)
+
+#define TP_PE_COFF_GET_CURRENT_BUFFER(symbol_table) \
+    ((symbol_table)->member_pe_coff_buffer + (symbol_table)->member_pe_coff_current_offset)
+
+#define TP_COFF_OBJECT_DEFAULT_FNAME "efi_main"
+#define TP_COFF_OBJECT_DEFAULT_EXT "obj"
+
+#define TP_COFF_CODE_DEFAULT_FNAME "efi_main"
+#define TP_COFF_CODE_DEFAULT_EXT "bin"
+
+#define TP_PE_CODE_DEFAULT_FNAME "bootx64"
+#define TP_PE_CODE_DEFAULT_EXT "bin"
+
+#define TP_PE_UEFI_DEFAULT_FNAME "bootx64"
+#define TP_PE_UEFI_DEFAULT_EXT "efi"
+
+#define TP_PE_COFF_TEXT_DEFAULT_EXT "txt"
+
+typedef enum TP_SECTION_ALIGN_{
+    TP_SECTION_ALIGN_8_BYTE,
+    TP_SECTION_ALIGN_16_BYTE
+}TP_SECTION_ALIGN;
 
 // ----------------------------------------------------------------------------------------
 // PE File DOS Header
@@ -130,9 +153,11 @@ typedef struct TP_PE_OPTIONAL_HEADER64_{
 
 #define TP_PE_SECTION_ALIGNMENT 0x1000
 #define TP_PE_FILE_ALIGNMENT 0x200
+#define TP_PE_4_BYTES_ALIGNMENT 4
 
 #define TP_PE_PADDING_SECTION_ALIGNMENT(value) (rsize_t)(-((int64_t)value) & (TP_PE_SECTION_ALIGNMENT - 1))
 #define TP_PE_PADDING_FILE_ALIGNMENT(value) (rsize_t)(-((int64_t)value) & (TP_PE_FILE_ALIGNMENT - 1))
+#define TP_PE_PADDING_4_BYTES_ALIGNMENT(value) (rsize_t)(-((int64_t)value) & (TP_PE_4_BYTES_ALIGNMENT - 1))
 
 // Subsystem
 
@@ -434,15 +459,16 @@ typedef  struct TP_COFF_SYMBOL_TABLE_{
 #pragma pack(pop)
 
 // Section Number Values
-#define TP_IMAGE_SYM_TYPE_LSB(symbol) (uint8_t)((symbol)->Type & 0xf);
-#define TP_IMAGE_SYM_TYPE_MSB(symbol) (uint8_t)(((symbol)->Type & 0xf0) >> 4);
-
 #define TP_IMAGE_SYM_UNDEFINED 0
 #define TP_IMAGE_SYM_ABSOLUTE -1
 #define TP_IMAGE_SYM_DEBUG -2
-#define TP_IMAGE_SYM_SECTION_MAX 0xfeff // Type Representation
+#define TP_IMAGE_SYM_SECTION_MAX 0xfeff
+
+// Type Representation
+#define TP_IMAGE_SYM_TYPE_LSB(symbol) (uint8_t)((symbol)->Type & 0xf);
 #define TP_IMAGE_SYM_TYPE_NULL 0
 
+#define TP_IMAGE_SYM_TYPE_MSB(symbol) (uint8_t)(((symbol)->Type & 0xf0) >> 4);
 #define TP_IMAGE_SYM_DTYPE_NULL 0
 #define TP_IMAGE_SYM_DTYPE_FUNCTION 2
 
@@ -455,127 +481,69 @@ typedef  struct TP_COFF_SYMBOL_TABLE_{
 #define TP_IMAGE_SYM_CLASS_FILE 103
 
 // ----------------------------------------------------------------------------------------
-// Environment
+// COFF File
 
 // Section Data(Relocations)
 typedef struct TP_COFF_RELOCATIONS_ARRAY_{
     TP_COFF_RELOCATIONS* member_relocations;
     rsize_t member_size;
-    rsize_t member_num;
+    uint32_t member_num;
 }TP_COFF_RELOCATIONS_ARRAY;
 
-typedef struct TP_SYMBOL_TABLE_{
-// config section:
-    bool member_is_output_log_file;
-
-// message section:
-    FILE* member_disp_log_file;
-
-// PE COFF section:
-    // PE COFF OBJECT/IMAGE File
-    uint8_t* member_pe_coff_buffer;
-    rsize_t member_pe_coff_size;
-    rsize_t member_pe_coff_current_offset;
-
-    // PE File header
-    TP_PE_DOS_HEADER* member_dos_header_read;  // NOTE: member_dos_header_read must not free memory.
-    TP_PE_HEADER64_READ* member_pe_header64_read;  // NOTE: member_pe_header64_read must not free memory.
-
+// COFF File
+typedef struct TP_COFF_WRITE_{
     // COFF File Header
-    TP_COFF_FILE_HEADER* member_coff_file_header;  // NOTE: member_coff_file_header must not free memory.
+    TP_COFF_FILE_HEADER member_file_header;
 
     // Section Table
-    TP_SECTION_TABLE* member_section_table;
-    rsize_t member_section_table_size;
-    rsize_t member_section_table_num;
+    int16_t member_section_num;
+
+    rsize_t member_section_data_offset;
+    int16_t member_section_number_data;
+    TP_SECTION_TABLE member_section_data;
+
+    rsize_t member_section_rdata_offset;
+    int16_t member_section_number_rdata;
+    TP_SECTION_TABLE member_section_rdata;
+
+    rsize_t member_section_text_offset;
+    int16_t member_section_number_text;
+    TP_SECTION_TABLE member_section_text;
+
+    // Section Data(.data)
+    rsize_t member_data_offset;
+    uint8_t* member_data;
+    uint32_t member_data_pos;
+    uint32_t member_data_size;
+    uint32_t member_data_size_allocate_unit;
+
+    // Section Data(.rdata)
+    rsize_t member_rdata_offset;
+    uint8_t* member_rdata;
+    uint32_t member_rdata_pos;
+    uint32_t member_rdata_size;
+    uint32_t member_rdata_size_allocate_unit;
 
     // Section Data(Relocations)
-    TP_COFF_RELOCATIONS_ARRAY* member_coff_relocations;
-    rsize_t member_coff_relocations_size;
+    rsize_t member_data_coff_relocations_offset;
+    TP_COFF_RELOCATIONS_ARRAY member_data_coff_relocations;
+    rsize_t member_rdata_coff_relocations_offset;
+    TP_COFF_RELOCATIONS_ARRAY member_rdata_coff_relocations;
+    rsize_t member_text_coff_relocations_offset;
+    TP_COFF_RELOCATIONS_ARRAY member_text_coff_relocations;
 
     // COFF Symbol Table
-    TP_COFF_SYMBOL_TABLE* member_coff_symbol_table;  // NOTE: member_coff_symbol_table must not free memory.
+    rsize_t member_coff_symbol_offset;
+    TP_COFF_SYMBOL_TABLE* member_coff_symbol;
+    uint32_t member_coff_symbol_num;
+    uint32_t member_coff_symbol_size;
+    uint32_t member_coff_symbol_size_allocate_unit;
 
     // COFF String Table
     rsize_t member_string_table_offset;
     uint32_t member_string_table_size;
-    uint8_t* member_string_table;  // NOTE: member_string_table must not free memory.
-}TP_SYMBOL_TABLE;
-
-#define TP_MESSAGE_BUFFER_SIZE 1024
-
-#define TP_PUT_LOG_MSG_ILE(symbol_table) \
-    fprintf((symbol_table)->member_disp_log_file, "Internal linker error(%s:%d).\n", __func__, __LINE__)
-#define TP_PUT_LOG_MSG_TRACE(symbol_table) \
-    fprintf((symbol_table)->member_disp_log_file, "TRACE: %s function\n", __func__)
-#define TP_GET_LAST_ERROR(symbol_table) \
-    fprintf((symbol_table)->member_disp_log_file, "GET_LAST_ERROR=%d(%s:%d)\n", GetLastError(), __func__, __LINE__); SetLastError(0)
-#define TP_PRINT_CRT_ERROR(symbol_table) \
-    fprintf((symbol_table)->member_disp_log_file, "CRT_ERROR=%d(%s:%d)\n", errno, __func__, __LINE__); (void)_set_errno(0)
-
-#define IS_PE_IMAGE_FILE(symbol_table) \
-    ((symbol_table)->member_dos_header_read && (TP_PE_DOS_HEADER_MAGIC == (symbol_table)->member_dos_header_read->e_magic))
-
-#define IS_EOF_PE_COFF(symbol_table) \
-    ((symbol_table)->member_pe_coff_size <= (symbol_table)->member_pe_coff_current_offset)
-
-#define TP_PE_COFF_GET_CURRENT_BUFFER(symbol_table) \
-    ((symbol_table)->member_pe_coff_buffer + (symbol_table)->member_pe_coff_current_offset)
-
-#define TP_COFF_OBJECT_DEFAULT_FNAME "efi_main"
-#define TP_COFF_OBJECT_DEFAULT_EXT "obj"
-
-#define TP_COFF_CODE_DEFAULT_FNAME "efi_main"
-#define TP_COFF_CODE_DEFAULT_EXT "bin"
-
-#define TP_PE_CODE_DEFAULT_FNAME "bootx64"
-#define TP_PE_CODE_DEFAULT_EXT "bin"
-
-#define TP_PE_UEFI_DEFAULT_FNAME "bootx64"
-#define TP_PE_UEFI_DEFAULT_EXT "efi"
-
-#define TP_PE_COFF_TEXT_DEFAULT_EXT "txt"
-
-// ----------------------------------------------------------------------------------------
-// Convert from COFF Object to PE Image. 
-bool tp_make_PE_file_buffer(TP_SYMBOL_TABLE* symbol_table, FILE* write_file, uint8_t* entry_point_symbol);
-
-// ----------------------------------------------------------------------------------------
-// PE File header
-bool tp_make_PE_file_PE_HEADER64(TP_SYMBOL_TABLE* symbol_table, FILE* write_file);
-
-// ----------------------------------------------------------------------------------------
-// PE File Data Directory
-bool tp_make_PE_file_PE_DATA_DIRECTORY(
-    TP_SYMBOL_TABLE* symbol_table, FILE* write_file, TP_PE_OPTIONAL_HEADER64* optional_header
-);
-bool tp_make_PE_file_PE_BASE_RELOCATION(
-    TP_SYMBOL_TABLE* symbol_table, FILE* write_file, uint8_t* raw_data, uint32_t data_size
-);
-
-// ----------------------------------------------------------------------------------------
-// Section Table
-bool tp_make_PE_file_SECTION_TABLE(TP_SYMBOL_TABLE* symbol_table, FILE* write_file);
-
-// ----------------------------------------------------------------------------------------
-// COFF Symbol Table
-bool tp_make_PE_file_COFF_SYMBOL_TABLE(TP_SYMBOL_TABLE* symbol_table, FILE* write_file);
-bool tp_make_PE_file_COFF_SYMBOL_TABLE_content(
-    TP_SYMBOL_TABLE* symbol_table,
-    FILE* write_file, TP_COFF_SYMBOL_TABLE* one_of_coff_symbol_tables, rsize_t index
-);
-
-// ----------------------------------------------------------------------------------------
-// COFF String Table
-bool tp_make_PE_file_COFF_STRING_TABLE(TP_SYMBOL_TABLE* symbol_table, FILE* write_file);
-
-// ----------------------------------------------------------------------------------------
-// Utilities
-bool tp_make_PE_file_raw_data(
-    TP_SYMBOL_TABLE* symbol_table, FILE* write_file, uint8_t* raw_data, rsize_t size
-);
-bool tp_seek_PE_COFF_file(TP_SYMBOL_TABLE* symbol_table, long seek_position, long line_bytes);
-bool tp_write_data(TP_SYMBOL_TABLE* symbol_table, uint8_t* data, rsize_t size, char* fname, char* ext);
+    uint8_t* member_string_table;
+}TP_COFF_WRITE;
 
 #endif
 

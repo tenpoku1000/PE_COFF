@@ -1,7 +1,7 @@
 ﻿
-// Copyright (C) 2019 Shin'ichi Ichikawa. Released under the MIT license.
+// Copyright (C) 2019-2020 Shin'ichi Ichikawa. Released under the MIT license.
 
-#include "PE_COFF.h"
+#include "../tp_compiler.h"
 
 typedef struct TP_PE_PARAM_{
 // PE Image header
@@ -861,7 +861,7 @@ static bool make_PE_file_buffer_section_symbol_entry_point(
         }
 
         // Section Table
-        if (symbol_table->member_section_table_num <= section_number){
+        if (symbol_table->member_section_table_num < section_number){
 
             TP_PUT_LOG_MSG_ILE(symbol_table);
 
@@ -1000,7 +1000,7 @@ static bool make_PE_file_buffer_section_copy_relocation_data(
         return false;
     }
 
-    rsize_t num = section_to->NumberOfRelocations;
+    uint32_t num = section_to->NumberOfRelocations;
 
     TP_COFF_RELOCATIONS* ref_reloc = (TP_COFF_RELOCATIONS*)TP_PE_COFF_GET_CURRENT_BUFFER(symbol_table);
 
@@ -1296,7 +1296,9 @@ static bool make_PE_file_buffer_section_data_relocation_symbol(
 
         if (section_to->Characteristics & TP_IMAGE_SCN_CNT_CODE){
 
-            apply_from -= (int32_t)(section_to->VirtualAddress + virtual_address + sizeof(uint32_t));
+            int32_t rip = (int32_t)(section_to->VirtualAddress + virtual_address + sizeof(uint32_t));
+
+            apply_from -= rip;
         }
 
         if (pe_image_buffer_size <= (pe_image_offset + sizeof(apply_from))){

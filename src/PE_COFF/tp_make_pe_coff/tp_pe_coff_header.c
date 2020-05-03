@@ -1,7 +1,7 @@
 ﻿
-// Copyright (C) 2019 Shin'ichi Ichikawa. Released under the MIT license.
+// Copyright (C) 2019-2020 Shin'ichi Ichikawa. Released under the MIT license.
 
-#include "PE_COFF.h"
+#include "../tp_compiler.h"
 
 static bool make_PE_file_PE_OPTIONAL_HEADER64(TP_SYMBOL_TABLE* symbol_table, FILE* write_file);
 static bool make_PE_file_COFF_FILE_HEADER(TP_SYMBOL_TABLE* symbol_table, FILE* write_file);
