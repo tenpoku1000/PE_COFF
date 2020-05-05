@@ -137,12 +137,12 @@ static bool make_path_test_log_files(
 static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive, char* dir, bool is_test)
 {
     if ( ! make_path(
-        symbol_table, drive, dir, TP_LOG_FILE_PREFIX,
+        NULL, drive, dir, TP_LOG_FILE_PREFIX,
         TP_WRITE_LOG_DEFAULT_FILE_NAME, TP_WRITE_LOG_DEFAULT_EXT_NAME,
         symbol_table->member_write_log_file_path,
         sizeof(symbol_table->member_write_log_file_path))){
 
-        TP_PRINT_CRT_ERROR(NULL);
+//      TP_PUT_LOG_MSG_TRACE(symbol_table);
 
         return false;
     }
@@ -153,7 +153,7 @@ static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive,
 
         if ( ! tp_open_write_file(NULL, symbol_table->member_write_log_file_path, &write_log_file)){
 
-//          TP_PRINT_CRT_ERROR(NULL);
+//          TP_PUT_LOG_MSG_TRACE(symbol_table);
 
             return false;
         }
