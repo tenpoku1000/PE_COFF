@@ -273,7 +273,7 @@ static bool read_file(TP_SYMBOL_TABLE* symbol_table, char* path)
 
     size_t read_count = stbuf.st_size;
 
-    uint8_t* read_buffer = (uint8_t*)calloc(read_count, sizeof(uint8_t));
+    uint8_t* read_buffer = (uint8_t*)TP_CALLOC(symbol_table, read_count, sizeof(uint8_t));
 
     if (NULL == read_buffer){
 
@@ -412,14 +412,14 @@ static bool make_path(TP_SYMBOL_TABLE* symbol_table, char* path, size_t path_siz
 
         TP_GET_LAST_ERROR(symbol_table);
 
-        goto error_out;
+        goto fail;
     }
 
     DWORD status = GetModuleFileNameA(handle, base_dir, sizeof(base_dir));
 
     if (0 == status){
 
-        goto error_out;
+        goto fail;
     }
 
     err = _splitpath_s(base_dir, drive, _MAX_DRIVE, dir, _MAX_DIR, NULL, 0, NULL, 0);
@@ -428,7 +428,7 @@ static bool make_path(TP_SYMBOL_TABLE* symbol_table, char* path, size_t path_siz
 
         TP_PRINT_CRT_ERROR(symbol_table);
 
-        goto error_out;
+        goto fail;
     }
 
     err = _makepath_s(path, path_size, drive, dir, fname, ext);
@@ -437,12 +437,12 @@ static bool make_path(TP_SYMBOL_TABLE* symbol_table, char* path, size_t path_siz
 
         TP_PRINT_CRT_ERROR(symbol_table);
 
-        goto error_out;
+        goto fail;
     }
 
     return true;
 
-error_out:
+fail:
 
     return false;
 }

@@ -39,6 +39,7 @@ typedef struct test_case_table_{
 TEST_CASE_TABLE tp_test_case_table[];
 
 #define TP_CONFIG_OPTION_IS_32 '3'
+#define TP_CONFIG_OPTION_IS_TEST_DISASM_X64 'a'
 #define TP_CONFIG_OPTION_IS_OUTPUT_CURRENT_DIR 'c'
 #define TP_CONFIG_OPTION_IS_OUTPUT_LOG_FILE 'l'
 #define TP_CONFIG_OPTION_IS_NO_OUTPUT_MESSAGES 'm'
@@ -69,6 +70,12 @@ typedef enum TP_LOG_TYPE_
     TP_LOG_TYPE_HIDE,            // LOG
 }TP_LOG_TYPE;
 
+typedef enum TP_ERROR_TYPE_
+{
+    TP_ERROR_TYPE_ABORT,
+    TP_ERROR_TYPE_CONTINUE
+}TP_ERROR_TYPE;
+
 typedef enum TP_LOG_PARAM_TYPE_
 {
     TP_LOG_PARAM_TYPE_STRING,
@@ -89,7 +96,31 @@ typedef struct tp_put_log_element_{
 
 #define TP_PUT_LOG_MSG(symbol_table, log_type, format_string, ...) \
     tp_put_log_msg( \
-        (symbol_table), (log_type), (format_string), __FILE__, __func__, __LINE__, \
+        (symbol_table), (log_type), TP_ERROR_TYPE_CONTINUE, (format_string), __FILE__, __func__, __LINE__, \
+        (TP_LOG_PARAM_ELEMENT[]){ __VA_ARGS__ }, \
+        sizeof((TP_LOG_PARAM_ELEMENT[]){ __VA_ARGS__ }) / sizeof(TP_LOG_PARAM_ELEMENT) \
+    )
+#define TP_PUT_LOG_ABORT(symbol_table, log_type, format_string, ...) \
+    tp_put_log_msg( \
+        (symbol_table), (log_type), TP_ERROR_TYPE_ABORT, (format_string), __FILE__, __func__, __LINE__, \
+        (TP_LOG_PARAM_ELEMENT[]){ __VA_ARGS__ }, \
+        sizeof((TP_LOG_PARAM_ELEMENT[]){ __VA_ARGS__ }) / sizeof(TP_LOG_PARAM_ELEMENT) \
+    )
+#define TP_PUT_LOG_WARNING(symbol_table, format_string, ...) \
+    tp_put_log_msg( \
+        (symbol_table), TP_LOG_TYPE_DISP_WARNING, TP_ERROR_TYPE_CONTINUE, (format_string), __FILE__, __func__, __LINE__, \
+        (TP_LOG_PARAM_ELEMENT[]){ __VA_ARGS__ }, \
+        sizeof((TP_LOG_PARAM_ELEMENT[]){ __VA_ARGS__ }) / sizeof(TP_LOG_PARAM_ELEMENT) \
+    )
+#define TP_PUT_LOG_PRINT(symbol_table, format_string, ...) \
+    tp_put_log_msg( \
+        (symbol_table), TP_LOG_TYPE_DEFAULT, TP_ERROR_TYPE_CONTINUE, (format_string), __FILE__, __func__, __LINE__, \
+        (TP_LOG_PARAM_ELEMENT[]){ __VA_ARGS__ }, \
+        sizeof((TP_LOG_PARAM_ELEMENT[]){ __VA_ARGS__ }) / sizeof(TP_LOG_PARAM_ELEMENT) \
+    )
+#define TP_PUT_LOG(symbol_table, format_string, ...) \
+    tp_put_log_msg( \
+        (symbol_table), TP_LOG_TYPE_HIDE, TP_ERROR_TYPE_CONTINUE, (format_string), __FILE__, __func__, __LINE__, \
         (TP_LOG_PARAM_ELEMENT[]){ __VA_ARGS__ }, \
         sizeof((TP_LOG_PARAM_ELEMENT[]){ __VA_ARGS__ }) / sizeof(TP_LOG_PARAM_ELEMENT) \
     )
@@ -108,13 +139,19 @@ typedef struct tp_put_log_element_{
 }
 #define TP_LOG_MSG_ICE "Internal compiler error."
 #define TP_PUT_LOG_MSG_ICE(symbol_table) \
-    TP_PUT_LOG_MSG( \
+    TP_PUT_LOG_ABORT( \
         (symbol_table), TP_LOG_TYPE_HIDE_AFTER_DISP, \
         TP_MSG_FMT("%1"), TP_LOG_PARAM_STRING(TP_LOG_MSG_ICE) \
     );
+#define TP_LOG_MSG_IRE "Internal disassembler error."
+#define TP_PUT_LOG_MSG_IRE(symbol_table) \
+    TP_PUT_LOG_ABORT( \
+        (symbol_table), TP_LOG_TYPE_HIDE_AFTER_DISP, \
+        TP_MSG_FMT("%1"), TP_LOG_PARAM_STRING(TP_LOG_MSG_IRE) \
+    );
 #define TP_LOG_MSG_ILE "Internal linker error."
 #define TP_PUT_LOG_MSG_ILE(symbol_table) \
-    TP_PUT_LOG_MSG( \
+    TP_PUT_LOG_ABORT( \
         (symbol_table), TP_LOG_TYPE_HIDE_AFTER_DISP, \
         TP_MSG_FMT("%1"), TP_LOG_PARAM_STRING(TP_LOG_MSG_ILE) \
     );
@@ -123,11 +160,17 @@ typedef struct tp_put_log_element_{
         (symbol_table), TP_LOG_TYPE_HIDE, \
         TP_MSG_FMT("TRACE: %1 function"), TP_LOG_PARAM_STRING(__func__) \
     );
-#define TP_GET_LAST_ERROR(symbol_table) tp_get_last_error((symbol_table), __FILE__, __func__, __LINE__);
-#define TP_PRINT_CRT_ERROR(symbol_table) tp_print_crt_error((symbol_table), __FILE__, __func__, __LINE__);
-#define TP_FREE(symbol_table, ptr, size) tp_free((symbol_table), (ptr), (size), __FILE__, __func__, __LINE__);
-#define TP_FREE2(symbol_table, ptr, size) tp_free2((symbol_table), (ptr), (size), __FILE__, __func__, __LINE__);
+#define TP_GET_LAST_ERROR(symbol_table) \
+    tp_get_last_error((symbol_table), TP_ERROR_TYPE_ABORT, __FILE__, __func__, __LINE__);
+#define TP_PRINT_CRT_ERROR(symbol_table) \
+    tp_print_crt_error((symbol_table), TP_ERROR_TYPE_ABORT, __FILE__, __func__, __LINE__);
+#define TP_PRINT_CRT_ERROR_CONTINUE(symbol_table) \
+    tp_print_crt_error((symbol_table), TP_ERROR_TYPE_CONTINUE, __FILE__, __func__, __LINE__)
 
+#define TP_CALLOC(symbol_table, num, size) calloc((num), (size))
+#define TP_REALLOC(symbol_table, ptr, size) realloc((ptr), (size))
+#define TP_FREE(symbol_table, ptr, size) tp_free((symbol_table), (ptr), (size), __FILE__, __func__, __LINE__)
+#define TP_FREE2(symbol_table, ptr, size) tp_free2((symbol_table), (ptr), (size), __FILE__, __func__, __LINE__)
 // ----------------------------------------------------------------------------------------
 // output file section:
 
@@ -153,6 +196,15 @@ typedef struct tp_put_log_element_{
 
 #define TP_X64_DEFAULT_FILE_NAME "bootx64_obj"
 #define TP_X64_DEFAULT_EXT_NAME "bin"
+
+#define TP_X64_TEXT_DEFAULT_FILE_NAME "bootx64_obj"
+#define TP_X64_TEXT_DEFAULT_EXT_NAME "txt"
+
+#define TP_COFF_CODE_TEXT_DEFAULT_FILE_NAME "efi_main_obj"
+#define TP_COFF_CODE_TEXT_DEFAULT_EXT_NAME "txt"
+
+#define TP_PE_CODE_TEXT_DEFAULT_FILE_NAME "bootx64_bin"
+#define TP_PE_CODE_TEXT_DEFAULT_EXT_NAME "txt"
 
 #define TP_INDENT_UNIT 4
 #define TP_INDENT_FORMAT_BUFFER_SIZE 32

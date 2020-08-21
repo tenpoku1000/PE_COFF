@@ -35,6 +35,8 @@ bool tp_open_read_file(TP_SYMBOL_TABLE* symbol_table, char* path, FILE** file_st
 
         TP_PRINT_CRT_ERROR(symbol_table);
 
+        clearerr(stream);
+
         return false;
     }
 
@@ -53,6 +55,24 @@ bool tp_open_read_file(TP_SYMBOL_TABLE* symbol_table, char* path, FILE** file_st
     return true;
 }
 
+bool tp_open_read_file_text(TP_SYMBOL_TABLE* symbol_table, char* path, FILE** file_stream)
+{
+    FILE* read_file = NULL;
+
+    errno_t err = fopen_s(&read_file, path, "r");
+
+    if (NULL == read_file){
+
+        TP_PRINT_CRT_ERROR(symbol_table);
+
+        return false;
+    }
+
+    *file_stream = read_file;
+
+    return true;
+}
+
 bool tp_open_write_file(TP_SYMBOL_TABLE* symbol_table, char* path, FILE** file_stream)
 {
     FILE* write_file = NULL;
@@ -62,6 +82,24 @@ bool tp_open_write_file(TP_SYMBOL_TABLE* symbol_table, char* path, FILE** file_s
     if (NULL == write_file){
 
         TP_PRINT_CRT_ERROR(NULL);
+
+        return false;
+    }
+
+    *file_stream = write_file;
+
+    return true;
+}
+
+bool tp_open_write_file_text(TP_SYMBOL_TABLE* symbol_table, char* path, FILE** file_stream)
+{
+    FILE* write_file = NULL;
+
+    errno_t err = fopen_s(&write_file, path, "w");
+
+    if (NULL == write_file){
+
+        TP_PRINT_CRT_ERROR(symbol_table);
 
         return false;
     }
@@ -85,7 +123,7 @@ bool tp_ftell(TP_SYMBOL_TABLE* symbol_table, FILE* file_stream, long* seek_posit
 
     long pos = ftell(file_stream);
 
-    if (-1 == pos){
+    if (-1L == pos){
 
         TP_PRINT_CRT_ERROR(symbol_table);
 

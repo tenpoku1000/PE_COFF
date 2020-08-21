@@ -262,7 +262,7 @@ bool tp_get_coff_size_and_calc_offset(
         size += tmp_rdata_size;
 
         // Section Data(Relocations: .rdata)
-        if (coff->member_rdata_coff_relocations.member_num) {
+        if (coff->member_rdata_coff_relocations.member_num){
 
             coff->member_rdata_coff_relocations_offset = size;
             coff->member_section_rdata.PointerToRelocations = (uint32_t)size; // Section Table

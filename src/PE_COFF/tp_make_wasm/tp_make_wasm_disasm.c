@@ -85,7 +85,7 @@ bool tp_disasm_wasm(TP_SYMBOL_TABLE* symbol_table, uint8_t* entry_point_symbol)
                 TP_MSG_FMT("%1"), TP_LOG_PARAM_STRING("ERROR: wasm_code_body_size < wasm_code_body_pos")
             );
 
-            goto error_out;
+            goto fail;
         }
 
         uint32_t param1 = 0;
@@ -104,7 +104,7 @@ bool tp_disasm_wasm(TP_SYMBOL_TABLE* symbol_table, uint8_t* entry_point_symbol)
 
                 TP_PUT_LOG_MSG_ICE(symbol_table);
 
-                goto error_out;
+                goto fail;
             }
 
             wasm_code_body_pos += param_size;
@@ -131,7 +131,7 @@ bool tp_disasm_wasm(TP_SYMBOL_TABLE* symbol_table, uint8_t* entry_point_symbol)
 
                 TP_PUT_LOG_MSG_ICE(symbol_table);
 
-                goto error_out;
+                goto fail;
             }
 
             wasm_code_body_pos += param_size;
@@ -148,7 +148,7 @@ bool tp_disasm_wasm(TP_SYMBOL_TABLE* symbol_table, uint8_t* entry_point_symbol)
 
                 TP_PUT_LOG_MSG_ICE(symbol_table);
 
-                goto error_out;
+                goto fail;
             }
 
             wasm_code_body_pos += param_size;
@@ -163,7 +163,7 @@ bool tp_disasm_wasm(TP_SYMBOL_TABLE* symbol_table, uint8_t* entry_point_symbol)
 
                 TP_PUT_LOG_MSG_ICE(symbol_table);
 
-                goto error_out;
+                goto fail;
             }
 
             wasm_code_body_pos += param_size;
@@ -190,7 +190,7 @@ bool tp_disasm_wasm(TP_SYMBOL_TABLE* symbol_table, uint8_t* entry_point_symbol)
 
                 TP_PUT_LOG_MSG_ICE(symbol_table);
 
-                goto error_out;
+                goto fail;
             }
 
             wasm_code_body_pos += param_size;
@@ -201,7 +201,7 @@ bool tp_disasm_wasm(TP_SYMBOL_TABLE* symbol_table, uint8_t* entry_point_symbol)
 
                 TP_PUT_LOG_MSG_ICE(symbol_table);
 
-                goto error_out;
+                goto fail;
             }
 
             wasm_code_body_pos += param_size;
@@ -269,11 +269,11 @@ bool tp_disasm_wasm(TP_SYMBOL_TABLE* symbol_table, uint8_t* entry_point_symbol)
 
             TP_PUT_LOG_MSG_ICE(symbol_table);
 
-            goto error_out;
+            goto fail;
         }
     }while (true);
 
-error_out:
+fail:
 
     if ( ! tp_close_file(symbol_table, &write_file)){
 

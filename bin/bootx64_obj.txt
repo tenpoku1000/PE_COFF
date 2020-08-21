@@ -1,0 +1,77 @@
+0x00000000:  55                          push rbp
+0x00000001:  57                          push rdi
+0x00000002:  56                          push rsi
+0x00000003:  53                          push rbx
+0x00000004:  48  81  ec  98  01  00  00  sub rsp,0x198
+0x0000000b:  48  8d  6c  24  20          lea rbp,[rsp+0x20]
+0x00000010:  48  89  15  00  00  00  00  mov QWORD PTR [rip+0x0000000000000000],rdx  # 0x0000000000000017
+0x00000017:  4c  8b  05  00  00  00  00  mov r8,QWORD PTR [rip+0x0000000000000000]  # 0x000000000000001e
+0x0000001e:  49  8b  7c  20  58          mov rdi,QWORD PTR [r8+none*1+0x58]
+0x00000023:  48  89  3d  00  00  00  00  mov QWORD PTR [rip+0x0000000000000000],rdi  # 0x000000000000002a
+0x0000002a:  4c  8b  05  00  00  00  00  mov r8,QWORD PTR [rip+0x0000000000000000]  # 0x0000000000000031
+0x00000031:  49  8b  7c  20  30          mov rdi,QWORD PTR [r8+none*1+0x30]
+0x00000036:  48  89  3d  00  00  00  00  mov QWORD PTR [rip+0x0000000000000000],rdi  # 0x000000000000003d
+0x0000003d:  4c  8b  05  00  00  00  00  mov r8,QWORD PTR [rip+0x0000000000000000]  # 0x0000000000000044
+0x00000044:  49  8b  7c  20  40          mov rdi,QWORD PTR [r8+none*1+0x40]
+0x00000049:  48  89  3d  00  00  00  00  mov QWORD PTR [rip+0x0000000000000000],rdi  # 0x0000000000000050
+0x00000050:  51                          push rcx
+0x00000051:  48  8b  0d  00  00  00  00  mov rcx,QWORD PTR [rip+0x0000000000000000]  # 0x0000000000000058
+0x00000058:  52                          push rdx
+0x00000059:  48  8d  15  00  00  00  00  lea rdx,[rip+0x0000000000000000]  # 0x0000000000000060
+0x00000060:  48  8b  35  00  00  00  00  mov rsi,QWORD PTR [rip+0x0000000000000000]  # 0x0000000000000067
+0x00000067:  48  8b  5c  26  08          mov rbx,QWORD PTR [rsi+none*1+0x8]
+0x0000006c:  41  52                      push r10
+0x0000006e:  41  53                      push r11
+0x00000070:  ff  d3                      call rbx
+0x00000072:  41  5b                      pop r11
+0x00000074:  41  5a                      pop r10
+0x00000076:  5a                          pop rdx
+0x00000077:  59                          pop rcx
+0x00000078:  48  8b  f5                  mov rsi,rbp
+0x0000007b:  4c  8b  05  00  00  00  00  mov r8,QWORD PTR [rip+0x0000000000000000]  # 0x0000000000000082
+0x00000082:  4c  89  44  26  08          mov QWORD PTR [rsi+none*1+0x8],r8
+0x00000087:  51                          push rcx
+0x00000088:  48  8b  0d  00  00  00  00  mov rcx,QWORD PTR [rip+0x0000000000000000]  # 0x000000000000008f
+0x0000008f:  48  8b  f5                  mov rsi,rbp
+0x00000092:  48  bf  10  00  00  00  00  mov rdi,0x10
+0x00000099:  00  00  00
+0x0000009c:  48  03  f7                  add rsi,rdi
+0x0000009f:  52                          push rdx
+0x000000a0:  48  8d  14  26              lea rdx,[rsi+none*1]
+0x000000a4:  48  8b  3d  00  00  00  00  mov rdi,QWORD PTR [rip+0x0000000000000000]  # 0x00000000000000ab
+0x000000ab:  48  8b  74  27  08          mov rsi,QWORD PTR [rdi+none*1+0x8]
+0x000000b0:  41  52                      push r10
+0x000000b2:  41  53                      push r11
+0x000000b4:  ff  d6                      call rsi
+0x000000b6:  41  5b                      pop r11
+0x000000b8:  41  5a                      pop r10
+0x000000ba:  5a                          pop rdx
+0x000000bb:  59                          pop rcx
+0x000000bc:  48  8b  fd                  mov rdi,rbp
+0x000000bf:  4c  8b  44  27  08          mov r8,QWORD PTR [rdi+none*1+0x8]
+0x000000c4:  49  2b  c0                  sub rax,r8
+0x000000c7:  75  be                      jne 0x87
+0x000000c9:  51                          push rcx
+0x000000ca:  b9  00  00  00  00          mov ecx,0x0
+0x000000cf:  52                          push rdx
+0x000000d0:  48  8b  15  00  00  00  00  mov rdx,QWORD PTR [rip+0x0000000000000000]  # 0x00000000000000d7
+0x000000d7:  49  b8  00  00  00  00  00  mov r8,0x0
+0x000000de:  00  00  00
+0x000000e1:  49  b9  00  00  00  00  00  mov r9,0x0
+0x000000e8:  00  00  00
+0x000000eb:  4c  8b  15  00  00  00  00  mov r10,QWORD PTR [rip+0x0000000000000000]  # 0x00000000000000f2
+0x000000f2:  49  8b  7c  22  68          mov rdi,QWORD PTR [r10+none*1+0x68]
+0x000000f7:  41  52                      push r10
+0x000000f9:  41  53                      push r11
+0x000000fb:  ff  d7                      call rdi
+0x000000fd:  41  5b                      pop r11
+0x000000ff:  41  5a                      pop r10
+0x00000101:  5a                          pop rdx
+0x00000102:  59                          pop rcx
+0x00000103:  48  8b  05  00  00  00  00  mov rax,QWORD PTR [rip+0x0000000000000000]  # 0x000000000000010a
+0x0000010a:  5b                          pop rbx
+0x0000010b:  5e                          pop rsi
+0x0000010c:  5f                          pop rdi
+0x0000010d:  48  81  c4  98  01  00  00  add rsp,0x198
+0x00000114:  5d                          pop rbp
+0x00000115:  c3                          ret

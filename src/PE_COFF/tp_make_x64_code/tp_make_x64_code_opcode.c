@@ -232,43 +232,43 @@ rex_common:
         case TP_X64_MOV:
             // MOV – Move Data
             // register2 to register1 1000 101w : 11 reg1 reg2
-            x64_code_buffer[x64_code_offset + x64_code_size] = 0x8b;
+            x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_MOV_REG; // 0x8b
             break;
         case TP_X64_ADD:
             // ADD
             // register2 to register1 0000 001w : 11 reg1 reg2
-            x64_code_buffer[x64_code_offset + x64_code_size] = 0x03;
+            x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_ADD_REG; // 0x03
             break;
         case TP_X64_SUB:
             // SUB – Integer Subtraction
             // register2 to register1 0010 101w : 11 reg1 reg2
-            x64_code_buffer[x64_code_offset + x64_code_size] = 0x2b;
+            x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_SUB; // 0x2b
             break;
         case TP_X64_IMUL:
             // IMUL – Signed Multiply
             if (is_dst_EAX_register){
 
                 // AL, AX, or EAX with register 1111 011w : 11 101 reg
-                x64_code_buffer[x64_code_offset + x64_code_size] = 0xf7;
+                x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_IDIV_IMUL_EAX_1; // 0xf7
             }else{
 
                 // register1 with register2 0000 1111 : 1010 1111 : 11 : reg1 reg2
-                x64_code_buffer[x64_code_offset + x64_code_size] = 0x0f;
+                x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_IMUL_1; // 0x0f
 
                 ++x64_code_size;
 
-                x64_code_buffer[x64_code_offset + x64_code_size] = 0xaf;
+                x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_IMUL_2; // 0xaf
             }
             break;
         case TP_X64_IDIV:
             // IDIV – Signed Divide
             // AL, AX, or EAX by register 1111 011w : 11 111 reg
-            x64_code_buffer[x64_code_offset + x64_code_size] = 0xf7;
+            x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_IDIV_IMUL_EAX_1; // 0xf7
             break;
         case TP_X64_XOR:
             // XOR – Logical Exclusive OR
             // register2 to register1 0011 001w : 11 reg1 reg2
-            x64_code_buffer[x64_code_offset + x64_code_size] = 0x33;
+            x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_XOR; // 0x33
             break;
         default:
             TP_PUT_LOG_MSG_ICE(symbol_table);
@@ -283,7 +283,8 @@ rex_common:
             if (is_dst_EAX_register){
 
                 // AL, AX, or EAX with register : 11 101 reg
-                x64_code_buffer[x64_code_offset + x64_code_size] = (0xe8 |
+                x64_code_buffer[x64_code_offset + x64_code_size] = ((0x3 << 6) |
+                    ((TP_X64_OPCODE_IMUL_EAX_2/* 0x5 */ & 0x07) << 3) |
                     ((is_src_x86_32_register ? src->member_x64_item.member_x86_32_register :
                     src->member_x64_item.member_x64_32_register) & 0x07)
                 );
@@ -294,7 +295,8 @@ rex_common:
             break;
         case TP_X64_IDIV:
             // AL, AX, or EAX by register : 11 111 reg
-            x64_code_buffer[x64_code_offset + x64_code_size] = (0xf8 |
+            x64_code_buffer[x64_code_offset + x64_code_size] = ((0x3 << 6) |
+                    ((TP_X64_OPCODE_IDIV_2/* 0x7 */ & 0x07) << 3) |
                 ((is_src_x86_32_register ? src->member_x64_item.member_x86_32_register :
                 src->member_x64_item.member_x64_32_register) & 0x07)
             );
@@ -532,19 +534,22 @@ rex_common:
             // MOV – Move Data
             // memory to reg 1000 101w : mod reg r/m
             // reg to memory 1000 100w : mod reg r/m
-            x64_code_buffer[x64_code_offset + x64_code_size] = (0x89 | (is_source_memory ? 0x02 : 0x00));
+            x64_code_buffer[x64_code_offset + x64_code_size] =
+                (TP_X64_OPCODE_MOV_DST_MEM/* 0x89 */ | (is_source_memory ? 0x02 : 0x00));
             break;
         case TP_X64_ADD:
             // ADD
             // memory to register 0000 001w : mod reg r/m
             // register to memory 0000 000w : mod reg r/m
-            x64_code_buffer[x64_code_offset + x64_code_size] = (0x01 | (is_source_memory ? 0x02 : 0x00));
+            x64_code_buffer[x64_code_offset + x64_code_size] =
+                (TP_X64_OPCODE_ADD_DST_MEM/* 0x01 */ | (is_source_memory ? 0x02 : 0x00));
             break;
         case TP_X64_SUB:
             // SUB – Integer Subtraction
             // memory to register 0010 101w : mod reg r/m
             // register to memory 0010 100w : mod reg r/m
-            x64_code_buffer[x64_code_offset + x64_code_size] = (0x29 | (is_source_memory ? 0x02 : 0x00));
+            x64_code_buffer[x64_code_offset + x64_code_size] =
+                (TP_X64_OPCODE_SUB_DST_MEM/* 0x29 */ | (is_source_memory ? 0x02 : 0x00));
             break;
         case TP_X64_IMUL:
             // IMUL – Signed Multiply
@@ -552,26 +557,26 @@ rex_common:
             // register with memory 0000 1111 : 1010 1111 : mod reg r/m
             if (is_dst_EAX_register){
 
-                x64_code_buffer[x64_code_offset + x64_code_size] = 0xf7;
+                x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_IDIV_IMUL_EAX_1; // 0xf7
             }else{
 
-                x64_code_buffer[x64_code_offset + x64_code_size] = 0x0f;
+                x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_IMUL_1; // 0x0f
 
                 ++x64_code_size;
 
-                x64_code_buffer[x64_code_offset + x64_code_size] = 0xaf;
+                x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_IMUL_2; // 0xaf
             }
             break;
         case TP_X64_IDIV:
             // IDIV – Signed Divide
             // AL, AX, or EAX by memory 1111 011w : mod 111 r/m
-            x64_code_buffer[x64_code_offset + x64_code_size] = 0xf7;
+            x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_IDIV_IMUL_EAX_1; // 0xf7
             break;
         case TP_X64_XOR:
             // XOR – Logical Exclusive OR
             // memory to register 0011 001w : mod reg r/m
             // register to memory 0011 000w : mod reg r/m
-            x64_code_buffer[x64_code_offset + x64_code_size] = (0x31 | (is_source_memory ? 0x02 : 0x00));
+            x64_code_buffer[x64_code_offset + x64_code_size] = (TP_X64_OPCODE_XOR_DST_MEM/* 0x31 */ | (is_source_memory ? 0x02 : 0x00));
             break;
         default:
             TP_PUT_LOG_MSG_ICE(symbol_table);
@@ -588,7 +593,7 @@ rex_common:
                 // AL, AX, or EAX with memory 1111 011w : mod 101 reg
                 x64_code_buffer[x64_code_offset + x64_code_size] = (
                     ((TP_X64_MOV_RIP != x64_op) ? (is_disp8 ? 0x44 : 0x84) : 0x05) |
-                    ((TP_X86_32_REGISTER_EAX & 0x07) << 3)
+                    ((TP_X64_OPCODE_IMUL_EAX_2/* 0x5 */ & 0x07) << 3)
                 );
             }else{
 
@@ -599,7 +604,7 @@ rex_common:
             // AL, AX, or EAX by memory 1111 011w : mod 111 r/m
             x64_code_buffer[x64_code_offset + x64_code_size] = (
                 ((TP_X64_MOV_RIP != x64_op) ? (is_disp8 ? 0x44 : 0x84) : 0x05) |
-                ((TP_X86_32_REGISTER_EAX & 0x07) << 3)
+                ((TP_X64_OPCODE_IDIV_2/* 0x07 */ & 0x07) << 3)
             );
             break;
         default:

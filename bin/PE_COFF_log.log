@@ -1,4 +1,4 @@
-C:\Users\tenpo\source\repos\PE_COFF\src\PE_COFF\tp_make_x64_code\tp_make_x64_code_body.c(121): sub rsp, imm32
+tp_make_x64_code_body.c(121): sub rsp, imm32
 symbol_table->member_stack_imm32(member_register_bytes is not included): 408
 symbol_table->member_register_bytes: 40
 symbol_table->member_padding_register_bytes: 8
@@ -7,3 +7,5 @@ symbol_table->member_padding_temporary_variable_bytes: 0
 symbol_table->member_local_variable_size: 4
 symbol_table->member_padding_local_variable_bytes: 0
 stack_param_size: 32
+tp_compiler.c(230): End of compile: error(0), warning(0)
+tp_compiler.c(234): Compile succeeded.

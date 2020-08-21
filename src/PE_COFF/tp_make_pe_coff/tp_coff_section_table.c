@@ -63,7 +63,9 @@ bool tp_make_PE_file_SECTION_TABLE(TP_SYMBOL_TABLE* symbol_table, FILE* write_fi
     symbol_table->member_section_table_num = num;
     symbol_table->member_section_table_size = num * sizeof(TP_SECTION_TABLE);
 
-    symbol_table->member_section_table = (TP_SECTION_TABLE*)calloc(num, sizeof(TP_SECTION_TABLE));
+    symbol_table->member_section_table = (TP_SECTION_TABLE*)TP_CALLOC(
+        symbol_table, num, sizeof(TP_SECTION_TABLE)
+    );
 
     if (NULL == symbol_table->member_section_table){
 
@@ -401,11 +403,29 @@ static bool make_PE_file_SECTION_TABLE_section_data_RawData(
 
                 return false;
             }
+
+            if ( ! tp_disasm_x64(
+                symbol_table, symbol_table->member_pe_code_text_file_path,
+                raw_data, (uint32_t)size, NULL, NULL)){
+
+                TP_PUT_LOG_MSG_TRACE(symbol_table);
+
+                return false;
+            }
         }else{
 
             if ( ! tp_write_data(
                 symbol_table, raw_data, size,
                 TP_COFF_CODE_DEFAULT_FNAME, TP_COFF_CODE_DEFAULT_EXT)){
+
+                TP_PUT_LOG_MSG_TRACE(symbol_table);
+
+                return false;
+            }
+
+            if ( ! tp_disasm_x64(
+                symbol_table, symbol_table->member_coff_code_text_file_path,
+                raw_data, (uint32_t)size, NULL, NULL)){
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 

@@ -74,7 +74,7 @@ static bool wasm_gen(TP_SYMBOL_TABLE* symbol_table, bool is_origin_wasm, bool is
 
             TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-            goto error_proc;
+            goto fail;
         }
 
         is_success = true;
@@ -84,7 +84,7 @@ static bool wasm_gen(TP_SYMBOL_TABLE* symbol_table, bool is_origin_wasm, bool is
 
             TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-            goto error_proc;
+            goto fail;
         }
 
         is_success = true;
@@ -104,7 +104,8 @@ static bool wasm_gen(TP_SYMBOL_TABLE* symbol_table, bool is_origin_wasm, bool is
             sizeof(module->member_module_content->member_version));
 
         {
-            TP_WASM_MODULE_CONTENT* tmp = (TP_WASM_MODULE_CONTENT*)calloc(
+            TP_WASM_MODULE_CONTENT* tmp = (TP_WASM_MODULE_CONTENT*)TP_CALLOC(
+                symbol_table,
                 sizeof(TP_WASM_MODULE_CONTENT) + module->member_content_size, sizeof(uint8_t)
             );
 
@@ -112,7 +113,7 @@ static bool wasm_gen(TP_SYMBOL_TABLE* symbol_table, bool is_origin_wasm, bool is
 
                 TP_PRINT_CRT_ERROR(symbol_table);
 
-                goto error_proc;
+                goto fail;
             }
 
             module->member_module_content = (TP_WASM_MODULE_CONTENT*)tmp;
@@ -144,14 +145,14 @@ static bool wasm_gen(TP_SYMBOL_TABLE* symbol_table, bool is_origin_wasm, bool is
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-                goto error_proc;
+                goto fail;
             }
         }
 
         return true;
     }
 
-error_proc:
+fail:
 
     if (section){
 
@@ -317,7 +318,7 @@ static bool make_wasm_module_section(
             // name_len: 0 == member_id
             // name: 0 == member_id
 
-            uint8_t* tmp_payload = (uint8_t*)calloc(payload_len, sizeof(uint8_t));
+            uint8_t* tmp_payload = (uint8_t*)TP_CALLOC(symbol_table, payload_len, sizeof(uint8_t));
 
             if (NULL == tmp_payload){
 
@@ -364,7 +365,7 @@ static TP_WASM_MODULE_SECTION** allocate_wasm_module_section(
     TP_SYMBOL_TABLE* symbol_table, TP_WASM_MODULE* module)
 {
     TP_WASM_MODULE_SECTION** tmp_section =
-        (TP_WASM_MODULE_SECTION**)calloc(module->member_section_num, sizeof(TP_WASM_MODULE_SECTION*));
+        (TP_WASM_MODULE_SECTION**)TP_CALLOC(symbol_table, module->member_section_num, sizeof(TP_WASM_MODULE_SECTION*));
 
     if (NULL == tmp_section){
 
@@ -379,7 +380,7 @@ static TP_WASM_MODULE_SECTION** allocate_wasm_module_section(
 
     for (uint32_t i = 0; module->member_section_num > i; ++i){
 
-        tmp_section[i] = (TP_WASM_MODULE_SECTION*)calloc(1, sizeof(TP_WASM_MODULE_SECTION));
+        tmp_section[i] = (TP_WASM_MODULE_SECTION*)TP_CALLOC(symbol_table, 1, sizeof(TP_WASM_MODULE_SECTION));
 
         if (NULL == tmp_section[i]){
 
@@ -655,7 +656,9 @@ static bool get_wasm_module_type_section_return_type(
                     return false;
                 }
 
-                symbol_table->member_local_types = (TP_WASM_LOCAL_TYPE*)calloc(param_count, sizeof(TP_WASM_LOCAL_TYPE));
+                symbol_table->member_local_types = (TP_WASM_LOCAL_TYPE*)TP_CALLOC(
+                    symbol_table, param_count, sizeof(TP_WASM_LOCAL_TYPE)
+                );
 
                 if (NULL == symbol_table->member_local_types){
 

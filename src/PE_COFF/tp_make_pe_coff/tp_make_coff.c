@@ -131,8 +131,8 @@ bool tp_append_coff_data_section(
         rsize_t padding = TP_COFF_DATA_ALIGN_8(data_size);
         data_size += padding;
 
-        uint8_t* tmp_data = (uint8_t*)realloc(
-            coff->member_data, data_size
+        uint8_t* tmp_data = (uint8_t*)TP_REALLOC(
+            symbol_table, coff->member_data, data_size
         );
 
         if (NULL == tmp_data){
@@ -179,8 +179,8 @@ bool tp_append_coff_rdata_section(
         rsize_t padding = TP_COFF_DATA_ALIGN_16(rdata_size);
         rdata_size += padding;
 
-        uint8_t* tmp_rdata = (uint8_t*)realloc(
-            coff->member_rdata, rdata_size
+        uint8_t* tmp_rdata = (uint8_t*)TP_REALLOC(
+            symbol_table, coff->member_rdata, rdata_size
         );
 
         if (NULL == tmp_rdata){
@@ -444,7 +444,8 @@ static bool append_coff_symbol(
         coff->member_coff_symbol_size =
             coff->member_coff_symbol_size_allocate_unit * sizeof(TP_COFF_SYMBOL_TABLE);
 
-        TP_COFF_SYMBOL_TABLE* tmp_symbol = (TP_COFF_SYMBOL_TABLE*)calloc(
+        TP_COFF_SYMBOL_TABLE* tmp_symbol = (TP_COFF_SYMBOL_TABLE*)TP_CALLOC(
+            symbol_table,
             coff->member_coff_symbol_size_allocate_unit, sizeof(TP_COFF_SYMBOL_TABLE)
         );
 
@@ -472,8 +473,8 @@ static bool append_coff_symbol(
 
         uint32_t tp_coff_symbol_size = coff->member_coff_symbol_size + tp_coff_symbol_size_allocate_unit;
 
-        TP_COFF_SYMBOL_TABLE* tp_coff_symbol_table = (TP_COFF_SYMBOL_TABLE*)realloc(
-            coff->member_coff_symbol, tp_coff_symbol_size
+        TP_COFF_SYMBOL_TABLE* tp_coff_symbol_table = (TP_COFF_SYMBOL_TABLE*)TP_REALLOC(
+            symbol_table, coff->member_coff_symbol, tp_coff_symbol_size
         );
 
         if (NULL == tp_coff_symbol_table){
@@ -520,7 +521,7 @@ static bool append_coff_string_table(
         return false;
     }
 
-    uint8_t* tmp_string_buffer = (uint8_t*)realloc(coff->member_string_table, size);
+    uint8_t* tmp_string_buffer = (uint8_t*)TP_REALLOC(symbol_table, coff->member_string_table, size);
 
     if (NULL == tmp_string_buffer){
 
@@ -567,7 +568,9 @@ static bool append_coff_relocation(
         coff_relocation_array->member_num = 1;
         coff_relocation_array->member_size = sizeof(TP_COFF_RELOCATIONS);
 
-        TP_COFF_RELOCATIONS* tmp_reloc = (TP_COFF_RELOCATIONS*)calloc(1, sizeof(TP_COFF_RELOCATIONS));
+        TP_COFF_RELOCATIONS* tmp_reloc = (TP_COFF_RELOCATIONS*)TP_CALLOC(
+            symbol_table, 1, sizeof(TP_COFF_RELOCATIONS)
+        );
 
         if (NULL == tmp_reloc){
 
@@ -584,8 +587,8 @@ static bool append_coff_relocation(
     ++(coff_relocation_array->member_num);
     coff_relocation_array->member_size += sizeof(TP_COFF_RELOCATIONS);
 
-    TP_COFF_RELOCATIONS* tmp_reloc = (TP_COFF_RELOCATIONS*)realloc(
-        coff_relocation_array->member_relocations, coff_relocation_array->member_size
+    TP_COFF_RELOCATIONS* tmp_reloc = (TP_COFF_RELOCATIONS*)TP_REALLOC(
+        symbol_table, coff_relocation_array->member_relocations, coff_relocation_array->member_size
     );
 
     if (NULL == tmp_reloc){

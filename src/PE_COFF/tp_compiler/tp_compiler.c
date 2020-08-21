@@ -55,13 +55,13 @@ bool tp_compiler_main(
     bool* is_test_mode, size_t test_index, int32_t* return_value,
     char* drive, char* dir, time_t now)
 {
-    TP_SYMBOL_TABLE* symbol_table = (TP_SYMBOL_TABLE*)calloc(1, sizeof(TP_SYMBOL_TABLE));
+    TP_SYMBOL_TABLE* symbol_table = (TP_SYMBOL_TABLE*)TP_CALLOC(NULL, 1, sizeof(TP_SYMBOL_TABLE));
 
     if (NULL == symbol_table){
 
         TP_PRINT_CRT_ERROR(NULL);
 
-        goto error_proc;
+        goto fail;
     }
 
     bool is_disp_usage = false;
@@ -80,6 +80,18 @@ bool tp_compiler_main(
         tp_free_memory_and_file(&symbol_table);
 
         return false;
+    }
+
+    if (symbol_table->member_is_test_disasm_x64){
+
+        if ( ! tp_test_disasm_x64(symbol_table)){
+
+            TP_PUT_LOG_MSG_TRACE(symbol_table);
+        }
+
+        tp_free_memory_and_file(&symbol_table);
+
+        return true;
     }
 
     if (is_test_mode){
@@ -118,7 +130,7 @@ bool tp_compiler_main(
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-                goto error_proc;
+                goto fail;
             }
         }else{
 
@@ -130,7 +142,7 @@ bool tp_compiler_main(
 
                     TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-                    goto error_proc;
+                    goto fail;
                 }
             }else{
 
@@ -138,7 +150,7 @@ bool tp_compiler_main(
 
                     TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-                    goto error_proc;
+                    goto fail;
                 }
             }
         }
@@ -147,14 +159,14 @@ bool tp_compiler_main(
 
             TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-            goto error_proc;
+            goto fail;
         }
 
         if ( ! tp_semantic_analysis(symbol_table)){
 
             TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-            goto error_proc;
+            goto fail;
         }
 
 origin_wasm:
@@ -166,7 +178,7 @@ origin_wasm:
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-                goto error_proc;
+                goto fail;
             }
 
             if ( ! tp_make_x64_code(
@@ -175,7 +187,7 @@ origin_wasm:
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-                goto error_proc;
+                goto fail;
             }
 
             if ( ! tp_make_PE_file(
@@ -183,14 +195,14 @@ origin_wasm:
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-                goto error_proc;
+                goto fail;
             }
 
             if ( ! tp_make_PE_file(symbol_table, NULL, NULL, NULL)){
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-                goto error_proc;
+                goto fail;
             }
         }else{
 
@@ -198,7 +210,7 @@ origin_wasm:
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-                goto error_proc;
+                goto fail;
             }
 
             if ( ! tp_make_x64_code(
@@ -206,18 +218,34 @@ origin_wasm:
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-                goto error_proc;
+                goto fail;
             }
         }
     }
+
+    TP_PUT_LOG_PRINT(
+        symbol_table, TP_MSG_FMT("End of compile: error(%1), warning(%2)"),
+        TP_LOG_PARAM_UINT64_VALUE(symbol_table->member_error_count),
+        TP_LOG_PARAM_UINT64_VALUE(symbol_table->member_warning_count)
+    );
+
+    TP_PUT_LOG_PRINT(
+        symbol_table, TP_MSG_FMT("%1"), TP_LOG_PARAM_STRING("Compile succeeded."),
+    );
 
     tp_free_memory_and_file(&symbol_table);
 
     return true;
 
-error_proc:
+fail:
 
     if (symbol_table){
+
+        TP_PUT_LOG_PRINT(
+            symbol_table, TP_MSG_FMT("End of compile: error(%1), warning(%2)"),
+            TP_LOG_PARAM_UINT64_VALUE(symbol_table->member_error_count),
+            TP_LOG_PARAM_UINT64_VALUE(symbol_table->member_warning_count)
+        );
 
         TP_PUT_LOG_MSG(
             symbol_table, TP_LOG_TYPE_DISP_FORCE,

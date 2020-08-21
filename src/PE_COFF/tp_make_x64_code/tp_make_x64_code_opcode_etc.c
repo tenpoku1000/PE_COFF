@@ -55,7 +55,7 @@ uint32_t tp_encode_x64_mov_imm(
                 // immediate64 to qwordregister 0100 100B : 1011 1 reg : imm64
                 x64_code_buffer[x64_code_offset] = 0x48;
                 x64_code_buffer[x64_code_offset + 1] = (
-                    0xb8 | (result->member_x64_item.member_x86_32_register & 0x07)
+                    TP_X64_OPCODE_MOV_IMM_32_64/* 0xb8 */ | (result->member_x64_item.member_x86_32_register & 0x07)
                 );
 
                 x64_code_size = 2;
@@ -74,7 +74,7 @@ uint32_t tp_encode_x64_mov_imm(
 
                 // immediate to register (alternate encoding) 1011 w reg : imm
                 x64_code_buffer[x64_code_offset + x64_code_size] = (
-                    0xb0 | (is_imm8 ? 0x00 : 0x08) |
+                    TP_X64_OPCODE_MOV_IMM/* 0xb0 */ | (is_imm8 ? 0x00 : 0x08) |
                     (result->member_x64_item.member_x86_32_register & 0x07)
                 );
 
@@ -87,7 +87,7 @@ uint32_t tp_encode_x64_mov_imm(
                 // immediate64 to qwordregister 0100 100B : 1011 1 reg : imm64
                 x64_code_buffer[x64_code_offset] = 0x49;
                 x64_code_buffer[x64_code_offset + 1] = (
-                    0xb8 | (result->member_x64_item.member_x64_32_register & 0x07)
+                    TP_X64_OPCODE_MOV_IMM_32_64/* 0xb8 */ | (result->member_x64_item.member_x64_32_register & 0x07)
                 );
             }else{
 
@@ -101,7 +101,7 @@ uint32_t tp_encode_x64_mov_imm(
                 // immediate to register (alternate encoding) 0100 000B : 1011 w reg : imm
                 x64_code_buffer[x64_code_offset] = (is_i64 ? 0x49 : 0x41);
                 x64_code_buffer[x64_code_offset + 1] = (
-                    0xb0 | (is_imm8 ? 0x00 : 0x08) |
+                    TP_X64_OPCODE_MOV_IMM/* 0xb0 */ | (is_imm8 ? 0x00 : 0x08) |
                     (result->member_x64_item.member_x64_32_register & 0x07)
                 );
             }
@@ -110,9 +110,9 @@ uint32_t tp_encode_x64_mov_imm(
         case TP_X64_ITEM_KIND_MEMORY:
 
             // immediate to memory 1100 011w : mod 000 r/m : immediate data
-            x64_code_buffer[x64_code_offset] = (0xc7 | (is_imm8 ? 0x00 : 0x01));
+            x64_code_buffer[x64_code_offset] = TP_X64_OPCODE_MOV_IMM_MEM/* 0xc7 */;
 
-           // ModR/M
+            // ModR/M
             if (is_disp8){
 
                 // disp8
@@ -290,8 +290,10 @@ uint32_t tp_encode_x64_add_sub_imm(
 
             // ADD: immediate8 to qwordregister   0100 000B : 1000 0011 : 11 000 qwordreg : imm8
             // SUB: immediate8 from qwordregister 0100 100B : 1000 0011 : 11 101 qwordreg : imm8
-            x64_code_buffer[x64_code_offset + 1] = 0x83;
-            x64_code_buffer[x64_code_offset + 2] = ((is_add ? 0xc0 : 0xe8) | (reg & 0x07));
+            x64_code_buffer[x64_code_offset + 1] = TP_X64_OPCODE_ADD_SUB_IMM8_1; // 0x83
+            x64_code_buffer[x64_code_offset + 2] =
+                ((is_add ? TP_X64_OPCODE_ADD_IMM8_IMM32_2/* 0xc0 */ :
+                    TP_X64_OPCODE_SUB_IMM8_IMM32_2/* 0xe8 */) | (reg & 0x07));
             x64_code_buffer[x64_code_offset + 3] = (uint8_t)imm;
 
             x64_code_size += 4;
@@ -299,8 +301,10 @@ uint32_t tp_encode_x64_add_sub_imm(
 
             // ADD: immediate32 to qwordregister   0100 100B : 1000 0001 : 11 000 qwordreg : imm32
             // SUB: immediate32 from qwordregister 0100 100B : 1000 0001 : 11 101 qwordreg : imm32
-            x64_code_buffer[x64_code_offset + 1] = 0x81;
-            x64_code_buffer[x64_code_offset + 2] = ((is_add ? 0xc0 : 0xe8) | (reg & 0x07));
+            x64_code_buffer[x64_code_offset + 1] = TP_X64_OPCODE_ADD_SUB_IMM32_1; // 0x81
+            x64_code_buffer[x64_code_offset + 2] =
+                ((is_add ? TP_X64_OPCODE_ADD_IMM8_IMM32_2/* 0xc0 */ :
+                    TP_X64_OPCODE_SUB_IMM8_IMM32_2/* 0xe8 */) | (reg & 0x07));
             memcpy(&(x64_code_buffer[x64_code_offset + 3]), &imm, sizeof(imm));
 
             x64_code_size += 7;
@@ -388,7 +392,7 @@ uint32_t tp_encode_x64_lea_rel_mem(
             /* R */ (is_dst_x64_32_register ? 0x04 : 0x00) |
             /* B */ (is_src_x64_32_register ? 0x01 : 0x00)
         );
-        x64_code_buffer[x64_code_offset + 1] = 0x8d;
+        x64_code_buffer[x64_code_offset + 1] = TP_X64_OPCODE_LEA; // 0x8d
 
         x64_code_size = 2;
 
@@ -527,7 +531,7 @@ uint32_t tp_encode_x64_lea(
             /* X */ ((TP_X64_64_REGISTER_R8 <= reg64_src_index) ? 0x02 : 0x00) |
             /* B */ ((TP_X64_64_REGISTER_R8 <= reg64_src_base) ? 0x01 : 0x00)
         );
-        x64_code_buffer[x64_code_offset + 1] = 0x8d;
+        x64_code_buffer[x64_code_offset + 1] = TP_X64_OPCODE_LEA; // 0x8d
 
         // ModR/M
         if (0 == offset){
@@ -601,7 +605,7 @@ uint32_t tp_encode_x64_push_reg64(
             ++x64_code_size;
         }
 
-        x64_code_buffer[x64_code_offset + x64_code_size] = (0x50 | (reg64 & 0x07));
+        x64_code_buffer[x64_code_offset + x64_code_size] = (TP_X64_OPCODE_PUSH/* 0x50 */ | (reg64 & 0x07));
 
         ++x64_code_size;
     }else{
@@ -634,7 +638,7 @@ uint32_t tp_encode_x64_pop_reg64(
             ++x64_code_size;
         }
 
-        x64_code_buffer[x64_code_offset + x64_code_size] = (0x58 | (reg64 & 0x07));
+        x64_code_buffer[x64_code_offset + x64_code_size] = (TP_X64_OPCODE_POP/* 0x58 */ | (reg64 & 0x07));
 
         ++x64_code_size;
     }else{
@@ -686,7 +690,7 @@ uint32_t tp_encode_x64_jne(
 
             // JNE rel8 : tttn = 5
             // 8-bit displacement 0111 tttn : 8-bit displacement
-            x64_code_buffer[x64_code_offset] = 0x75;
+            x64_code_buffer[x64_code_offset] = TP_X64_OPCODE_JNE_REL8; // 0x75
             // disp8
             x64_code_buffer[x64_code_offset + 1] = (uint8_t)offset;
 
@@ -695,8 +699,8 @@ uint32_t tp_encode_x64_jne(
 
             // JNE rel32 : tttn = 5
             // displacements (excluding 16-bit relative offsets) 0000 1111 : 1000 tttn : displacement32
-            x64_code_buffer[x64_code_offset] = 0x0f;
-            x64_code_buffer[x64_code_offset + 1] = 0x85;
+            x64_code_buffer[x64_code_offset] = TP_X64_OPCODE_JNE_REL32_1; // 0x0f
+            x64_code_buffer[x64_code_offset + 1] = TP_X64_OPCODE_JNE_REL32_2; // 0x85
             // disp32
             memcpy(&(x64_code_buffer[x64_code_offset + 2]), &offset, sizeof(offset));
 
@@ -757,7 +761,7 @@ uint32_t tp_encode_x64_call(
                 ++x64_code_size;
             }
 
-            x64_code_buffer[x64_code_offset + x64_code_size] = 0xff;
+            x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_CALL_INDIRECT; // 0xff
 
             ++x64_code_size;
 
@@ -778,7 +782,7 @@ uint32_t tp_encode_x64_call(
                 ++x64_code_size;
             }
 
-            x64_code_buffer[x64_code_offset + x64_code_size] = 0xff;
+            x64_code_buffer[x64_code_offset + x64_code_size] = TP_X64_OPCODE_CALL_INDIRECT; // 0xff
 
             ++x64_code_size;
 

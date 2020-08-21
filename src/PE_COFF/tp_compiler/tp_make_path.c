@@ -236,6 +236,39 @@ static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive,
         return false;
     }
 
+    if ( ! make_path(
+        symbol_table, drive, dir, NULL,
+        TP_X64_TEXT_DEFAULT_FILE_NAME, TP_X64_TEXT_DEFAULT_EXT_NAME,
+        symbol_table->member_x64_text_file_path,
+        sizeof(symbol_table->member_x64_text_file_path))){
+
+        TP_PUT_LOG_MSG_TRACE(symbol_table);
+
+        return false;
+    }
+
+    if ( ! make_path(
+        symbol_table, drive, dir, NULL,
+        TP_COFF_CODE_TEXT_DEFAULT_FILE_NAME, TP_COFF_CODE_TEXT_DEFAULT_EXT_NAME,
+        symbol_table->member_coff_code_text_file_path,
+        sizeof(symbol_table->member_coff_code_text_file_path))){
+
+        TP_PUT_LOG_MSG_TRACE(symbol_table);
+
+        return false;
+    }
+
+    if ( ! make_path(
+        symbol_table, drive, dir, NULL,
+        TP_PE_CODE_TEXT_DEFAULT_FILE_NAME, TP_PE_CODE_TEXT_DEFAULT_EXT_NAME,
+        symbol_table->member_pe_code_text_file_path,
+        sizeof(symbol_table->member_pe_code_text_file_path))){
+
+        TP_PUT_LOG_MSG_TRACE(symbol_table);
+
+        return false;
+    }
+
     return true;
 }
 

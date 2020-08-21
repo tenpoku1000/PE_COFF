@@ -316,7 +316,7 @@ uint32_t tp_encode_return_code(
 
     // RET - Return from Procedure(near return)
     tmp_x64_code_size = tp_encode_x64_1_opcode(
-        symbol_table, x64_code_buffer, x64_code_offset + x64_code_size, 0xc3
+        symbol_table, x64_code_buffer, x64_code_offset + x64_code_size, TP_X64_OPCODE_RET/* 0xc3 */
     );
     TP_X64_CHECK_CODE_SIZE(symbol_table, x64_code_size, tmp_x64_code_size);
 

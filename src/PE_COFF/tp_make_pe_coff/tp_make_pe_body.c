@@ -94,7 +94,7 @@ bool tp_make_PE_file_buffer(TP_SYMBOL_TABLE* symbol_table, FILE* write_file, uin
     rsize_t is_copy_sections_num = symbol_table->member_section_table_num;
     rsize_t is_copy_sections_size = is_copy_sections_num * sizeof(bool);
 
-    is_copy_sections = (bool*)calloc(is_copy_sections_num, sizeof(bool));
+    is_copy_sections = (bool*)TP_CALLOC(symbol_table, is_copy_sections_num, sizeof(bool));
 
     if (NULL == is_copy_sections){
 
@@ -111,7 +111,7 @@ bool tp_make_PE_file_buffer(TP_SYMBOL_TABLE* symbol_table, FILE* write_file, uin
 
     rsize_t section_table_size = number_of_sections * sizeof(TP_SECTION_TABLE);
 
-    section_table = (TP_SECTION_TABLE*)calloc(number_of_sections, sizeof(TP_SECTION_TABLE));
+    section_table = (TP_SECTION_TABLE*)TP_CALLOC(symbol_table, number_of_sections, sizeof(TP_SECTION_TABLE));
 
     if (NULL == section_table){
 
@@ -123,7 +123,7 @@ bool tp_make_PE_file_buffer(TP_SYMBOL_TABLE* symbol_table, FILE* write_file, uin
     symbol_table->member_coff_relocations_size = number_of_sections * sizeof(TP_COFF_RELOCATIONS_ARRAY*);
 
     symbol_table->member_coff_relocations =
-        (TP_COFF_RELOCATIONS_ARRAY*)calloc(number_of_sections, sizeof(TP_COFF_RELOCATIONS_ARRAY));
+        (TP_COFF_RELOCATIONS_ARRAY*)TP_CALLOC(symbol_table, number_of_sections, sizeof(TP_COFF_RELOCATIONS_ARRAY));
 
     if (NULL == symbol_table->member_coff_relocations){
 
@@ -170,7 +170,7 @@ bool tp_make_PE_file_buffer(TP_SYMBOL_TABLE* symbol_table, FILE* write_file, uin
     rsize_t size_of_headers = param.header_size + TP_PE_PADDING_FILE_ALIGNMENT(param.header_size);
     rsize_t pe_image_buffer_size = size_of_headers + param.section_data_size;
 
-    pe_image_buffer = (uint8_t*)calloc(pe_image_buffer_size, sizeof(uint8_t));
+    pe_image_buffer = (uint8_t*)TP_CALLOC(symbol_table, pe_image_buffer_size, sizeof(uint8_t));
 
     if (NULL == pe_image_buffer){
 
@@ -514,7 +514,7 @@ static bool make_PE_file_buffer_section(
 
     rsize_t ref_section_data_size = number_of_sections * sizeof(TP_SECTION_DATA);
 
-    ref_section_data = (TP_SECTION_DATA*)calloc(number_of_sections, sizeof(TP_SECTION_DATA));
+    ref_section_data = (TP_SECTION_DATA*)TP_CALLOC(symbol_table, number_of_sections, sizeof(TP_SECTION_DATA));
 
     if (NULL == ref_section_data){
 
@@ -549,7 +549,9 @@ static bool make_PE_file_buffer_section(
 
         if ((is_rename_bss2data) && (Characteristics & TP_IMAGE_SCN_CNT_UNINITIALIZED_DATA)){
 
-            uint8_t* zero_fill_buffer = (uint8_t*)calloc(section_to[j].SizeOfRawData, sizeof(uint8_t));
+            uint8_t* zero_fill_buffer = (uint8_t*)TP_CALLOC(
+                symbol_table, section_to[j].SizeOfRawData, sizeof(uint8_t)
+            );
 
             if (NULL == zero_fill_buffer){
 
@@ -679,7 +681,7 @@ static bool make_PE_file_buffer_section(
     // Based relocation(.reloc)
     rsize_t pe_base_relocation_size = sizeof(TP_PE_BASE_RELOCATION) + sizeof(uint16_t);
 
-    pe_base_relocation = (TP_PE_BASE_RELOCATION*)calloc(1, pe_base_relocation_size);
+    pe_base_relocation = (TP_PE_BASE_RELOCATION*)TP_CALLOC(symbol_table, 1, pe_base_relocation_size);
 
     if (NULL == pe_base_relocation){
 
@@ -748,7 +750,7 @@ static bool make_PE_file_buffer_section(
         goto fail;
     }
 
-    section_data = (uint8_t*)calloc(file_size, sizeof(uint8_t));
+    section_data = (uint8_t*)TP_CALLOC(symbol_table, file_size, sizeof(uint8_t));
 
     if (NULL == section_data){
 
@@ -1016,7 +1018,9 @@ static bool make_PE_file_buffer_section_copy_relocation_data(
     rsize_t size = num * sizeof(TP_COFF_RELOCATIONS);
     symbol_table->member_coff_relocations[new_section_index].member_size = size;
 
-    TP_COFF_RELOCATIONS* relocations = (TP_COFF_RELOCATIONS*)calloc(num, sizeof(TP_COFF_RELOCATIONS));
+    TP_COFF_RELOCATIONS* relocations = (TP_COFF_RELOCATIONS*)TP_CALLOC(
+        symbol_table, num, sizeof(TP_COFF_RELOCATIONS)
+    );
 
     if (NULL == relocations){
 

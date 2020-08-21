@@ -25,7 +25,7 @@ bool tp_make_wasm_coff(
     TP_WASM_MODULE* module, TP_WASM_MODULE_SECTION*** section, bool is_origin_wasm, bool is_64)
 {
     TP_WASM_MODULE_SECTION** tmp_section =
-        (TP_WASM_MODULE_SECTION**)calloc(TP_SECTION_NUM, sizeof(TP_WASM_MODULE_SECTION*));
+        (TP_WASM_MODULE_SECTION**)TP_CALLOC(symbol_table, TP_SECTION_NUM, sizeof(TP_WASM_MODULE_SECTION*));
 
     if (NULL == tmp_section){
 
@@ -353,8 +353,8 @@ bool tp_wasm_add_relocation(TP_SYMBOL_TABLE* symbol_table, TP_WASM_RELOCATION* w
 
         rsize_t tp_wasm_relocation_size =  symbol_table->member_wasm_relocation_size + tp_wasm_relocation_allocate_unit;
 
-        TP_WASM_RELOCATION* tp_wasm_relocation = (TP_WASM_RELOCATION*)realloc(
-            symbol_table->member_wasm_relocation, tp_wasm_relocation_size
+        TP_WASM_RELOCATION* tp_wasm_relocation = (TP_WASM_RELOCATION*)TP_REALLOC(
+            symbol_table, symbol_table->member_wasm_relocation, tp_wasm_relocation_size
         );
 
         if (NULL == tp_wasm_relocation){
@@ -454,8 +454,8 @@ static bool wasm_append_linear_memory(
             return false;
         }
 
-        uint8_t* tmp_data_1 = (uint8_t*)realloc(
-            symbol_table->member_wasm_data_data_1,
+        uint8_t* tmp_data_1 = (uint8_t*)TP_REALLOC(
+            symbol_table, symbol_table->member_wasm_data_data_1,
             sizeof(uint8_t)* symbol_table->member_wasm_data_size_1
         );
 
@@ -518,8 +518,8 @@ static bool wasm_append_linear_memory(
             return false;
         }
 
-        uint8_t* tmp_data_2 = (uint8_t*)realloc(
-            symbol_table->member_wasm_data_data_2,
+        uint8_t* tmp_data_2 = (uint8_t*)TP_REALLOC(
+            symbol_table, symbol_table->member_wasm_data_data_2,
             sizeof(uint8_t) * symbol_table->member_wasm_data_size_2
         );
 

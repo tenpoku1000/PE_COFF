@@ -19,6 +19,7 @@ typedef struct symbol_table_{
     bool member_is_source_cmd_param;
     uint8_t member_source_code[TP_SOURCE_CODE_STRING_BUFFER_SIZE];
     bool member_is_test_mode;
+    bool member_is_test_disasm_x64;
     bool member_is_output_wasm_file;
     bool member_is_output_wasm_text_file;
     bool member_is_output_x64_file;
@@ -31,6 +32,15 @@ typedef struct symbol_table_{
     uint8_t member_log_msg_buffer[TP_MESSAGE_BUFFER_SIZE];
     FILE* member_disp_log_file;
 
+    bool member_is_error_abort;
+    size_t member_error_count_prev;
+    size_t member_error_count;
+    size_t member_warning_count;
+
+    TP_TOKEN* member_error_token;
+    TP_CHAR8_T* member_error_message;
+    TP_CHAR8_T* member_error_reason;
+
 // output file section:
     FILE* member_write_log_file;
     FILE* member_parse_tree_file;
@@ -41,6 +51,9 @@ typedef struct symbol_table_{
     char member_wasm_file_path[_MAX_PATH];
     char member_wasm_text_file_path[_MAX_PATH];
     char member_x64_file_path[_MAX_PATH];
+    char member_x64_text_file_path[_MAX_PATH];
+    char member_coff_code_text_file_path[_MAX_PATH];
+    char member_pe_code_text_file_path[_MAX_PATH];
 
 // input file section:
     uint8_t member_input_file_path[_MAX_PATH];
@@ -606,9 +619,20 @@ bool tp_write_data(TP_SYMBOL_TABLE* symbol_table, uint8_t* data, rsize_t size, c
 
 // ----------------------------------------------------------------------------------------
 // :
+bool tp_test_disasm_x64(TP_SYMBOL_TABLE* symbol_table);
+bool tp_disasm_x64(
+    TP_SYMBOL_TABLE* symbol_table, char* path,
+    uint8_t* x64_code_buffer, uint32_t x64_code_buffer_size,
+    uint8_t* disasm_string, uint8_t* disasm_additional_string
+);
+
+// ----------------------------------------------------------------------------------------
+// :
 
 bool tp_open_read_file(TP_SYMBOL_TABLE* symbol_table, char* path, FILE** file_stream);
+bool tp_open_read_file_text(TP_SYMBOL_TABLE* symbol_table, char* path, FILE** file_stream);
 bool tp_open_write_file(TP_SYMBOL_TABLE* symbol_table, char* path, FILE** file_stream);
+bool tp_open_write_file_text(TP_SYMBOL_TABLE* symbol_table, char* path, FILE** file_stream);
 bool tp_ftell(TP_SYMBOL_TABLE* symbol_table, FILE* file_stream, long* seek_position);
 bool tp_seek(TP_SYMBOL_TABLE* symbol_table, FILE* file_stream, long seek_position, long line_bytes);
 bool tp_close_file(TP_SYMBOL_TABLE* symbol_table, FILE** file_stream);
@@ -628,10 +652,10 @@ uint32_t tp_decode_ui32leb128(uint8_t* buffer, uint32_t* size);
 
 void tp_free(TP_SYMBOL_TABLE* symbol_table, void** ptr, size_t size, uint8_t* file, uint8_t* func, size_t line_num);
 void tp_free2(TP_SYMBOL_TABLE* symbol_table, void*** ptr, size_t size, uint8_t* file, uint8_t* func, size_t line_num);
-void tp_get_last_error(TP_SYMBOL_TABLE* symbol_table, uint8_t* file, uint8_t* func, size_t line_num);
-void tp_print_crt_error(TP_SYMBOL_TABLE* symbol_table, uint8_t* file, uint8_t* func, size_t line_num);
+void tp_get_last_error(TP_SYMBOL_TABLE* symbol_table, TP_ERROR_TYPE error_type, uint8_t* file, uint8_t* func, size_t line_num);
+void tp_print_crt_error(TP_SYMBOL_TABLE* symbol_table, TP_ERROR_TYPE error_type, uint8_t* file, uint8_t* func, size_t line_num);
 bool tp_put_log_msg(
-    TP_SYMBOL_TABLE* symbol_table, TP_LOG_TYPE log_type,
+    TP_SYMBOL_TABLE* symbol_table, TP_LOG_TYPE log_type, TP_ERROR_TYPE error_type,
     uint8_t* format_string, uint8_t* file, uint8_t* func, size_t line_num,
     TP_LOG_PARAM_ELEMENT* log_param_element, size_t log_param_element_num
 );

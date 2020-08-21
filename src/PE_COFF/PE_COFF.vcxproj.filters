@@ -126,6 +126,9 @@
     <ClCompile Include="tp_make_pe_coff\tp_make_coff_body.c">
       <Filter>ソース ファイル\tp_make_pe_coff</Filter>
     </ClCompile>
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_disasm.c">
+      <Filter>ソース ファイル\tp_make_x64_code</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tp_compiler.h">

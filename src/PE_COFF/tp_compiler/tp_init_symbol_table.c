@@ -13,6 +13,7 @@ static TP_SYMBOL_TABLE init_symbol_table_value = {
     .member_is_source_cmd_param = false,
     .member_source_code = { 0 },
     .member_is_test_mode = false,
+    .member_is_test_disasm_x64 = false,
     .member_is_output_wasm_file = false,
     .member_is_output_wasm_text_file = false,
     .member_is_output_x64_file = false,
@@ -25,6 +26,15 @@ static TP_SYMBOL_TABLE init_symbol_table_value = {
     .member_log_msg_buffer = { 0 },
     .member_disp_log_file = NULL,
 
+    .member_is_error_abort = false,
+    .member_error_count_prev = 0,
+    .member_error_count = 0,
+    .member_warning_count = 0,
+
+    .member_error_token = NULL,
+    .member_error_message = NULL,
+    .member_error_reason = NULL,
+
 // output file section:
     .member_write_log_file = NULL,
     .member_parse_tree_file = NULL,
@@ -35,6 +45,9 @@ static TP_SYMBOL_TABLE init_symbol_table_value = {
     .member_wasm_file_path = { 0 },
     .member_wasm_text_file_path = { 0 },
     .member_x64_file_path = { 0 },
+    .member_x64_text_file_path = { 0 },
+    .member_coff_code_text_file_path = { 0 },
+    .member_pe_code_text_file_path = { 0 },
 
 // input file section:
     .member_input_file_path = { 0 },
@@ -47,10 +60,10 @@ static TP_SYMBOL_TABLE init_symbol_table_value = {
     .member_read_lines_end_position = 0,
 
 // token section:
+    .member_tp_token = NULL,
     .member_tp_token_pos = 0,
     .member_tp_token_size = 0,
     .member_tp_token_size_allocate_unit = TP_TOKEN_SIZE_ALLOCATE_UNIT,
-    .member_tp_token = NULL,
     .member_tp_token_position = NULL,
     .member_nul_num = 0,
 
@@ -210,7 +223,7 @@ bool tp_init_symbol_table(
 
     if (0 != setvbuf(symbol_table->member_disp_log_file, msg_buffer, _IOFBF, msg_buffer_size)){
 
-        goto error_out;
+        goto fail;
     }
 
     symbol_table->member_grammer_statement_1_num = calc_grammer_type_num(symbol_table, TP_GRAMMER_TYPE_INDEX_STATEMENT_1);
@@ -250,7 +263,7 @@ bool tp_init_symbol_table(
 
         if (0 == status){
 
-            goto error_out;
+            goto fail;
         }
     }else{
 
@@ -258,14 +271,14 @@ bool tp_init_symbol_table(
 
         if (0 == handle){
 
-            goto error_out;
+            goto fail;
         }
 
         DWORD status = GetModuleFileNameA(handle, base_dir, sizeof(base_dir));
 
         if (0 == status){
 
-            goto error_out;
+            goto fail;
         }
     }
 
@@ -273,7 +286,7 @@ bool tp_init_symbol_table(
 
     if (err){
 
-        goto error_out;
+        goto fail;
     }
 
     if ( ! tp_make_path_log_files(symbol_table, drive, dir, *is_test, test_index, now)){
@@ -283,7 +296,7 @@ bool tp_init_symbol_table(
 
     return true;
 
-error_out:
+fail:
 
     if (err){
 
@@ -516,7 +529,7 @@ static bool parse_cmd_line_param(
 
             if (command_line_param){
 
-                goto error_out;
+                goto fail;
             }else{
 
                 command_line_param = param;
@@ -530,6 +543,9 @@ static bool parse_cmd_line_param(
                 switch (param[j]){
                 case TP_CONFIG_OPTION_IS_32:
                     symbol_table->member_is_32 = true;
+                    break;
+                case TP_CONFIG_OPTION_IS_TEST_DISASM_X64:
+                    symbol_table->member_is_test_disasm_x64 = true;
                     break;
                 case TP_CONFIG_OPTION_IS_OUTPUT_CURRENT_DIR:
                     symbol_table->member_is_output_current_dir = true;
@@ -567,7 +583,7 @@ static bool parse_cmd_line_param(
                     symbol_table->member_is_output_pe_coff_file = true;
                     break;
                 default:
-                    goto error_out;
+                    goto fail;
                 }
             }
         }
@@ -576,12 +592,12 @@ static bool parse_cmd_line_param(
     if (command_line_param &&
         (symbol_table->member_is_origin_wasm || symbol_table->member_is_test_mode)){
 
-        goto error_out;
+        goto fail;
     }
 
     if ((NULL == command_line_param) && (1 == argc)){
 
-        goto error_out;
+        goto fail;
     }
 
     if (symbol_table->member_is_source_cmd_param){
@@ -590,7 +606,7 @@ static bool parse_cmd_line_param(
 
         if (TP_SOURCE_CODE_STRING_LENGTH_MAX < length){
 
-            goto error_out;
+            goto fail;
         }
 
         sprintf_s(
@@ -615,12 +631,13 @@ static bool parse_cmd_line_param(
 
     return true;
 
-error_out:
+fail:
 
     *is_disp_usage = true;
 
     fprintf_s(stderr, "usage: PE_COFF [-/][rcmlnwx] [input file] [source code string]\n");
     fprintf_s(stderr, "  -3 : set 32 bits mode.\n");
+    fprintf_s(stderr, "  -a : set test of disassembler of x64.\n");
     fprintf_s(stderr, "  -c : set output current directory.\n");
     fprintf_s(stderr, "  -l : set output log file.\n");
     fprintf_s(stderr, "  -m : set no output messages.\n");

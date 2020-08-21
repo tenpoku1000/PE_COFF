@@ -199,6 +199,17 @@ bool tp_make_x64_code(
         if ( ! tp_write_file(
             symbol_table, symbol_table->member_x64_file_path, x64_code_buffer, x64_code_buffer_size1)){
 
+            TP_PUT_LOG_MSG_TRACE(symbol_table);
+
+            goto fail;
+        }
+
+        if ( ! tp_disasm_x64(
+            symbol_table, symbol_table->member_x64_text_file_path, x64_code_buffer,
+            x64_code_buffer_size1, NULL, NULL)){
+
+            TP_PUT_LOG_MSG_TRACE(symbol_table);
+
             goto fail;
         }
     }
@@ -402,7 +413,7 @@ static uint32_t convert_section_code_content2x64(
             TP_MSG_FMT("%1"), TP_LOG_PARAM_STRING("ERROR: 0 == body_size")
         );
 
-        goto error_proc;
+        goto fail;
     }
 
     uint32_t wasm_code_body_size = body_size;
@@ -428,7 +439,8 @@ static uint32_t convert_section_code_content2x64(
 
         symbol_table->member_local_types_num += var_count;
 
-        TP_WASM_LOCAL_TYPE* tmp_arg_types = (TP_WASM_LOCAL_TYPE*)realloc(
+        TP_WASM_LOCAL_TYPE* tmp_arg_types = (TP_WASM_LOCAL_TYPE*)TP_REALLOC(
+            symbol_table,
             symbol_table->member_local_types, sizeof(TP_WASM_LOCAL_TYPE)* symbol_table->member_local_types_num
         );
 
@@ -436,7 +448,7 @@ static uint32_t convert_section_code_content2x64(
 
             TP_PRINT_CRT_ERROR(symbol_table);
 
-            goto error_proc;
+            goto fail;
         }
 
         memset(tmp_arg_types + arg_num, 0, sizeof(TP_WASM_LOCAL_TYPE)* var_count);
@@ -449,7 +461,7 @@ static uint32_t convert_section_code_content2x64(
 
                 TP_PUT_LOG_MSG_ICE(symbol_table);
 
-                goto error_proc;
+                goto fail;
             }
 
             symbol_table->member_local_types[arg_types_index].member_type = var_type;
@@ -468,7 +480,7 @@ static uint32_t convert_section_code_content2x64(
                 break;
             default:
                 TP_PUT_LOG_MSG_ICE(symbol_table);
-                goto error_proc;
+                goto fail;
             }
         }
 
@@ -481,7 +493,7 @@ static uint32_t convert_section_code_content2x64(
                 TP_LOG_PARAM_UINT64_VALUE(local_variable_size)
             );
 
-            goto error_proc;
+            goto fail;
         }
 
         wasm_code_body_size -= tp_encode_ui32leb128(NULL, 0, var_count);
@@ -494,7 +506,7 @@ static uint32_t convert_section_code_content2x64(
 
         TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-        goto error_proc;
+        goto fail;
     }
 
     uint32_t tmp_x64_code_size = tp_encode_allocate_stack(
@@ -542,7 +554,7 @@ static uint32_t convert_section_code_content2x64(
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-                goto error_proc;
+                goto fail;
             }
             break;
         case TP_WASM_OPCODE_END:
@@ -576,7 +588,7 @@ static uint32_t convert_section_code_content2x64(
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-                goto error_proc;
+                goto fail;
             }
 
             label = wasm_stack_pop(symbol_table, TP_WASM_STACK_POP_MODE_LABEL);
@@ -777,11 +789,11 @@ static uint32_t convert_section_code_content2x64(
 
         default:
             TP_PUT_LOG_MSG_ICE(symbol_table);
-            goto error_proc;
+            goto fail;
         }
     }while (true);
 
-error_proc:
+fail:
 
     return 0;
 }
@@ -806,8 +818,8 @@ static bool wasm_stack_and_use_register_init(
         symbol_table->member_stack_size = 0;
     }
 
-    symbol_table->member_stack = (TP_WASM_STACK_ELEMENT*)calloc(
-        symbol_table->member_stack_size_allocate_unit, sizeof(TP_WASM_STACK_ELEMENT)
+    symbol_table->member_stack = (TP_WASM_STACK_ELEMENT*)TP_CALLOC(
+        symbol_table, symbol_table->member_stack_size_allocate_unit, sizeof(TP_WASM_STACK_ELEMENT)
     );
 
     if (NULL == symbol_table->member_stack){
@@ -966,18 +978,18 @@ bool tp_wasm_stack_push(TP_SYMBOL_TABLE* symbol_table, TP_WASM_STACK_ELEMENT* va
                 TP_LOG_PARAM_UINT64_VALUE(wasm_stack_size)
             );
 
-            goto error_out;
+            goto fail;
         }
 
-        TP_WASM_STACK_ELEMENT* wasm_stack = (TP_WASM_STACK_ELEMENT*)realloc(
-            symbol_table->member_stack, wasm_stack_size
+        TP_WASM_STACK_ELEMENT* wasm_stack = (TP_WASM_STACK_ELEMENT*)TP_REALLOC(
+            symbol_table, symbol_table->member_stack, wasm_stack_size
         );
 
         if (NULL == wasm_stack){
 
             TP_PRINT_CRT_ERROR(symbol_table);
 
-            goto error_out;
+            goto fail;
         }
 
         memset(
@@ -995,7 +1007,7 @@ bool tp_wasm_stack_push(TP_SYMBOL_TABLE* symbol_table, TP_WASM_STACK_ELEMENT* va
 
     return true;
 
-error_out:
+fail:
 
     if (symbol_table->member_stack){
 
@@ -1038,7 +1050,7 @@ static TP_WASM_STACK_ELEMENT wasm_stack_pop(TP_SYMBOL_TABLE* symbol_table, TP_WA
                 break;
             default:
                 TP_PUT_LOG_MSG_ICE(symbol_table);
-                goto error_out;
+                goto fail;
             }
 
             int32_t relative_depth_count = 0;
@@ -1064,7 +1076,7 @@ static TP_WASM_STACK_ELEMENT wasm_stack_pop(TP_SYMBOL_TABLE* symbol_table, TP_WA
 
             TP_PUT_LOG_MSG_ICE(symbol_table);
 
-            goto error_out;
+            goto fail;
         }
     }
 
@@ -1076,7 +1088,7 @@ static TP_WASM_STACK_ELEMENT wasm_stack_pop(TP_SYMBOL_TABLE* symbol_table, TP_WA
 
         TP_PUT_LOG_MSG_TRACE(symbol_table);
 
-        goto error_out;
+        goto fail;
     }
 
     result.member_wasm_relocation = wasm_relocation;
@@ -1137,7 +1149,7 @@ static TP_WASM_STACK_ELEMENT wasm_stack_pop(TP_SYMBOL_TABLE* symbol_table, TP_WA
 
     return result;
 
-error_out:
+fail:
 
     memset(&result, 0, sizeof(result));
 

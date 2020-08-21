@@ -41,12 +41,12 @@ void tp_free(TP_SYMBOL_TABLE* symbol_table, void** ptr, size_t size, uint8_t* fi
     free(*ptr);
     *ptr = NULL;
 
-    tp_print_crt_error(symbol_table, file, func, line_num);
+    tp_print_crt_error(symbol_table, TP_ERROR_TYPE_CONTINUE, file, func, line_num);
 }
 
 void tp_free2(TP_SYMBOL_TABLE* symbol_table, void*** ptr, size_t size, uint8_t* file, uint8_t* func, size_t line_num)
 {
-    if (ptr && size) {
+    if (ptr && size){
 
         memset(*ptr, 0, size);
     }
@@ -54,11 +54,11 @@ void tp_free2(TP_SYMBOL_TABLE* symbol_table, void*** ptr, size_t size, uint8_t* 
     free(*ptr);
     *ptr = NULL;
 
-    tp_print_crt_error(symbol_table, file, func, line_num);
+    tp_print_crt_error(symbol_table, TP_ERROR_TYPE_CONTINUE, file, func, line_num);
 }
 #pragma optimize("", on)
 
-void tp_get_last_error(TP_SYMBOL_TABLE* symbol_table, uint8_t* file, uint8_t* func, size_t line_num)
+void tp_get_last_error(TP_SYMBOL_TABLE* symbol_table, TP_ERROR_TYPE error_type, uint8_t* file, uint8_t* func, size_t line_num)
 {
     LPVOID msg_buffer = NULL;
 
@@ -80,7 +80,7 @@ void tp_get_last_error(TP_SYMBOL_TABLE* symbol_table, uint8_t* file, uint8_t* fu
     }else{
 
         tp_put_log_msg(
-            symbol_table, TP_LOG_TYPE_DISP_FORCE, TP_MSG_FMT("%1"), file, func, line_num,
+            symbol_table, TP_LOG_TYPE_DISP_FORCE, error_type, TP_MSG_FMT("%1"), file, func, line_num,
             &(TP_LOG_PARAM_STRING(msg_buffer)), 1
         );
     }
@@ -93,7 +93,7 @@ void tp_get_last_error(TP_SYMBOL_TABLE* symbol_table, uint8_t* file, uint8_t* fu
     errno_t err = _set_errno(0);
 }
 
-void tp_print_crt_error(TP_SYMBOL_TABLE* symbol_table, uint8_t* file, uint8_t* func, size_t line_num)
+void tp_print_crt_error(TP_SYMBOL_TABLE* symbol_table, TP_ERROR_TYPE error_type, uint8_t* file, uint8_t* func, size_t line_num)
 {
     if (errno){
 
@@ -108,7 +108,7 @@ void tp_print_crt_error(TP_SYMBOL_TABLE* symbol_table, uint8_t* file, uint8_t* f
         }else{
 
             tp_put_log_msg(
-                symbol_table, TP_LOG_TYPE_DISP_FORCE, TP_MSG_FMT("%1"), file, func, line_num,
+                symbol_table, TP_LOG_TYPE_DISP_FORCE, error_type, TP_MSG_FMT("%1"), file, func, line_num,
                 &(TP_LOG_PARAM_STRING(msg_buffer)), 1
             );
         }
@@ -118,10 +118,28 @@ void tp_print_crt_error(TP_SYMBOL_TABLE* symbol_table, uint8_t* file, uint8_t* f
 }
 
 bool tp_put_log_msg(
-    TP_SYMBOL_TABLE* symbol_table, TP_LOG_TYPE log_type,
+    TP_SYMBOL_TABLE* symbol_table, TP_LOG_TYPE log_type, TP_ERROR_TYPE error_type,
     uint8_t* format_string, uint8_t* file, uint8_t* func, size_t line_num,
     TP_LOG_PARAM_ELEMENT* log_param_element, size_t log_param_element_num)
 {
+    switch (log_type){
+    case TP_LOG_TYPE_HIDE_AFTER_DISP:
+//      break;
+    case TP_LOG_TYPE_DISP_FORCE:
+        ++(symbol_table->member_error_count);
+        break;
+    case TP_LOG_TYPE_DISP_WARNING:
+        ++(symbol_table->member_warning_count);
+        break;
+    default:
+        break;
+    }
+
+    if (TP_ERROR_TYPE_ABORT == error_type){
+
+        symbol_table->member_is_error_abort = true;
+    }
+
     bool is_write_file = symbol_table->member_is_output_log_file;
 
     bool is_disp = (
@@ -136,14 +154,35 @@ bool tp_put_log_msg(
         is_disp = false;
     }
 
+    TP_CHAR8_T file_name[_MAX_PATH] = { 0 };
+
+    char fname[_MAX_FNAME] = { 0 };
+    char ext[_MAX_EXT] = { 0 };
+
+    errno_t err = _splitpath_s(file, NULL, 0, NULL, 0, fname, _MAX_FNAME, ext, _MAX_EXT);
+
+    if (err){
+
+        sprintf_s(file_name, sizeof(file_name), "%s", file);
+    }else{
+
+        if (ext[0]){
+
+            sprintf_s(file_name, sizeof(file_name), "%s%s", fname, ext);
+        }else{
+
+            sprintf_s(file_name, sizeof(file_name), "%s", fname);
+        }
+    }
+
     if (is_disp){
 
-        fprintf(symbol_table->member_disp_log_file, "%s(%zd): ", file, line_num);
+        fprintf(symbol_table->member_disp_log_file, "%s(%zd): ", file_name, line_num);
     }
 
     if (is_write_file){
 
-        fprintf(symbol_table->member_write_log_file, "%s(%zd): ", file, line_num);
+        fprintf(symbol_table->member_write_log_file, "%s(%zd): ", file_name, line_num);
     }
 
     if ( ! put_log_msg_main(
@@ -168,7 +207,7 @@ bool tp_put_log_msg(
         symbol_table->member_log_hide_after_disp = true;
     }
 
-    errno_t err = _set_errno(0);
+    err = _set_errno(0);
 
     return true;
 }
@@ -349,15 +388,15 @@ static bool convert_string_to_value(
 
     char* error_first_char = NULL;
 
-    long value = strtol(symbol_table->member_temp_buffer, &error_first_char, 0);
+    size_t value = (size_t)strtoull(symbol_table->member_temp_buffer, &error_first_char, 0);
 
-    if (NULL == error_first_char){
+    if (symbol_table->member_temp_buffer == error_first_char){
 
         if (is_disp){
 
             fprintf(
                 symbol_table->member_disp_log_file,
-                "\nERROR: strtol(\"%s\") convert failed at %s(%d).\n", symbol_table->member_temp_buffer,
+                "\nERROR: strtoull(\"%s\") convert failed at %s(%d).\n", symbol_table->member_temp_buffer,
                 __func__, __LINE__
             );
         }
@@ -366,7 +405,7 @@ static bool convert_string_to_value(
 
             fprintf(
                 symbol_table->member_write_log_file,
-                "\nERROR: strtol(\"%s\") convert failed at %s(%d).\n", symbol_table->member_temp_buffer,
+                "\nERROR: strtoull(\"%s\") convert failed at %s(%d).\n", symbol_table->member_temp_buffer,
                 __func__, __LINE__
             );
         }
@@ -376,12 +415,12 @@ static bool convert_string_to_value(
 
     if (ERANGE == errno){
 
-        TP_PRINT_CRT_ERROR(symbol_table);
+        TP_PRINT_CRT_ERROR_CONTINUE(symbol_table);
 
         return false;
     }
 
-    *param_index = (size_t)value;
+    *param_index = value;
 
     return true;
 }
@@ -430,19 +469,27 @@ static bool write_param_log_msg(
     }
 
     switch (log_param_element[param_index].member_type){
-    case TP_LOG_PARAM_TYPE_STRING:
+    case TP_LOG_PARAM_TYPE_STRING:{
+
+        uint8_t* string = log_param_element[param_index].member_body.member_string;
+
+        if (NULL == string){
+
+            string = "(null)";
+        }
 
         if (is_disp){
 
-            fprintf(symbol_table->member_disp_log_file, "%s", log_param_element[param_index].member_body.member_string);
+            fprintf(symbol_table->member_disp_log_file, "%s", string);
         }
 
         if (is_write_file){
 
-            fprintf(symbol_table->member_write_log_file, "%s", log_param_element[param_index].member_body.member_string);
+            fprintf(symbol_table->member_write_log_file, "%s", string);
         }
 
         break;
+    }
     case TP_LOG_PARAM_TYPE_INT32_VALUE:
 
         if (is_disp){

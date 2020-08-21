@@ -87,6 +87,7 @@
     <ClCompile Include="tp_make_x64_code\tp_make_x64_code_body.c" />
     <ClCompile Include="tp_make_x64_code\tp_make_x64_code_opcode.c" />
     <ClCompile Include="tp_make_x64_code\tp_make_x64_code_opcode_etc.c" />
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_disasm.c" />
     <ClCompile Include="tp_semantic_analysis.c" />
     <ClCompile Include="tp_utils\tp_file.c" />
     <ClCompile Include="tp_utils\tp_leb128.c" />

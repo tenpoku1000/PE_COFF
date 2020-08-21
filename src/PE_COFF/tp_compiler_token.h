@@ -45,6 +45,10 @@ typedef enum TP_SYMBOL_TYPE_
 #define TP_ID_SIZE (TP_MAX_ID_BYTES + 1)
 #define TP_MAX_ID_NUM 4095
 
+typedef uint8_t TP_CHAR8_T;
+typedef uint_least16_t TP_CHAR16_T;
+typedef uint_least32_t TP_CHAR32_T;
+
 typedef struct tp_token_{
     TP_SYMBOL member_symbol;
     TP_SYMBOL_TYPE member_symbol_type;
