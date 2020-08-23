@@ -10,10 +10,6 @@ static bool make_path_test_log_files(
 static bool make_path_log_files_main(
     TP_SYMBOL_TABLE* symbol_table, char* drive, char* dir, bool is_test
 );
-static bool make_path(
-    TP_SYMBOL_TABLE* symbol_table, char* drive, char* dir, char* prefix, char* fname, char* ext,
-    char* path, size_t path_size
-);
 
 bool tp_make_path_log_files(
     TP_SYMBOL_TABLE* symbol_table, char* drive, char* dir_param, bool is_test, size_t test_index, time_t now)
@@ -136,7 +132,7 @@ static bool make_path_test_log_files(
 
 static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive, char* dir, bool is_test)
 {
-    if ( ! make_path(
+    if ( ! tp_make_path(
         NULL, drive, dir, TP_LOG_FILE_PREFIX,
         TP_WRITE_LOG_DEFAULT_FILE_NAME, TP_WRITE_LOG_DEFAULT_EXT_NAME,
         symbol_table->member_write_log_file_path,
@@ -170,7 +166,7 @@ static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive,
         }
     }
 
-    if ( ! make_path(
+    if ( ! tp_make_path(
         symbol_table, drive, dir, TP_LOG_FILE_PREFIX,
         TP_TOKEN_DEFAULT_FILE_NAME, TP_TOKEN_DEFAULT_EXT_NAME,
         symbol_table->member_token_file_path,
@@ -181,7 +177,7 @@ static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive,
         return false;
     }
 
-    if ( ! make_path(
+    if ( ! tp_make_path(
         symbol_table, drive, dir, TP_LOG_FILE_PREFIX,
         TP_PARSE_TREE_DEFAULT_FILE_NAME, TP_PARSE_TREE_DEFAULT_EXT_NAME,
         symbol_table->member_parse_tree_file_path,
@@ -192,7 +188,7 @@ static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive,
         return false;
     }
 
-    if ( ! make_path(
+    if ( ! tp_make_path(
         symbol_table, drive, dir, TP_LOG_FILE_PREFIX,
         TP_OBJECT_HASH_DEFAULT_FILE_NAME, TP_OBJECT_HASH_DEFAULT_EXT_NAME,
         symbol_table->member_object_hash_file_path,
@@ -203,7 +199,7 @@ static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive,
         return false;
     }
 
-    if ( ! make_path(
+    if ( ! tp_make_path(
         symbol_table, drive, dir, NULL,
         TP_WASM_DEFAULT_FILE_NAME, TP_WASM_DEFAULT_EXT_NAME,
         symbol_table->member_wasm_file_path,
@@ -214,7 +210,7 @@ static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive,
         return false;
     }
 
-    if ( ! make_path(
+    if ( ! tp_make_path(
         symbol_table, drive, dir, NULL,
         TP_WASM_TEXT_DEFAULT_FILE_NAME, TP_WASM_TEXT_DEFAULT_EXT_NAME,
         symbol_table->member_wasm_text_file_path,
@@ -225,7 +221,7 @@ static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive,
         return false;
     }
 
-    if ( ! make_path(
+    if ( ! tp_make_path(
         symbol_table, drive, dir, NULL,
         TP_X64_DEFAULT_FILE_NAME, TP_X64_DEFAULT_EXT_NAME,
         symbol_table->member_x64_file_path,
@@ -236,7 +232,7 @@ static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive,
         return false;
     }
 
-    if ( ! make_path(
+    if ( ! tp_make_path(
         symbol_table, drive, dir, NULL,
         TP_X64_TEXT_DEFAULT_FILE_NAME, TP_X64_TEXT_DEFAULT_EXT_NAME,
         symbol_table->member_x64_text_file_path,
@@ -247,7 +243,7 @@ static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive,
         return false;
     }
 
-    if ( ! make_path(
+    if ( ! tp_make_path(
         symbol_table, drive, dir, NULL,
         TP_COFF_CODE_TEXT_DEFAULT_FILE_NAME, TP_COFF_CODE_TEXT_DEFAULT_EXT_NAME,
         symbol_table->member_coff_code_text_file_path,
@@ -258,7 +254,7 @@ static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive,
         return false;
     }
 
-    if ( ! make_path(
+    if ( ! tp_make_path(
         symbol_table, drive, dir, NULL,
         TP_PE_CODE_TEXT_DEFAULT_FILE_NAME, TP_PE_CODE_TEXT_DEFAULT_EXT_NAME,
         symbol_table->member_pe_code_text_file_path,
@@ -269,11 +265,23 @@ static bool make_path_log_files_main(TP_SYMBOL_TABLE* symbol_table, char* drive,
         return false;
     }
 
+    if ( ! tp_make_path(
+        symbol_table, drive, dir, NULL,
+        TP_PE_UEFI_DEFAULT_FNAME, TP_PE_UEFI_DEFAULT_EXT,
+        symbol_table->member_pe_uefi_path,
+        sizeof(symbol_table->member_pe_uefi_path))){
+
+        TP_PUT_LOG_MSG_TRACE(symbol_table);
+
+        return false;
+    }
+
     return true;
 }
 
-static bool make_path(
-    TP_SYMBOL_TABLE* symbol_table, char* drive, char* dir, char* prefix, char* fname, char* ext,
+bool tp_make_path(
+    TP_SYMBOL_TABLE* symbol_table,
+    char* drive, char* dir, char* prefix, char* fname, char* ext,
     char* path, size_t path_size)
 {
     char tmp_fname[_MAX_FNAME];
@@ -288,6 +296,40 @@ static bool make_path(
     }
 
     errno_t err = _makepath_s(path, path_size, drive, dir, tmp_fname, ext);
+
+    if (err){
+
+        TP_PRINT_CRT_ERROR(symbol_table);
+
+        return false;
+    }
+
+    return true;
+}
+
+bool tp_get_drive_dir(
+    TP_SYMBOL_TABLE* symbol_table, char* drive, char* dir)
+{
+    char base_dir[_MAX_PATH];
+    memset(base_dir, 0, sizeof(base_dir));
+
+    HMODULE handle = GetModuleHandleA(NULL);
+
+    if (0 == handle){
+
+        TP_GET_LAST_ERROR(symbol_table);
+
+        return false;
+    }
+
+    DWORD module_status = GetModuleFileNameA(handle, base_dir, sizeof(base_dir));
+
+    if (0 == module_status){
+
+        return false;
+    }
+
+    errno_t err = _splitpath_s(base_dir, drive, _MAX_DRIVE, dir, _MAX_DIR, NULL, 0, NULL, 0);
 
     if (err){
 

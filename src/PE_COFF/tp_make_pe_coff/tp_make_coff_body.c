@@ -126,7 +126,23 @@ bool tp_make_COFF(
 
     if (fname && ext){
 
-        if ( ! tp_write_data(symbol_table, coff_buffer, coff_file_size, fname, ext)){
+        // ----------------------------------------------------------------------------------------
+        // PE/COFF Object File
+        char drive[_MAX_DRIVE] = { 0 };
+        char dir[_MAX_DIR] = { 0 };
+
+        if ( ! tp_get_drive_dir(symbol_table, drive, dir)){
+
+            TP_PUT_LOG_MSG_TRACE(symbol_table);
+
+            return false;
+        }
+
+        char write_path[_MAX_PATH];
+        sprintf_s(write_path, sizeof(write_path), "%s%s\\%s.%s", drive, dir, fname, ext);
+
+        if ( ! tp_write_file(
+            symbol_table, write_path, coff_buffer, (uint32_t)coff_file_size)){
 
             TP_PUT_LOG_MSG_TRACE(symbol_table);
 

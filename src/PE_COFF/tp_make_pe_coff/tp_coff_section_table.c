@@ -393,11 +393,26 @@ static bool make_PE_file_SECTION_TABLE_section_data_RawData(
 
     if (section->Characteristics & TP_IMAGE_SCN_CNT_CODE){
 
+        char drive[_MAX_DRIVE] = { 0 };
+        char dir[_MAX_DIR] = { 0 };
+
+        if ( ! tp_get_drive_dir(symbol_table, drive, dir)){
+
+            TP_PUT_LOG_MSG_TRACE(symbol_table);
+
+            return false;
+        }
+
         if (IS_PE_IMAGE_FILE(symbol_table)){
 
-            if ( ! tp_write_data(
-                symbol_table, raw_data, size,
-                TP_PE_CODE_DEFAULT_FNAME, TP_PE_CODE_DEFAULT_EXT)){
+            char write_path[_MAX_PATH];
+            sprintf_s(
+                write_path, sizeof(write_path), "%s%s\\%s.%s",
+                drive, dir, TP_PE_CODE_DEFAULT_FNAME, TP_PE_CODE_DEFAULT_EXT
+            );
+
+            if ( ! tp_write_file(
+                symbol_table, write_path, raw_data, (uint32_t)size)){
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 
@@ -414,9 +429,14 @@ static bool make_PE_file_SECTION_TABLE_section_data_RawData(
             }
         }else{
 
-            if ( ! tp_write_data(
-                symbol_table, raw_data, size,
-                TP_COFF_CODE_DEFAULT_FNAME, TP_COFF_CODE_DEFAULT_EXT)){
+            char write_path[_MAX_PATH];
+            sprintf_s(
+                write_path, sizeof(write_path), "%s%s\\%s.%s",
+                drive, dir, TP_COFF_CODE_DEFAULT_FNAME, TP_COFF_CODE_DEFAULT_EXT
+            );
+
+            if ( ! tp_write_file(
+                symbol_table, write_path, raw_data, (uint32_t)size)){
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 

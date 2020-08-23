@@ -54,6 +54,7 @@ typedef struct symbol_table_{
     char member_x64_text_file_path[_MAX_PATH];
     char member_coff_code_text_file_path[_MAX_PATH];
     char member_pe_code_text_file_path[_MAX_PATH];
+    char member_pe_uefi_path[_MAX_PATH];
 
 // input file section:
     uint8_t member_input_file_path[_MAX_PATH];
@@ -206,6 +207,14 @@ void tp_free_memory_and_file(TP_SYMBOL_TABLE** symbol_table);
 bool tp_make_path_log_files(
     TP_SYMBOL_TABLE* symbol_table, char* drive, char* dir,
     bool is_test, size_t test_index, time_t now
+);
+bool tp_make_path(
+    TP_SYMBOL_TABLE* symbol_table,
+    char* drive, char* dir, char* prefix, char* fname, char* ext,
+    char* path, size_t path_size
+);
+bool tp_get_drive_dir(
+    TP_SYMBOL_TABLE* symbol_table, char* drive, char* dir
 );
 
 // ----------------------------------------------------------------------------------------
@@ -615,7 +624,6 @@ bool tp_make_PE_file_raw_data(
     TP_SYMBOL_TABLE* symbol_table, FILE* write_file, uint8_t* raw_data, rsize_t size
 );
 bool tp_seek_PE_COFF_file(TP_SYMBOL_TABLE* symbol_table, long seek_position, long line_bytes);
-bool tp_write_data(TP_SYMBOL_TABLE* symbol_table, uint8_t* data, rsize_t size, char* fname, char* ext);
 
 // ----------------------------------------------------------------------------------------
 // :

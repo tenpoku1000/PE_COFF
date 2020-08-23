@@ -48,6 +48,7 @@ static TP_SYMBOL_TABLE init_symbol_table_value = {
     .member_x64_text_file_path = { 0 },
     .member_coff_code_text_file_path = { 0 },
     .member_pe_code_text_file_path = { 0 },
+    .member_pe_uefi_path = { 0 },
 
 // input file section:
     .member_input_file_path = { 0 },

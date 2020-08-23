@@ -5,11 +5,23 @@
 
 static bool make_PE_file_main(TP_SYMBOL_TABLE* symbol_table, FILE* write_file, uint8_t* entry_point_symbol);
 static bool read_file(TP_SYMBOL_TABLE* symbol_table, char* path);
-static bool make_path(TP_SYMBOL_TABLE* symbol_table, char* path, size_t path_size, char* fname, char* ext);
 
-bool tp_make_PE_file(TP_SYMBOL_TABLE* symbol_table, char* fname, char* ext, uint8_t* entry_point_symbol)
+bool tp_make_PE_file(
+    TP_SYMBOL_TABLE* symbol_table, char* fname, char* ext, uint8_t* entry_point_symbol)
 {
     bool is_print = symbol_table->member_is_output_log_file;
+
+    char drive[_MAX_DRIVE];
+    memset(drive, 0, sizeof(drive));
+    char dir[_MAX_DIR];
+    memset(dir, 0, sizeof(dir));
+
+    if ( ! tp_get_drive_dir(symbol_table, drive, dir)){
+
+        TP_PUT_LOG_MSG_TRACE(symbol_table);
+
+        return false;
+    }
 
     char write_path[_MAX_PATH];
     memset(write_path, 0, sizeof(write_path));
@@ -19,7 +31,9 @@ bool tp_make_PE_file(TP_SYMBOL_TABLE* symbol_table, char* fname, char* ext, uint
         char read_path[_MAX_PATH];
         memset(read_path, 0, sizeof(read_path));
 
-        if ( ! make_path(symbol_table, read_path, sizeof(read_path), fname, ext)){
+        if ( ! tp_make_path(
+            symbol_table, drive, dir, NULL, fname, ext,
+            read_path, sizeof(read_path))){
 
             TP_PUT_LOG_MSG_TRACE(symbol_table);
 
@@ -33,8 +47,10 @@ bool tp_make_PE_file(TP_SYMBOL_TABLE* symbol_table, char* fname, char* ext, uint
             return false;
         }
 
-        if ( ! make_path(
-            symbol_table, write_path, sizeof(write_path), fname, TP_PE_COFF_TEXT_DEFAULT_EXT)){
+        if ( ! tp_make_path(
+            symbol_table, drive, dir, NULL,
+            fname, TP_PE_COFF_TEXT_DEFAULT_EXT,
+            write_path, sizeof(write_path))){
 
             TP_PUT_LOG_MSG_TRACE(symbol_table);
 
@@ -42,9 +58,10 @@ bool tp_make_PE_file(TP_SYMBOL_TABLE* symbol_table, char* fname, char* ext, uint
         }
     }else{
 
-        if ( ! make_path(
-            symbol_table, write_path, sizeof(write_path),
-            TP_PE_UEFI_DEFAULT_FNAME, TP_PE_COFF_TEXT_DEFAULT_EXT)){
+        if ( ! tp_make_path(
+            symbol_table, drive, dir, NULL,
+            TP_PE_UEFI_DEFAULT_FNAME, TP_PE_COFF_TEXT_DEFAULT_EXT,
+            write_path, sizeof(write_path))){
 
             TP_PUT_LOG_MSG_TRACE(symbol_table);
 
@@ -136,9 +153,9 @@ static bool make_PE_file_main(TP_SYMBOL_TABLE* symbol_table, FILE* write_file, u
 
         // ----------------------------------------------------------------------------------------
         // PE IMAGE File(UEFI APPLICATION)
-        if ( ! tp_write_data(
-            symbol_table, symbol_table->member_pe_coff_buffer, symbol_table->member_pe_coff_size,
-            TP_PE_UEFI_DEFAULT_FNAME, TP_PE_UEFI_DEFAULT_EXT)){
+        if ( ! tp_write_file(
+            symbol_table, symbol_table->member_pe_uefi_path,
+            symbol_table->member_pe_coff_buffer, (uint32_t)symbol_table->member_pe_coff_size)){
 
             TP_PUT_LOG_MSG_TRACE(symbol_table);
 
@@ -338,112 +355,5 @@ static bool read_file(TP_SYMBOL_TABLE* symbol_table, char* path)
     symbol_table->member_pe_coff_size = fread_bytes;
 
     return true;
-}
-
-bool tp_write_data(TP_SYMBOL_TABLE* symbol_table, uint8_t* data, rsize_t size, char* fname, char* ext)
-{
-    char write_path[_MAX_PATH];
-    memset(write_path, 0, sizeof(write_path));
-
-    if ( ! make_path(symbol_table, write_path, sizeof(write_path), fname, ext)){
-
-        TP_PUT_LOG_MSG_TRACE(symbol_table);
-
-        return false;
-    }
-
-    FILE* write_code = NULL;
-
-    errno_t err = fopen_s(&write_code, write_path, "wb");
-
-    if (NULL == write_code){
-
-        TP_PRINT_CRT_ERROR(symbol_table);
-
-        return false;
-    }
-
-    size_t fwrite_bytes = fwrite(data, sizeof(uint8_t), size, write_code);
-
-    if (size > fwrite_bytes){
-
-        int ferror_error = ferror(write_code);
-
-        if (ferror_error){
-
-            clearerr(write_code);
-        }
-
-        (void)fclose(write_code);
-
-        TP_PRINT_CRT_ERROR(symbol_table);
-
-        return false;
-    }
-
-    int fclose_error = fclose(write_code);
-
-    if (EOF == fclose_error){
-
-        TP_PRINT_CRT_ERROR(symbol_table);
-
-        return false;
-    }
-
-    write_code = NULL;
-
-    return true;
-}
-
-static bool make_path(TP_SYMBOL_TABLE* symbol_table, char* path, size_t path_size, char* fname, char* ext)
-{
-    errno_t err = 0;
-
-    char base_dir[_MAX_PATH];
-    memset(base_dir, 0, sizeof(base_dir));
-    char drive[_MAX_DRIVE];
-    memset(drive, 0, sizeof(drive));
-    char dir[_MAX_DIR];
-    memset(dir, 0, sizeof(dir));
-
-    HMODULE handle = GetModuleHandleA(NULL);
-
-    if (0 == handle){
-
-        TP_GET_LAST_ERROR(symbol_table);
-
-        goto fail;
-    }
-
-    DWORD status = GetModuleFileNameA(handle, base_dir, sizeof(base_dir));
-
-    if (0 == status){
-
-        goto fail;
-    }
-
-    err = _splitpath_s(base_dir, drive, _MAX_DRIVE, dir, _MAX_DIR, NULL, 0, NULL, 0);
-
-    if (err){
-
-        TP_PRINT_CRT_ERROR(symbol_table);
-
-        goto fail;
-    }
-
-    err = _makepath_s(path, path_size, drive, dir, fname, ext);
-
-    if (err){
-
-        TP_PRINT_CRT_ERROR(symbol_table);
-
-        goto fail;
-    }
-
-    return true;
-
-fail:
-
-    return false;
 }
 
