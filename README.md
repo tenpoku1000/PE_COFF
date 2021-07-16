@@ -5,11 +5,12 @@
 PE32+(DLL と UEFI アプリ)を出力する C コンパイラ試作版です。アセンブラ・逆アセンブラ・リンカ・ローダも  
 自作しています。出力した UEFI アプリは、実機(GIGABYTE Z590 D (rev. 1.0) + Core i5-11500)で動作しました。
 
-Unicode Character Database(UnicodeData.txt)を内蔵し、ビットベクトル形式の索引を用いてコード・ポイントの属性を取得  
-することで、識別子の先頭が数字の場合にエラーにすることを可能にしています。索引のテストも内蔵しています。
+Unicode Character Database(UnicodeData.txt)を内蔵し、ビットベクトル形式の索引を用いてコード・ポイントの  
+属性を取得することで、識別子の先頭が数字の場合にエラーにすることを可能にしています。索引のテストも内蔵  
+しています。
 
-C 言語で書かれていて、Visual Studio の標準 C ライブラリと Windows API に依存しています。安定版は、以下のリポジトリで  
-公開していく予定です。PE_COFF リポジトリは、開発版の位置づけになります。
+C 言語で書かれていて、Visual Studio の標準 C ライブラリと Windows API に依存しています。安定版は、  
+以下のリポジトリで公開していく予定です。PE_COFF リポジトリは、開発版の位置づけになります。
 
 https://github.com/tenpoku1000/tenpoku
 
