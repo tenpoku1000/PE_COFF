@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tp_compiler\tp_compiler.c" />
+    <ClCompile Include="tp_compiler\tp_init_symbol_table.c" />
+    <ClCompile Include="tp_compiler\tp_make_path.c" />
+    <ClCompile Include="tp_compiler\tp_test.c" />
+    <ClCompile Include="tp_first_follow_set\tp_calc_empty.c" />
+    <ClCompile Include="tp_first_follow_set\tp_calc_first_set.c" />
+    <ClCompile Include="tp_first_follow_set\tp_calc_follow_set.c" />
+    <ClCompile Include="tp_first_follow_set\tp_first_follow_set.c" />
+    <ClCompile Include="tp_first_follow_set\tp_grammer.c" />
+    <ClCompile Include="tp_first_follow_set\tp_grammer_1.c" />
+    <ClCompile Include="tp_first_follow_set\tp_grammer_1_first_set.c" />
+    <ClCompile Include="tp_first_follow_set\tp_grammer_1_follow_set.c" />
+    <ClCompile Include="tp_first_follow_set\tp_grammer_2.c" />
+    <ClCompile Include="tp_first_follow_set\tp_grammer_3.c" />
+    <ClCompile Include="tp_make_parse_tree\tp_make_parse_tree.c" />
+    <ClCompile Include="tp_make_parse_tree\tp_parser_declaration.c" />
+    <ClCompile Include="tp_make_parse_tree\tp_parser_declaration_type_name.c" />
+    <ClCompile Include="tp_make_parse_tree\tp_parser_expression.c" />
+    <ClCompile Include="tp_make_parse_tree\tp_parser_statement.c" />
+    <ClCompile Include="tp_make_parse_tree\tp_parser_translation_unit.c" />
+    <ClCompile Include="tp_make_parse_tree\tp_print_grammer.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_coff_section_table.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_coff_string_table.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_coff_symbol_table.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_make_coff.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_make_coff_body.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_make_pe.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_make_pe_body.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_pe_coff_header.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_pe_data_directory.c" />
+    <ClCompile Include="tp_make_pe_coff\tp_pe_loader.c" />
+    <ClCompile Include="tp_make_token\tp_lexer.c" />
+    <ClCompile Include="tp_make_token\tp_lexer_character_constant.c" />
+    <ClCompile Include="tp_make_token\tp_lexer_escape_sequence.c" />
+    <ClCompile Include="tp_make_token\tp_lexer_identifier.c" />
+    <ClCompile Include="tp_make_token\tp_lexer_pp_number.c" />
+    <ClCompile Include="tp_make_token\tp_lexer_punctuator.c" />
+    <ClCompile Include="tp_make_token\tp_lexer_string_literal.c" />
+    <ClCompile Include="tp_make_token\tp_lexer_white_space.c" />
+    <ClCompile Include="tp_make_token\tp_make_token.c" />
+    <ClCompile Include="tp_make_token\tp_preprocessor.c" />
+    <ClCompile Include="tp_make_token\tp_preprocessor_body.c" />
+    <ClCompile Include="tp_make_token\tp_preprocessor_escape_sequence.c" />
+    <ClCompile Include="tp_make_token\tp_preprocessor_pp_number.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_decl.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_decl_basic.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_decl_pointer.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_decl_struct.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_expr.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_function.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_statements.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_wasm.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_expr.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_UEFI.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_UEFI64.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_disasm.c" />
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_opcode.c" />
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_code.c" />
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_code_body.c" />
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_code_opcode.c" />
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_code_opcode_etc.c" />
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_disasm.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_declarations.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_declarator.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_direct_declarator.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_const_expr_eval.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_cond.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_one_op.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_postfix.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_primary.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_two_op_other.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_two_op_arithmetic.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_two_op_bit.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_two_op_logical.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_external_declarations.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_function_definition.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_initializer.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_statements.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_statements_expr.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_statements_jump.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_translation_unit.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_semantic_analysis.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_semantic_analysis_expr.c" />
+    <ClCompile Include="tp_utils\tp_file.c" />
+    <ClCompile Include="tp_utils\tp_leb128.c" />
+    <ClCompile Include="tp_utils\tp_unicode.c" />
+    <ClCompile Include="tp_utils\tp_utils.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tp_compiler.h" />
+    <ClInclude Include="tp_compiler_common.h" />
+    <ClInclude Include="tp_compiler_parse_tree.h" />
+    <ClInclude Include="tp_compiler_pe.h" />
+    <ClInclude Include="tp_compiler_semantic_analysis.h" />
+    <ClInclude Include="tp_compiler_token.h" />
+    <ClInclude Include="tp_compiler_wasm.h" />
+    <ClInclude Include="tp_compiler_x64.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{B92657DA-FE65-4911-B7B2-2C588C681B65}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>tpcompiler</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\lib\</OutDir>
+    <IntDir>$(SolutionDir)\output\tp_compiler\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

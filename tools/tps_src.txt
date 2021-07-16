@@ -1,0 +1,7 @@
+    int v\
+al\
+ue1 = (1 + 2) * 3;
+    int value2 = 2 + (3 * val\
+u\
+e1);
+    value1 = value2 + 100;

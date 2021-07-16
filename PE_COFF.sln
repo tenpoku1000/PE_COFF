@@ -1,25 +1,43 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29306.81
+VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PE_COFF", "src\PE_COFF\PE_COFF.vcxproj", "{A212AD35-E3CB-470E-868F-F0FD7F5A5FE9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tp_compiler", "src\lib\tp_compiler\tp_compiler.vcxproj", "{B92657DA-FE65-4911-B7B2-2C588C681B65}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tenpoku-dev", "src\tenpoku-dev\tenpoku-dev.vcxproj", "{DB7BC402-D804-4DD2-BECB-E6CCAA2FB0C1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B92657DA-FE65-4911-B7B2-2C588C681B65} = {B92657DA-FE65-4911-B7B2-2C588C681B65}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A212AD35-E3CB-470E-868F-F0FD7F5A5FE9}.Debug|x64.ActiveCfg = Debug|x64
-		{A212AD35-E3CB-470E-868F-F0FD7F5A5FE9}.Debug|x64.Build.0 = Debug|x64
-		{A212AD35-E3CB-470E-868F-F0FD7F5A5FE9}.Release|x64.ActiveCfg = Debug|x64
-		{A212AD35-E3CB-470E-868F-F0FD7F5A5FE9}.Release|x64.Build.0 = Debug|x64
+		{B92657DA-FE65-4911-B7B2-2C588C681B65}.Debug|x64.ActiveCfg = Debug|x64
+		{B92657DA-FE65-4911-B7B2-2C588C681B65}.Debug|x64.Build.0 = Debug|x64
+		{B92657DA-FE65-4911-B7B2-2C588C681B65}.Debug|x86.ActiveCfg = Debug|x64
+		{B92657DA-FE65-4911-B7B2-2C588C681B65}.Debug|x86.Build.0 = Debug|x64
+		{B92657DA-FE65-4911-B7B2-2C588C681B65}.Release|x64.ActiveCfg = Debug|x64
+		{B92657DA-FE65-4911-B7B2-2C588C681B65}.Release|x64.Build.0 = Debug|x64
+		{B92657DA-FE65-4911-B7B2-2C588C681B65}.Release|x86.ActiveCfg = Debug|x64
+		{B92657DA-FE65-4911-B7B2-2C588C681B65}.Release|x86.Build.0 = Debug|x64
+		{DB7BC402-D804-4DD2-BECB-E6CCAA2FB0C1}.Debug|x64.ActiveCfg = Debug|x64
+		{DB7BC402-D804-4DD2-BECB-E6CCAA2FB0C1}.Debug|x64.Build.0 = Debug|x64
+		{DB7BC402-D804-4DD2-BECB-E6CCAA2FB0C1}.Debug|x86.ActiveCfg = Debug|x64
+		{DB7BC402-D804-4DD2-BECB-E6CCAA2FB0C1}.Release|x64.ActiveCfg = Debug|x64
+		{DB7BC402-D804-4DD2-BECB-E6CCAA2FB0C1}.Release|x64.Build.0 = Debug|x64
+		{DB7BC402-D804-4DD2-BECB-E6CCAA2FB0C1}.Release|x86.ActiveCfg = Debug|x64
+		{DB7BC402-D804-4DD2-BECB-E6CCAA2FB0C1}.Release|x86.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FA916947-8302-4F34-96C2-A844815D3F8F}
+		SolutionGuid = {3835E1AB-23A6-4904-BC1A-9C95B4DFA503}
 	EndGlobalSection
 EndGlobal

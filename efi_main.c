@@ -1,5 +1,5 @@
 ﻿
-// Copyright 2019 Shin'ichi Ichikawa. Released under the MIT license.
+// (C) Shin'ichi Ichikawa. Released under the MIT license.
 
 struct EFI_TABLE_HEADER{
     unsigned long long/* UINT64 */ Signature;
@@ -96,7 +96,7 @@ static struct SIMPLE_TEXT_OUTPUT_INTERFACE* OUT = 0;
 unsigned long long/* EFI_STATUS */ efi_main(void* /* EFI_HANDLE */ image_handle, struct EFI_SYSTEM_TABLE* system_table)
 {
     ST = system_table;
-    RT = system_table->RuntimeServices;
+    RT = ST->RuntimeServices;
     IN = ST->ConIn;
     OUT = ST->ConOut;
 

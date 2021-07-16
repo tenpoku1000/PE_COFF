@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\tp_make_token">
+      <UniqueIdentifier>{3141b0e2-9d20-4e5a-858e-98cca952c19c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\tp_make_parse_tree">
+      <UniqueIdentifier>{4fe788ab-0c38-4eba-8560-0cba2a18b2eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\tp_compiler">
+      <UniqueIdentifier>{8f0855ee-cd7b-43e4-aed5-75fc84cecf9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\tp_utils">
+      <UniqueIdentifier>{533a7ee9-0b76-453a-b5da-1ae909f53406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\tp_first_follow_set">
+      <UniqueIdentifier>{2a88824a-2cba-4b11-9780-dba08830ac1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\tp_semantic_analysis">
+      <UniqueIdentifier>{9fe272e9-a39f-4e58-9073-f6c571beb0ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\tp_make_wasm">
+      <UniqueIdentifier>{fa2258f0-15b5-4f51-81a2-236c5247c5d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\tp_make_x64_code">
+      <UniqueIdentifier>{9e331daf-1929-4bb9-905a-a8926c7f73f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\tp_make_pe_coff">
+      <UniqueIdentifier>{56d8893c-052b-401b-b943-81175fea912c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tp_make_parse_tree\tp_make_parse_tree.c">
+      <Filter>ソース ファイル\tp_make_parse_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_parse_tree\tp_parser_declaration.c">
+      <Filter>ソース ファイル\tp_make_parse_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_parse_tree\tp_parser_expression.c">
+      <Filter>ソース ファイル\tp_make_parse_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_parse_tree\tp_parser_statement.c">
+      <Filter>ソース ファイル\tp_make_parse_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_parse_tree\tp_parser_translation_unit.c">
+      <Filter>ソース ファイル\tp_make_parse_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_token\tp_lexer.c">
+      <Filter>ソース ファイル\tp_make_token</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_token\tp_lexer_character_constant.c">
+      <Filter>ソース ファイル\tp_make_token</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_token\tp_lexer_escape_sequence.c">
+      <Filter>ソース ファイル\tp_make_token</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_token\tp_lexer_identifier.c">
+      <Filter>ソース ファイル\tp_make_token</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_token\tp_lexer_pp_number.c">
+      <Filter>ソース ファイル\tp_make_token</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_token\tp_lexer_punctuator.c">
+      <Filter>ソース ファイル\tp_make_token</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_token\tp_lexer_string_literal.c">
+      <Filter>ソース ファイル\tp_make_token</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_token\tp_lexer_white_space.c">
+      <Filter>ソース ファイル\tp_make_token</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_token\tp_make_token.c">
+      <Filter>ソース ファイル\tp_make_token</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_token\tp_preprocessor.c">
+      <Filter>ソース ファイル\tp_make_token</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_token\tp_preprocessor_body.c">
+      <Filter>ソース ファイル\tp_make_token</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_token\tp_preprocessor_escape_sequence.c">
+      <Filter>ソース ファイル\tp_make_token</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_token\tp_preprocessor_pp_number.c">
+      <Filter>ソース ファイル\tp_make_token</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_compiler\tp_compiler.c">
+      <Filter>ソース ファイル\tp_compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_compiler\tp_init_symbol_table.c">
+      <Filter>ソース ファイル\tp_compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_compiler\tp_make_path.c">
+      <Filter>ソース ファイル\tp_compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_compiler\tp_test.c">
+      <Filter>ソース ファイル\tp_compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_utils\tp_file.c">
+      <Filter>ソース ファイル\tp_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_utils\tp_leb128.c">
+      <Filter>ソース ファイル\tp_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_utils\tp_unicode.c">
+      <Filter>ソース ファイル\tp_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_utils\tp_utils.c">
+      <Filter>ソース ファイル\tp_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_first_follow_set\tp_calc_empty.c">
+      <Filter>ソース ファイル\tp_first_follow_set</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_first_follow_set\tp_calc_first_set.c">
+      <Filter>ソース ファイル\tp_first_follow_set</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_first_follow_set\tp_calc_follow_set.c">
+      <Filter>ソース ファイル\tp_first_follow_set</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_first_follow_set\tp_first_follow_set.c">
+      <Filter>ソース ファイル\tp_first_follow_set</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_first_follow_set\tp_grammer.c">
+      <Filter>ソース ファイル\tp_first_follow_set</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_first_follow_set\tp_grammer_1.c">
+      <Filter>ソース ファイル\tp_first_follow_set</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_first_follow_set\tp_grammer_2.c">
+      <Filter>ソース ファイル\tp_first_follow_set</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_first_follow_set\tp_grammer_3.c">
+      <Filter>ソース ファイル\tp_first_follow_set</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_first_follow_set\tp_grammer_1_first_set.c">
+      <Filter>ソース ファイル\tp_first_follow_set</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_first_follow_set\tp_grammer_1_follow_set.c">
+      <Filter>ソース ファイル\tp_first_follow_set</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_semantic_analysis.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_expr.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_UEFI.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_UEFI64.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_disasm.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_opcode.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_code.c">
+      <Filter>ソース ファイル\tp_make_x64_code</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_code_body.c">
+      <Filter>ソース ファイル\tp_make_x64_code</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_code_opcode.c">
+      <Filter>ソース ファイル\tp_make_x64_code</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_code_opcode_etc.c">
+      <Filter>ソース ファイル\tp_make_x64_code</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_pe_coff\tp_coff_section_table.c">
+      <Filter>ソース ファイル\tp_make_pe_coff</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_pe_coff\tp_coff_string_table.c">
+      <Filter>ソース ファイル\tp_make_pe_coff</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_pe_coff\tp_coff_symbol_table.c">
+      <Filter>ソース ファイル\tp_make_pe_coff</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_pe_coff\tp_make_coff.c">
+      <Filter>ソース ファイル\tp_make_pe_coff</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_pe_coff\tp_make_coff_body.c">
+      <Filter>ソース ファイル\tp_make_pe_coff</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_pe_coff\tp_make_pe.c">
+      <Filter>ソース ファイル\tp_make_pe_coff</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_pe_coff\tp_make_pe_body.c">
+      <Filter>ソース ファイル\tp_make_pe_coff</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_pe_coff\tp_pe_coff_header.c">
+      <Filter>ソース ファイル\tp_make_pe_coff</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_pe_coff\tp_pe_data_directory.c">
+      <Filter>ソース ファイル\tp_make_pe_coff</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_semantic_analysis_expr.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_x64_code\tp_make_x64_disasm.c">
+      <Filter>ソース ファイル\tp_make_x64_code</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_expr.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_declarations.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_external_declarations.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_function_definition.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_initializer.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_statements.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_const_expr_eval.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_wasm.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_parse_tree\tp_print_grammer.c">
+      <Filter>ソース ファイル\tp_make_parse_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_direct_declarator.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_function.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_decl.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_statements.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_cond.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_one_op.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_postfix.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_primary.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_two_op_other.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_two_op_arithmetic.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_two_op_bit.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr_two_op_logical.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_translation_unit.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_pe_coff\tp_pe_loader.c">
+      <Filter>ソース ファイル\tp_make_pe_coff</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_declarator.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_decl_struct.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_decl_pointer.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_wasm\tp_make_wasm_body_C_decl_basic.c">
+      <Filter>ソース ファイル\tp_make_wasm</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_statements_expr.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_statements_jump.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_make_parse_tree\tp_parser_declaration_type_name.c">
+      <Filter>ソース ファイル\tp_make_parse_tree</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tp_compiler.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="tp_compiler_common.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="tp_compiler_parse_tree.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="tp_compiler_pe.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="tp_compiler_semantic_analysis.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="tp_compiler_token.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="tp_compiler_wasm.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="tp_compiler_x64.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
