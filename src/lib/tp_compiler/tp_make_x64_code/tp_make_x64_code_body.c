@@ -182,6 +182,7 @@ uint32_t tp_encode_allocate_stack(
         x64_func_local->member_padding_local_variable_bytes +
         stack_param_size;
 
+    // Last padding bytes.
     if (0 == ((x64_func_local->member_stack_imm32) % 16)){
 
         x64_func_local->member_last_padding_bytes = sizeof(uint64_t);

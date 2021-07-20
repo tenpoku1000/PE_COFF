@@ -1909,7 +1909,7 @@ static bool wasm_pop_function_args(
                     return false;
                 }
 
-                // POP – Pop a Value from the Stack
+                // POP - Pop a Value from the Stack
                 uint32_t tmp_x64_code_size = tp_encode_x64_pop_reg64(
                     symbol_table, x64_code_buffer, (*x64_code_offset) + x64_code_size,
                     x64_register
