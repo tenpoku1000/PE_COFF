@@ -19,8 +19,7 @@ bool tp_make_C_IR_function_definition(
     if (c_object){
 
         TP_PUT_LOG_MSG_ICE(symbol_table);
-
-        goto fail;
+        return false;
     }
 
     TP_PARSE_TREE_ELEMENT* element = parse_tree->member_element;
@@ -35,8 +34,7 @@ bool tp_make_C_IR_function_definition(
         if (3 != element_num){
 
             TP_PUT_LOG_MSG_ICE(symbol_table);
-
-            goto fail;
+            return false;
         }
 
         function_definition =
@@ -45,8 +43,7 @@ bool tp_make_C_IR_function_definition(
         if (NULL == function_definition){
 
             TP_PRINT_CRT_ERROR(symbol_table);
-
-            goto fail;
+            return false;
         }
 
         function_definition->member_type.member_type = TP_C_TYPE_TYPE_FUNCTION;
@@ -57,12 +54,10 @@ bool tp_make_C_IR_function_definition(
             if (TP_PARSE_TREE_TYPE_NODE != element[i].member_type){
 
                 TP_PUT_LOG_MSG_ICE(symbol_table);
-
                 goto fail;
             }
 
-            TP_PARSE_TREE* parse_tree_child =
-                (TP_PARSE_TREE*)(element[i].member_body.member_child);
+            TP_PARSE_TREE* parse_tree_child = element[i].member_body.member_child;
 
             switch (i){
             case 0:{ // declaration-specifiers
@@ -145,17 +140,10 @@ bool tp_make_C_IR_function_definition(
                     goto fail;
                 }
 
-                TP_C_TYPE_FUNCTION* type_function =
-                    &(function_definition->member_type.member_body.member_type_function);
+                TP_C_TYPE_COMPOUND_STATEMENT* function_body =
+                    &(function_definition->member_type.member_body.member_type_function.member_function_body);
 
-                type_function->member_function_body.member_c_return_type =
-                    type_function->member_c_return_type;
-
-                type_function->member_function_body.member_function_parameter =
-                   function_definition->member_function_parameter_attr;
-
-                type_function->member_function_body.member_function_parameter_num =
-                   function_definition->member_function_parameter_num_attr;
+                TP_C_INHERIT_ATTR_TO_FUNCTION_BODY_FROM_C_OBJECT(function_body, function_definition);
 
                 if ( ! tp_make_C_IR_statements(
                     symbol_table, parse_tree_child, grammer_context, function_definition)){
@@ -174,17 +162,19 @@ bool tp_make_C_IR_function_definition(
         if ( ! tp_append_c_object(symbol_table, function_definition)){
 
             TP_PUT_LOG_MSG_TRACE(symbol_table);
-
-            goto fail;
+            return false;
         }
-
         return true;
+fail:
+        if ( ! tp_append_c_object(symbol_table, function_definition)){
+
+            TP_PUT_LOG_MSG_TRACE(symbol_table);
+        }
+        return false;
     }
 
     TP_PUT_LOG_MSG_ICE(symbol_table);
-fail:
-    tp_free_c_object(symbol_table, &function_definition);
-    tp_free_c_object(symbol_table, &return_object);
+
     return false;
 }
 

@@ -217,6 +217,39 @@ static bool concat_string_literal(TP_SYMBOL_TABLE* symbol_table, TP_TOKEN* prev_
 
 static bool convert_pp_token_to_token(TP_SYMBOL_TABLE* symbol_table, TP_INPUT_FILE* input_file)
 {
+    if (false == symbol_table->member_is_int_calc_compiler){
+
+        TP_TOKEN virtual_token = global_pp_token_template;
+
+        virtual_token.member_file = "insert virtual_token(1).",
+            virtual_token.member_symbol = TP_SYMBOL_PUNCTUATOR;
+        virtual_token.member_symbol_kind = TP_SYMBOL_KIND_LEFT_CURLY_BRACKET;
+        virtual_token.member_string = "{";
+        virtual_token.member_string_length = 1;
+
+        if ( ! append_token(symbol_table, &virtual_token)){
+
+            TP_PUT_LOG_MSG_TRACE(symbol_table);
+
+            symbol_table->member_is_error_abort = true;
+
+            return false;
+        }
+
+        virtual_token.member_file = "insert virtual_token(2).",
+            virtual_token.member_symbol_kind = TP_SYMBOL_KIND_RIGHT_CURLY_BRACKET;
+        virtual_token.member_string = "}";
+
+        if ( ! append_token(symbol_table, &virtual_token)){
+
+            TP_PUT_LOG_MSG_TRACE(symbol_table);
+
+            symbol_table->member_is_error_abort = true;
+
+            return false;
+        }
+    }
+
     for (rsize_t i = 0; input_file->member_tp_pp_token_pos > i; ++i){
 
         TP_TOKEN* token = &(input_file->member_tp_pp_token[i]);

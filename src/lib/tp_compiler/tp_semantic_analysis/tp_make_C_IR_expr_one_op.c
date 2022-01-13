@@ -36,8 +36,7 @@ bool tp_make_C_IR_unary_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_postfix_expression(
             symbol_table, parse_tree_child, grammer_context, c_object,
@@ -71,8 +70,7 @@ bool tp_make_C_IR_unary_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[1].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[1].member_body.member_child;
 
         if ( ! tp_make_C_IR_cast_expression(
             symbol_table, parse_tree_child, grammer_context, c_object,
@@ -139,8 +137,7 @@ bool tp_make_C_IR_cast_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_unary_expression(
             symbol_table, parse_tree_child, grammer_context, c_object,

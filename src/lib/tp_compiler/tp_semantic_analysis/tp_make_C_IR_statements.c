@@ -52,8 +52,7 @@ bool tp_make_C_IR_statements(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         switch (parse_tree_child->member_grammer){
         // Grammer: compound-statement -> { block-item-list }
@@ -94,8 +93,7 @@ bool tp_make_C_IR_statements(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         switch (parse_tree_child->member_grammer){
         // Grammer: expression-statement -> expression ;
@@ -116,6 +114,32 @@ bool tp_make_C_IR_statements(
         }
         break;
     }
+    // Grammer: statement -> iteration-statement
+    case TP_PARSE_TREE_GRAMMER_C_STATEMENT_5:{
+        if (1 != element_num){
+
+            TP_PUT_LOG_MSG_ICE(symbol_table);
+            return false;
+        }
+
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
+
+        switch (parse_tree_child->member_grammer){
+        // Grammer: iteration-statement -> do statement while ( expression ) ;
+        case TP_PARSE_TREE_GRAMMER_ITERATION_STATEMENT_DO_1:
+            break;
+        default:
+            TP_PUT_LOG_MSG_ICE(symbol_table);
+            return false;
+        }
+        if ( ! tp_make_C_IR_iteration_statement(
+            symbol_table, parse_tree_child, grammer_context, c_object)){
+
+            TP_PUT_LOG_MSG_TRACE(symbol_table);
+            return false;
+        }
+        break;
+    }
     // Grammer: statement -> jump-statement
     case TP_PARSE_TREE_GRAMMER_C_STATEMENT_6:{
         if (1 != element_num){
@@ -124,8 +148,7 @@ bool tp_make_C_IR_statements(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         switch (parse_tree_child->member_grammer){
         // Grammer: jump-statement -> return expression ;
@@ -162,12 +185,12 @@ bool tp_append_c_object_to_compound_statement(
     switch (parent_c_object->member_type.member_type){
     case TP_C_TYPE_TYPE_FUNCTION:
         compound_statement =
-            &(parent_c_object->member_type.\
+            &(parent_c_object->member_type.
 member_body.member_type_function.member_function_body);
         break;
     case TP_C_TYPE_TYPE_COMPOUND_STATEMENT:
         compound_statement =
-            &(parent_c_object->member_type.\
+            &(parent_c_object->member_type.
 member_body.member_type_compound_statement);
         break;
     default:
@@ -270,13 +293,13 @@ static bool make_C_IR_compound_statement(
     // C compiler(Statements: compound-statement)
 
     TP_C_OBJECT* compound_statement = NULL;
-    bool is_push_c_namespace_stack = false;
+
+    bool is_skip_append_c_object_to_compound_statement = true;
 
     if (NULL == c_object){
 
         TP_PUT_LOG_MSG_ICE(symbol_table);
-
-        goto fail;
+        return false;
     }
 
     switch (grammer_context){
@@ -290,16 +313,18 @@ static bool make_C_IR_compound_statement(
         if (NULL == compound_statement){
 
             TP_PRINT_CRT_ERROR(symbol_table);
-            goto fail;
+            return false;
         }
 
         compound_statement->member_type.member_type =
             TP_C_TYPE_TYPE_COMPOUND_STATEMENT;
+
+        is_skip_append_c_object_to_compound_statement = false;
         break;
     }
     default:
         TP_PUT_LOG_MSG_ICE(symbol_table);
-        goto fail;
+        return false;
     }
 
     TP_PARSE_TREE_ELEMENT* element = parse_tree->member_element;
@@ -309,6 +334,9 @@ static bool make_C_IR_compound_statement(
     switch (parse_tree->member_grammer){
     // Grammer: compound-statement -> { block-item-list }
     case TP_PARSE_TREE_GRAMMER_COMPOUND_STATEMENT_1:{
+
+        bool is_push_c_namespace_stack = false;
+
         if (3 != element_num){
 
             TP_PUT_LOG_MSG_ICE(symbol_table);
@@ -328,8 +356,7 @@ static bool make_C_IR_compound_statement(
             goto fail;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[1].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[1].member_body.member_child;
 
         switch (parse_tree_child->member_grammer){
         // Grammer: block-item-list -> block-item block-item+
@@ -368,7 +395,7 @@ static bool make_C_IR_compound_statement(
             switch (compound_statement->member_type.member_type){
             case TP_C_TYPE_TYPE_COMPOUND_STATEMENT:
                child_compound_statement =
-                    &(compound_statement->member_type.\
+                    &(compound_statement->member_type.
 member_body.member_type_compound_statement);
                 break;
             default:
@@ -381,34 +408,42 @@ member_body.member_type_compound_statement);
             switch (c_object->member_type.member_type){
             case TP_C_TYPE_TYPE_FUNCTION:
                parent_compound_statement =
-                    &(c_object->member_type.\
+                    &(c_object->member_type.
 member_body.member_type_function.member_function_body);
                 break;
             case TP_C_TYPE_TYPE_COMPOUND_STATEMENT:
                parent_compound_statement =
-                    &(c_object->member_type.\
+                    &(c_object->member_type.
 member_body.member_type_compound_statement);
+                break;
+            case TP_C_TYPE_TYPE_ITERATION_STATEMENT_DO:
+                c_object->member_type.member_body.
+member_type_iteration_statement_do.member_statement = compound_statement;
                 break;
             default:
                 TP_PUT_LOG_MSG_ICE(symbol_table);
                 goto fail;
             }
 
-            child_compound_statement->member_function_parameter =
-               parent_compound_statement->member_function_parameter;
+            if (parent_compound_statement){
 
-            child_compound_statement->member_function_parameter_num =
-               parent_compound_statement->member_function_parameter_num;
+                TP_C_INHERIT_ATTR_TO_COMPOUND_STATEMENT_FROM_COMPOUND_STATEMENT(
+                   child_compound_statement, parent_compound_statement
+                );
 
-            child_compound_statement->member_c_return_type =
-               parent_compound_statement->member_c_return_type;
+                if (!tp_append_c_object_to_compound_statement(
+                    symbol_table, c_object, compound_statement)){
 
-            if ( ! tp_append_c_object_to_compound_statement(
-                symbol_table, c_object, compound_statement)){
+                    TP_PUT_LOG_MSG_TRACE(symbol_table);
+                    goto fail;
+                }
+            }else{
 
-                TP_PUT_LOG_MSG_TRACE(symbol_table);
-                goto fail;
+                TP_C_INHERIT_ATTR_TO_COMPOUND_STATEMENT_FROM_C_OBJECT(
+                    child_compound_statement, c_object
+                );
             }
+            is_skip_append_c_object_to_compound_statement = true;
         }
 
         if ( ! make_C_IR_block_item_list(
@@ -424,53 +459,57 @@ member_body.member_type_compound_statement);
             symbol_table, TP_GRAMMER_CONTEXT_STATEMENTS)){
 
             TP_PUT_LOG_MSG_TRACE(symbol_table);
-
-            is_push_c_namespace_stack = false;
-            goto fail;
+            return false;
         }
-        break;
+        return true;
+fail:
+        if ( ! is_skip_append_c_object_to_compound_statement){
+
+            if ( ! tp_append_c_object_to_compound_statement(
+                symbol_table, c_object, compound_statement)){
+
+                TP_PUT_LOG_MSG_TRACE(symbol_table);
+            }
+        }
+        if (is_push_c_namespace_stack){
+
+            if ( ! tp_pop_c_namespace_stack(
+                symbol_table, TP_GRAMMER_CONTEXT_STATEMENTS)){
+
+                TP_PUT_LOG_MSG_TRACE(symbol_table);
+            }else{
+
+                is_push_c_namespace_stack = false;
+            }
+        }
+        return false;
     }
     // Grammer: compound-statement -> { }
     case TP_PARSE_TREE_GRAMMER_COMPOUND_STATEMENT_2:
         if (2 != element_num){
 
             TP_PUT_LOG_MSG_ICE(symbol_table);
-            goto fail;
+            return false;
         }
         if ((TP_PARSE_TREE_TYPE_TOKEN != element[0].member_type) ||
             (TP_PARSE_TREE_TYPE_TOKEN != element[1].member_type)){
 
             TP_PUT_LOG_MSG_ICE(symbol_table);
-            goto fail;
+            return false;
         }
         if (( ! IS_TOKEN_LEFT_CURLY_BRACKET(element[0].member_body.member_tp_token)) ||
             ( ! IS_TOKEN_RIGHT_CURLY_BRACKET(element[1].member_body.member_tp_token))){
 
             TP_PUT_LOG_MSG_ICE(symbol_table);
-            goto fail;
+            return false;
         }
         break;
     default:
         TP_PUT_LOG_MSG_ICE(symbol_table);
-        goto fail;
+        return false;
     }
 
     return true;
-fail:
-    TP_FREE(symbol_table, &compound_statement, sizeof(TP_C_OBJECT));
-
-    if (is_push_c_namespace_stack){
-
-        if ( ! tp_pop_c_namespace_stack(
-            symbol_table, TP_GRAMMER_CONTEXT_STATEMENTS)){
-
-            TP_PUT_LOG_MSG_TRACE(symbol_table);
-        }else{
-
-            is_push_c_namespace_stack = false;
-        }
-    }
-    return false;
 }
 
 static bool register_function_formal_param(
@@ -629,8 +668,7 @@ static bool make_C_IR_block_item_list(
 
         for (size_t i = 0; 2 > i; ++i){
 
-            TP_PARSE_TREE* parse_tree_child =
-                (TP_PARSE_TREE*)(element[i].member_body.member_child);
+            TP_PARSE_TREE* parse_tree_child = element[i].member_body.member_child;
 
             switch (parse_tree_child->member_grammer){
             // Grammer: block-item-list -> block-item block-item+
@@ -673,8 +711,7 @@ static bool make_C_IR_block_item_list(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         switch (parse_tree_child->member_grammer){
         // Grammer: block-item -> declaration
@@ -727,8 +764,7 @@ static bool make_C_IR_block_item(
         return false;
     }
 
-    TP_PARSE_TREE* parse_tree_child =
-        (TP_PARSE_TREE*)(element[0].member_body.member_child);
+    TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
     switch (parse_tree->member_grammer){
     // Grammer: block-item -> declaration
@@ -759,6 +795,9 @@ static bool make_C_IR_block_item(
             break;
         // Grammer: statement -> expression-statement
         case TP_PARSE_TREE_GRAMMER_C_STATEMENT_3:
+            break;
+        // Grammer: statement -> iteration-statement
+        case TP_PARSE_TREE_GRAMMER_C_STATEMENT_5:
             break;
         // Grammer: statement -> jump-statement
         case TP_PARSE_TREE_GRAMMER_C_STATEMENT_6:

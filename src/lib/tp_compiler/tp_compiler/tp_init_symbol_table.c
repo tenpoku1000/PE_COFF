@@ -513,7 +513,7 @@ void tp_free_memory_and_file(TP_SYMBOL_TABLE** symbol_table)
 
         rsize_t token_pos = (*symbol_table)->member_tp_token_pos;
 
-        for (rsize_t i = 0; token_pos > i; ++i){
+        for (rsize_t i = (((*symbol_table)->member_is_int_calc_compiler) ? 0 : 2); token_pos > i; ++i){
 
             if (token[i].member_string){
 
@@ -798,11 +798,15 @@ static void free_c_type(TP_SYMBOL_TABLE* symbol_table, TP_C_TYPE** c_type)
         return;
     }
 
-    // C compiler: type
-    TP_C_TYPE_COMPOUND_STATEMENT* compound_statement = NULL;
+    TP_C_TYPE_COMPOUND_STATEMENT* type_compound_statement = NULL;
 
     switch ((*c_type)->member_type){
+    case TP_C_TYPE_TYPE_NONE:
+        break;
     case TP_C_TYPE_TYPE_BASIC:
+        break;
+    case TP_C_TYPE_TYPE_STRUCT:
+        TP_PUT_LOG_MSG_ICE(symbol_table);
         break;
     case TP_C_TYPE_TYPE_FUNCTION:{
 
@@ -835,7 +839,7 @@ static void free_c_type(TP_SYMBOL_TABLE* symbol_table, TP_C_TYPE** c_type)
 
         TP_FREE(symbol_table, &(function->member_c_return_type), sizeof(TP_C_TYPE));
 
-        compound_statement = &(function->member_function_body);
+        type_compound_statement = &(function->member_function_body);
         goto compound_statement;
     }
     case TP_C_TYPE_TYPE_FUNCTION_PARAM:{
@@ -846,17 +850,20 @@ static void free_c_type(TP_SYMBOL_TABLE* symbol_table, TP_C_TYPE** c_type)
         TP_FREE(symbol_table, type_param, sizeof(TP_C_TYPE));
         break;
     }
+    case TP_C_TYPE_TYPE_POINTER:
+        TP_PUT_LOG_MSG_ICE(symbol_table);
+        break;
     case TP_C_TYPE_TYPE_NULL_STATEMENT:
         break;
     case TP_C_TYPE_TYPE_COMPOUND_STATEMENT:{
-        compound_statement = &((*c_type)->member_body.member_type_compound_statement);
+        type_compound_statement = &((*c_type)->member_body.member_type_compound_statement);
 compound_statement:
         ;
-        TP_C_OBJECT** c_object_local = compound_statement->member_statement_body;
+        TP_C_OBJECT** c_object_local = type_compound_statement->member_statement_body;
 
         if (c_object_local){
 
-            rsize_t c_object_local_pos = compound_statement->member_statement_body_pos;
+            rsize_t c_object_local_pos = type_compound_statement->member_statement_body_pos;
 
             for (rsize_t i = 0; c_object_local_pos > i; ++i){
 
@@ -866,7 +873,7 @@ compound_statement:
                 }
             }
 
-            TP_FREE2(symbol_table, &c_object_local, compound_statement->member_statement_body_size);
+            TP_FREE2(symbol_table, &c_object_local, type_compound_statement->member_statement_body_size);
         }
         break;
     }
@@ -876,10 +883,20 @@ compound_statement:
             &((*c_type)->member_body.member_type_declaration_statement.member_declaration);
         free_c_type(symbol_table, type_declaration);
         TP_FREE(symbol_table, type_declaration, sizeof(TP_C_TYPE));
-//      break;
+        free_c_expr(symbol_table, c_type);
+        break;
     }
     case TP_C_TYPE_TYPE_EXPRESSION_STATEMENT:
-//      break;
+        free_c_expr(symbol_table, c_type);
+        break;
+    case TP_C_TYPE_TYPE_ITERATION_STATEMENT_DO:{
+
+        TP_C_OBJECT** statement =
+            &((*c_type)->member_body.member_type_iteration_statement_do.member_statement);
+        tp_free_c_object(symbol_table, statement);
+        free_c_expr(symbol_table, c_type);
+        break;
+    }
     case TP_C_TYPE_TYPE_JUMP_STATEMENT_RETURN:
         free_c_expr(symbol_table, c_type);
         break;
@@ -914,6 +931,17 @@ static void free_c_expr(TP_SYMBOL_TABLE* symbol_table, TP_C_TYPE** c_type)
         TP_FREE(
             symbol_table, &(type_expression_statement->member_c_expr),
             type_expression_statement->member_c_expr_size
+        );
+        break;
+    }
+    case TP_C_TYPE_TYPE_ITERATION_STATEMENT_DO:{
+
+        TP_C_TYPE_ITERATION_STATEMENT_DO* type_iteration_statement_do =
+            &(c_type_body->member_type_iteration_statement_do);
+
+        TP_FREE(
+            symbol_table, &(type_iteration_statement_do->member_c_expr),
+            type_iteration_statement_do->member_c_expr_size
         );
         break;
     }

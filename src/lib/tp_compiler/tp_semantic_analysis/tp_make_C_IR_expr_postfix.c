@@ -48,8 +48,7 @@ bool tp_make_C_IR_postfix_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_left =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_left = element[0].member_body.member_child;
 
         is_exec_expr_id = false;
 
@@ -70,8 +69,7 @@ bool tp_make_C_IR_postfix_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_right =
-            (TP_PARSE_TREE*)(element[1].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_right = element[1].member_body.member_child;
 
         switch (parse_tree_child_right->member_grammer){
         // Grammer: PostfixExpressionTmp1 -> ( argument-expression-list )
@@ -127,8 +125,7 @@ bool tp_make_C_IR_postfix_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_primary_expression(
             symbol_table, parse_tree_child, grammer_context,
@@ -201,8 +198,7 @@ static bool make_C_IR_postfix_expressionTmp1(
 
         int32_t func_arg_index_child = TP_WASM_ARG_INDEX_VOID;
         {
-            TP_PARSE_TREE* parse_tree_child =
-                (TP_PARSE_TREE*)(element[1].member_body.member_child);
+            TP_PARSE_TREE* parse_tree_child = element[1].member_body.member_child;
 
             bool is_ignore_ABI = false;
 
@@ -385,8 +381,7 @@ static bool make_C_IR_argument_expression_list(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_left =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_left = element[0].member_body.member_child;
 
         switch (parse_tree_child_left->member_grammer){
         // Grammer: argument-expression-list -> assignment-expression (, assignment-expression)+
@@ -437,8 +432,7 @@ static bool make_C_IR_argument_expression_list(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_right =
-            (TP_PARSE_TREE*)(element[2].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_right = element[2].member_body.member_child;
 
         if ( ! tp_make_C_IR_assignment_expression(
             symbol_table, parse_tree_child_right, grammer_context,
@@ -472,8 +466,7 @@ static bool make_C_IR_argument_expression_list(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_assignment_expression(
             symbol_table, parse_tree_child, grammer_context,

@@ -38,6 +38,9 @@
 //     return expression? ;
 
 static TP_PARSE_TREE* parse_labeled_statement(TP_SYMBOL_TABLE* symbol_table);
+static TP_PARSE_TREE* wrap_compound_statement(
+    TP_SYMBOL_TABLE* symbol_table, TP_PARSE_TREE* statement
+);
 static TP_PARSE_TREE* parse_block_item_list(TP_SYMBOL_TABLE* symbol_table);
 static TP_PARSE_TREE* parse_block_item(TP_SYMBOL_TABLE* symbol_table);
 static TP_PARSE_TREE* parse_expression_statement(TP_SYMBOL_TABLE* symbol_table);
@@ -54,7 +57,8 @@ static TP_PARSE_TREE* parse_iteration_statement_do(TP_SYMBOL_TABLE* symbol_table
 static TP_PARSE_TREE* parse_iteration_statement_for(TP_SYMBOL_TABLE* symbol_table, TP_TOKEN* tmp_for);
 static TP_PARSE_TREE* parse_jump_statement(TP_SYMBOL_TABLE* symbol_table);
 
-TP_PARSE_TREE* tp_parse_statement(TP_SYMBOL_TABLE* symbol_table)
+TP_PARSE_TREE* tp_parse_statement(
+    TP_SYMBOL_TABLE* symbol_table, TP_PARSE_WRAP_CONTEXT parse_wrap_context)
 {
     // Grammer: statement -> labeled-statement |
     //     compound-statement | expression-statement | selection-statement |
@@ -67,11 +71,27 @@ TP_PARSE_TREE* tp_parse_statement(TP_SYMBOL_TABLE* symbol_table)
 
         if (tmp_labeled_statement){
 
-            return MAKE_PARSE_SUBTREE(
+            TP_PARSE_TREE* tmp_statement = MAKE_PARSE_SUBTREE(
                 symbol_table,
                 TP_PARSE_TREE_GRAMMER_C_STATEMENT_1,
                 TP_TREE_NODE(tmp_labeled_statement)
             );
+
+            if (tmp_statement){
+
+                if (TP_PARSE_WRAP_COMPOUND_STATEMENT == parse_wrap_context){
+
+                    return wrap_compound_statement(symbol_table, tmp_statement);
+                }else{
+
+                    return tmp_statement;
+                }
+            }else{
+
+                tp_free_parse_subtree(symbol_table, &tmp_labeled_statement);
+                TP_POS(symbol_table) = backup_token_position;
+                return NULL;
+            }
         }
 
         TP_POS(symbol_table) = backup_token_position;
@@ -99,11 +119,27 @@ TP_PARSE_TREE* tp_parse_statement(TP_SYMBOL_TABLE* symbol_table)
 
         if (tmp_expression_statement){
 
-            return MAKE_PARSE_SUBTREE(
+            TP_PARSE_TREE* tmp_statement = MAKE_PARSE_SUBTREE(
                 symbol_table,
                 TP_PARSE_TREE_GRAMMER_C_STATEMENT_3,
                 TP_TREE_NODE(tmp_expression_statement)
             );
+
+            if (tmp_statement){
+
+                if (TP_PARSE_WRAP_COMPOUND_STATEMENT == parse_wrap_context){
+
+                    return wrap_compound_statement(symbol_table, tmp_statement);
+                }else{
+
+                    return tmp_statement;
+                }
+            }else{
+
+                tp_free_parse_subtree(symbol_table, &tmp_expression_statement);
+                TP_POS(symbol_table) = backup_token_position;
+                return NULL;
+            }
         }
 
         TP_POS(symbol_table) = backup_token_position;
@@ -115,11 +151,21 @@ TP_PARSE_TREE* tp_parse_statement(TP_SYMBOL_TABLE* symbol_table)
 
         if (tmp_selection_statement){
 
-            return MAKE_PARSE_SUBTREE(
+            TP_PARSE_TREE* tmp_statement = MAKE_PARSE_SUBTREE(
                 symbol_table,
                 TP_PARSE_TREE_GRAMMER_C_STATEMENT_4,
                 TP_TREE_NODE(tmp_selection_statement)
             );
+
+            if (tmp_statement){
+
+                return wrap_compound_statement(symbol_table, tmp_statement);
+            }else{
+
+                tp_free_parse_subtree(symbol_table, &tmp_selection_statement);
+                TP_POS(symbol_table) = backup_token_position;
+                return NULL;
+            }
         }
 
         TP_POS(symbol_table) = backup_token_position;
@@ -131,11 +177,21 @@ TP_PARSE_TREE* tp_parse_statement(TP_SYMBOL_TABLE* symbol_table)
 
         if (tmp_iteration_statement){
 
-            return MAKE_PARSE_SUBTREE(
+            TP_PARSE_TREE* tmp_statement = MAKE_PARSE_SUBTREE(
                 symbol_table,
                 TP_PARSE_TREE_GRAMMER_C_STATEMENT_5,
                 TP_TREE_NODE(tmp_iteration_statement)
             );
+
+            if (tmp_statement){
+
+                return wrap_compound_statement(symbol_table, tmp_statement);
+            }else{
+
+                tp_free_parse_subtree(symbol_table, &tmp_iteration_statement);
+                TP_POS(symbol_table) = backup_token_position;
+                return NULL;
+            }
         }
 
         TP_POS(symbol_table) = backup_token_position;
@@ -147,11 +203,27 @@ TP_PARSE_TREE* tp_parse_statement(TP_SYMBOL_TABLE* symbol_table)
 
         if (tmp_jump_statement){
 
-            return MAKE_PARSE_SUBTREE(
+            TP_PARSE_TREE* tmp_statement = MAKE_PARSE_SUBTREE(
                 symbol_table,
                 TP_PARSE_TREE_GRAMMER_C_STATEMENT_6,
                 TP_TREE_NODE(tmp_jump_statement)
             );
+
+            if (tmp_statement){
+
+                if (TP_PARSE_WRAP_COMPOUND_STATEMENT == parse_wrap_context){
+
+                    return wrap_compound_statement(symbol_table, tmp_statement);
+                }else{
+
+                    return tmp_statement;
+                }
+            }else{
+
+                tp_free_parse_subtree(symbol_table, &tmp_jump_statement);
+                TP_POS(symbol_table) = backup_token_position;
+                return NULL;
+            }
         }
 
         TP_POS(symbol_table) = backup_token_position;
@@ -241,7 +313,9 @@ static TP_PARSE_TREE* parse_labeled_statement(TP_SYMBOL_TABLE* symbol_table)
 
                 ++TP_POS(symbol_table);
 
-                tmp_statement = tp_parse_statement(symbol_table);
+                tmp_statement = tp_parse_statement(
+                    symbol_table, TP_PARSE_NONE_WRAP_COMPOUND_STATEMENT
+                );
 
                 if (tmp_statement){
 
@@ -290,7 +364,8 @@ skip_1:
 
                     ++TP_POS(symbol_table);
 
-                    if (tmp_statement = tp_parse_statement(symbol_table)){
+                    if (tmp_statement = tp_parse_statement(
+                        symbol_table, TP_PARSE_NONE_WRAP_COMPOUND_STATEMENT)){
 
                         return MAKE_PARSE_SUBTREE(
                             symbol_table,
@@ -342,7 +417,8 @@ skip_2:
 
                 ++TP_POS(symbol_table);
 
-                if (tmp_statement = tp_parse_statement(symbol_table)){
+                if (tmp_statement = tp_parse_statement(
+                    symbol_table, TP_PARSE_NONE_WRAP_COMPOUND_STATEMENT)){
 
                     return MAKE_PARSE_SUBTREE(
                         symbol_table,
@@ -369,6 +445,71 @@ skip_3:
 
         TP_POS(symbol_table) = backup_token_position;
     }
+
+    return NULL;
+}
+
+static TP_PARSE_TREE* wrap_compound_statement(
+    TP_SYMBOL_TABLE* symbol_table, TP_PARSE_TREE* statement)
+{
+    // compound-statement -> { block-item-list }
+    // 
+    // block-item-list ->  block-item
+    // 
+    // block-item -> statement
+
+    TP_PARSE_TREE* tmp_block_item1 = NULL;
+    TP_PARSE_TREE* tmp_block_item_list = NULL;
+    TP_PARSE_TREE* tmp_statement = NULL;
+
+    if (statement){
+
+        // Grammer: block-item -> statement
+        tmp_block_item1 = MAKE_PARSE_SUBTREE(
+            symbol_table,
+            TP_PARSE_TREE_GRAMMER_BLOCK_ITEM_2,
+            TP_TREE_NODE(statement)
+        );
+
+        if (tmp_block_item1){
+
+            // Grammer: block-item-list -> block-item
+            tmp_block_item_list = MAKE_PARSE_SUBTREE(
+                symbol_table,
+                TP_PARSE_TREE_GRAMMER_BLOCK_ITEM_LIST_2,
+                TP_TREE_NODE(tmp_block_item1)
+            );
+
+            if (tmp_block_item_list){
+
+                TP_TOKEN* tmp_left_curly_bracket = &(symbol_table->member_tp_token[0]);
+                TP_TOKEN* tmp_right_curly_bracket = &(symbol_table->member_tp_token[1]);
+
+                // Grammer: compound-statement -> { block-item-list }
+                tmp_statement = MAKE_PARSE_SUBTREE(
+                    symbol_table,
+                    TP_PARSE_TREE_GRAMMER_COMPOUND_STATEMENT_1,
+                    TP_TREE_TOKEN(tmp_left_curly_bracket),
+                    TP_TREE_NODE(tmp_block_item_list),
+                    TP_TREE_TOKEN(tmp_right_curly_bracket)
+                );
+
+                if (tmp_statement){
+
+                    // Grammer: statement -> compound-statement
+                    return MAKE_PARSE_SUBTREE(
+                        symbol_table,
+                        TP_PARSE_TREE_GRAMMER_C_STATEMENT_2,
+                        TP_TREE_NODE(tmp_statement),
+                    );
+                }
+            }
+        }
+    }
+
+    tp_free_parse_subtree(symbol_table, &tmp_block_item1);
+    tp_free_parse_subtree(symbol_table, &tmp_block_item_list);
+    tp_free_parse_subtree(symbol_table, &tmp_statement);
 
     return NULL;
 }
@@ -444,7 +585,9 @@ static TP_PARSE_TREE* parse_block_item(TP_SYMBOL_TABLE* symbol_table)
 
     // Grammer: block-item -> statement
     {
-        TP_PARSE_TREE* tmp_statement = tp_parse_statement(symbol_table);
+        TP_PARSE_TREE* tmp_statement = tp_parse_statement(
+            symbol_table, TP_PARSE_NONE_WRAP_COMPOUND_STATEMENT
+         );
 
         if (tmp_statement){
 
@@ -585,7 +728,9 @@ static TP_PARSE_TREE* parse_selection_statement_if(
 
                     ++TP_POS(symbol_table);
 
-                    tmp_statement1 = tp_parse_statement(symbol_table);
+                    tmp_statement1 = tp_parse_statement(
+                        symbol_table, TP_PARSE_WRAP_COMPOUND_STATEMENT
+                    );
 
                     if (tmp_statement1){
 
@@ -595,7 +740,9 @@ static TP_PARSE_TREE* parse_selection_statement_if(
 
                             ++TP_POS(symbol_table);
 
-                            tmp_statement2 = tp_parse_statement(symbol_table);
+                            tmp_statement2 = tp_parse_statement(
+                                symbol_table, TP_PARSE_WRAP_COMPOUND_STATEMENT
+                            );
 
                             if (tmp_statement2){
 
@@ -689,7 +836,9 @@ static TP_PARSE_TREE* parse_selection_statement_switch(
 
                     ++TP_POS(symbol_table);
 
-                    tmp_statement = tp_parse_statement(symbol_table);
+                    tmp_statement = tp_parse_statement(
+                        symbol_table, TP_PARSE_WRAP_COMPOUND_STATEMENT
+                    );
 
                     if (tmp_statement){
 
@@ -774,7 +923,7 @@ static TP_PARSE_TREE* parse_iteration_statement(TP_SYMBOL_TABLE* symbol_table)
             ++TP_POS(symbol_table);
 
             TP_PARSE_TREE* tmp_iteration_statement_do
-                = parse_iteration_statement_while(symbol_table, tmp_do);
+                = parse_iteration_statement_do(symbol_table, tmp_do);
 
             if (tmp_iteration_statement_do){
 
@@ -795,7 +944,7 @@ static TP_PARSE_TREE* parse_iteration_statement(TP_SYMBOL_TABLE* symbol_table)
             ++TP_POS(symbol_table);
 
             TP_PARSE_TREE* tmp_iteration_statement_for
-                = parse_iteration_statement_while(symbol_table, tmp_for);
+                = parse_iteration_statement_for(symbol_table, tmp_for);
 
             if (tmp_iteration_statement_for){
 
@@ -834,7 +983,9 @@ static TP_PARSE_TREE* parse_iteration_statement_while(TP_SYMBOL_TABLE* symbol_ta
 
                     ++TP_POS(symbol_table);
 
-                    tmp_statement = tp_parse_statement(symbol_table);
+                    tmp_statement = tp_parse_statement(
+                        symbol_table, TP_PARSE_WRAP_COMPOUND_STATEMENT
+                    );
 
                     if (tmp_statement){
 
@@ -890,7 +1041,8 @@ static TP_PARSE_TREE* parse_iteration_statement_do(TP_SYMBOL_TABLE* symbol_table
         TP_PARSE_TREE* tmp_statement = NULL;
         TP_PARSE_TREE* tmp_expression = NULL;
 
-        if (tmp_statement = tp_parse_statement(symbol_table)){
+        if (tmp_statement = tp_parse_statement(
+            symbol_table, TP_PARSE_WRAP_COMPOUND_STATEMENT)){
 
             TP_TOKEN* tmp_while = TP_POS(symbol_table);
 
@@ -1035,7 +1187,8 @@ static TP_PARSE_TREE* parse_iteration_statement_for(TP_SYMBOL_TABLE* symbol_tabl
 
                     ++TP_POS(symbol_table);
 
-                    if (tmp_statement = tp_parse_statement(symbol_table)){
+                    if (tmp_statement = tp_parse_statement(
+                        symbol_table, TP_PARSE_WRAP_COMPOUND_STATEMENT)){
 
                         if (tmp_expression1 && tmp_expression2 && tmp_expression3){
 

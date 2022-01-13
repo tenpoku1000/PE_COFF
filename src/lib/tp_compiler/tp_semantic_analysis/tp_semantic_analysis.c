@@ -279,7 +279,7 @@ static bool search_parse_tree(
 
         if (TP_PARSE_TREE_TYPE_NODE == element[i].member_type){
 
-            TP_PARSE_TREE* parse_tree_child = (TP_PARSE_TREE*)(element[i].member_body.member_child);
+            TP_PARSE_TREE* parse_tree_child = element[i].member_body.member_child;
 
             if ( ! search_parse_tree(symbol_table, parse_tree_child, grammer_context)){
 

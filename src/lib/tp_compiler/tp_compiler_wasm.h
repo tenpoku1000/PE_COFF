@@ -460,7 +460,10 @@ typedef struct TP_WASM_RELOCATION_{
 #define TP_WASM_OPCODE_I32_CONST 0x41 // value: varint32
 #define TP_WASM_OPCODE_I64_CONST 0x42 // value: varint64
 
-// Comparison operators
+// Comparison operators(i32)
+#define TP_WASM_OPCODE_I32_NE 0x47 // op1 != op2
+
+// Comparison operators(i64)
 #define TP_WASM_OPCODE_I64_NE 0x52 // op1 != op2
 
 // Numeric operators(i32)

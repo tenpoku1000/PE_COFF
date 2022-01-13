@@ -31,8 +31,7 @@ bool tp_make_C_IR_conditional_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_logical_OR_expression(
             symbol_table, parse_tree_child, grammer_context, c_object,

@@ -54,8 +54,7 @@ bool tp_make_C_IR_additive_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_left =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_left = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_additive_expression(
             symbol_table, parse_tree_child_left, grammer_context, c_object,
@@ -65,8 +64,7 @@ bool tp_make_C_IR_additive_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_right =
-            (TP_PARSE_TREE*)(element[2].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_right = element[2].member_body.member_child;
 
         if ( ! make_C_IR_multiplicative_expression(
             symbol_table, parse_tree_child_right, grammer_context, c_object,
@@ -144,8 +142,7 @@ bool tp_make_C_IR_additive_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         if ( ! make_C_IR_multiplicative_expression(
             symbol_table, parse_tree_child, grammer_context, c_object,
@@ -212,8 +209,7 @@ static bool make_C_IR_multiplicative_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_left =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_left = element[0].member_body.member_child;
 
         if ( ! make_C_IR_multiplicative_expression(
             symbol_table, parse_tree_child_left, grammer_context, c_object,
@@ -223,8 +219,7 @@ static bool make_C_IR_multiplicative_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_right =
-            (TP_PARSE_TREE*)(element[2].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_right = element[2].member_body.member_child;
 
         if ( ! tp_make_C_IR_cast_expression(
             symbol_table, parse_tree_child_right, grammer_context, c_object,
@@ -302,8 +297,7 @@ static bool make_C_IR_multiplicative_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_cast_expression(
             symbol_table, parse_tree_child, grammer_context, c_object,

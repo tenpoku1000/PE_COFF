@@ -34,12 +34,12 @@ bool tp_make_C_IR_jump_statement(
     switch (c_object->member_type.member_type){
     case TP_C_TYPE_TYPE_FUNCTION:
         compound_statement =
-            &(c_object->member_type.\
+            &(c_object->member_type.
 member_body.member_type_function.member_function_body);
         break;
     case TP_C_TYPE_TYPE_COMPOUND_STATEMENT:
         compound_statement =
-            &(c_object->member_type.\
+            &(c_object->member_type.
 member_body.member_type_compound_statement);
         break;
     default:
@@ -103,8 +103,7 @@ member_body.member_type_compound_statement);
                 goto fail;
             }
 
-            TP_PARSE_TREE* parse_tree_child =
-                (TP_PARSE_TREE*)(element[1].member_body.member_child);
+            TP_PARSE_TREE* parse_tree_child = element[1].member_body.member_child;
 
             // Grammer: expression -> assignment-expression
             if (TP_PARSE_TREE_GRAMMER_C_EXPRESSION_2 !=
@@ -117,21 +116,16 @@ member_body.member_type_compound_statement);
             jump_statement_return->member_type.member_type =
                 TP_C_TYPE_TYPE_JUMP_STATEMENT_RETURN;
 
-            jump_statement_return->member_type.member_body.\
+            jump_statement_return->member_type.member_body.
 member_type_jump_statement_return.member_expression = parse_tree_child;
 
-            jump_statement_return->member_type.member_body.\
+            jump_statement_return->member_type.member_body.
 member_type_jump_statement_return.member_c_return_type =
-                compound_statement->member_c_return_type;
+                compound_statement->member_c_return_type_attr;
 
-            jump_statement_return->member_c_return_type_attr =
-                compound_statement->member_c_return_type;
-
-            jump_statement_return->member_function_parameter_attr =
-               compound_statement->member_function_parameter;
-
-            jump_statement_return->member_function_parameter_num_attr =
-               compound_statement->member_function_parameter_num;
+            TP_C_INHERIT_ATTR_TO_C_OBJECT_FROM_COMPOUND_STATEMENT(
+                jump_statement_return, compound_statement
+            );
 
             int32_t func_arg_index = TP_WASM_ARG_INDEX_VOID;
             bool is_ignore_ABI = false;

@@ -221,11 +221,11 @@
 #define IS_END_OF_TOKEN(token) ((NULL == (token)) || ((token) && (TP_SYMBOL_NULL == (token)->member_symbol)))
 
 #define MAKE_PARSE_SUBTREE(symbol_table, grammer, ...) \
-  tp_make_parse_subtree( \
-    (symbol_table), (grammer), \
-    (TP_PARSE_TREE_ELEMENT[]){ __VA_ARGS__ }, \
-    sizeof((TP_PARSE_TREE_ELEMENT[]){ __VA_ARGS__ }) / sizeof(TP_PARSE_TREE_ELEMENT) \
-  )
+    tp_make_parse_subtree( \
+      (symbol_table), (grammer), \
+      (TP_PARSE_TREE_ELEMENT[]){ __VA_ARGS__ }, \
+      sizeof((TP_PARSE_TREE_ELEMENT[]){ __VA_ARGS__ }) / sizeof(TP_PARSE_TREE_ELEMENT) \
+    )
 #define TP_TREE_TOKEN(token) (TP_PARSE_TREE_ELEMENT){ \
     .member_type = TP_PARSE_TREE_TYPE_TOKEN, \
     .member_body.member_tp_token = (token) \
@@ -246,15 +246,22 @@ typedef enum TP_PARSE_TREE_TYPE_
     TP_PARSE_TREE_TYPE_NODE
 }TP_PARSE_TREE_TYPE;
 
+typedef struct tp_parse_tree_ TP_PARSE_TREE;
+
 typedef union tp_parse_tree_element_union_{
     TP_TOKEN* member_tp_token;  // NOTE: member_token must not free memory.
-    struct tp_parse_tree_* member_child;
+    TP_PARSE_TREE* member_child;
 }TP_PARSE_TREE_ELEMENT_UNION;
 
 typedef struct tp_parse_tree_element_{
     TP_PARSE_TREE_TYPE member_type;
     TP_PARSE_TREE_ELEMENT_UNION member_body;
 }TP_PARSE_TREE_ELEMENT;
+
+typedef enum TP_PARSE_WRAP_CONTEXT_{
+    TP_PARSE_NONE_WRAP_COMPOUND_STATEMENT = 0,
+    TP_PARSE_WRAP_COMPOUND_STATEMENT
+}TP_PARSE_WRAP_CONTEXT;
 
 typedef enum TP_PARSE_TREE_GRAMMER_
 {
@@ -835,8 +842,6 @@ typedef enum TP_PARSE_TREE_GRAMMER_
 
     TP_PARSE_TREE_GRAMMER_NUM
 }TP_PARSE_TREE_GRAMMER;
-
-typedef struct tp_c_object_ TP_C_OBJECT;
 
 typedef struct tp_parse_tree_{
     TP_PARSE_TREE_GRAMMER member_grammer;

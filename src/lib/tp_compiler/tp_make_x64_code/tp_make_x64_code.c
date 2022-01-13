@@ -784,7 +784,18 @@ static uint32_t convert_section_code_content2x64(
                 TP_X64_CHECK_CODE_STATUS(symbol_table, status, x64_code_size, tmp_x64_code_size);
                 break;
 
-            // Comparison operators
+            // Comparison operators(i32)
+            case TP_WASM_OPCODE_I32_NE:  // op1 != op2
+                op2 = tp_wasm_stack_pop(symbol_table, TP_WASM_STACK_POP_MODE_PARAM, NULL);
+                op1 = tp_wasm_stack_pop(symbol_table, TP_WASM_STACK_POP_MODE_PARAM, NULL);
+                tmp_x64_code_size = tp_encode_i32_ne_code(
+                    symbol_table, x64_code_buffer, x64_code_size,
+                    opcode.member_wasm_relocation, &op1, &op2
+                );
+                TP_X64_CHECK_CODE_SIZE(symbol_table, x64_code_size, tmp_x64_code_size);
+                break;
+
+            // Comparison operators(i64)
             case TP_WASM_OPCODE_I64_NE: // op1 != op2
                 op2 = tp_wasm_stack_pop(symbol_table, TP_WASM_STACK_POP_MODE_PARAM, NULL);
                 op1 = tp_wasm_stack_pop(symbol_table, TP_WASM_STACK_POP_MODE_PARAM, NULL);
@@ -873,7 +884,6 @@ static uint32_t calc_padding_and_size(
 {
     // Use non-volatile register.
     uint32_t nv_register_num = 0;
-    uint32_t nv_rex_num = 0;
 
     for (rsize_t i = 0; TP_X64_NV64_REGISTER_NUM > i; ++i){
 
@@ -882,11 +892,6 @@ static uint32_t calc_padding_and_size(
         if (TP_X64_NV64_REGISTER_NULL != use_nv_register){
 
             ++nv_register_num;
-
-            if (TP_X64_NV64_REGISTER_R12 <= use_nv_register){
-
-                ++nv_rex_num;
-            }
         }
     }
 
@@ -899,18 +904,20 @@ static uint32_t calc_padding_and_size(
 
         // See tp_encode_allocate_stack function.
         // x64_code_size += TP_X64_NV64_REGISTER_NUM;
-        nv_register_num = TP_X64_NV64_REGISTER_NUM - nv_register_num;
+        uint32_t sub_nv_register_num = (nv_register_num ?
+            (TP_X64_NV64_REGISTER_NUM - nv_register_num) :
+            TP_X64_NV64_REGISTER_NUM);
 
         TP_PUT_LOG_MSG(
             (symbol_table), TP_LOG_TYPE_HIDE,
-            TP_MSG_FMT("Prev. x64_code_size -= nv_register_num; // push register."
-                "(%1 function: %2): x64_code_size(%3), nv_register_num(%4)"),
+            TP_MSG_FMT("Prev. x64_code_size -= sub_nv_register_num; // push register."
+                "(%1 function: %2): x64_code_size(%3), sub_nv_register_num(%4)"),
             TP_LOG_PARAM_STRING(__func__), TP_LOG_PARAM_UINT64_VALUE(__LINE__),
             TP_LOG_PARAM_UINT64_VALUE(x64_code_size),
-            TP_LOG_PARAM_UINT64_VALUE(nv_register_num)
+            TP_LOG_PARAM_UINT64_VALUE(sub_nv_register_num)
         );
 
-        x64_code_size -= (nv_register_num + nv_rex_num); // push register.
+        x64_code_size -= sub_nv_register_num; // push register.
     }
 
     // Temporary variables.
@@ -944,13 +951,7 @@ static uint32_t calc_padding_and_size(
 
             if (TP_X64_V64_REGISTER_NULL != use_v_register){
 
-                if (TP_X64_V64_REGISTER_R8 <= use_v_register){
-
-                    v_register_num += 2;
-                }else{
-
-                    ++v_register_num;
-                }
+                ++v_register_num;
             }
         }
 

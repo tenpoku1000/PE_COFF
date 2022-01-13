@@ -1821,7 +1821,24 @@ uint32_t tp_encode_i64_const_code(
     return x64_code_size;
 }
 
-// Comparison operators
+// Comparison operators(i32)
+
+uint32_t tp_encode_i32_ne_code(
+    TP_SYMBOL_TABLE* symbol_table, uint8_t* x64_code_buffer, uint32_t x64_code_offset,
+    TP_WASM_RELOCATION* wasm_relocation, TP_WASM_STACK_ELEMENT* op1, TP_WASM_STACK_ELEMENT* op2)
+{
+    uint32_t x64_code_size = 0;
+
+    // NOTE: Call tp_free_register(op2) in tp_encode_sub_code().
+    uint32_t tmp_x64_code_size = tp_encode_sub_code(
+        symbol_table, x64_code_buffer, x64_code_offset, wasm_relocation, op1, op2
+    );
+    TP_X64_CHECK_CODE_SIZE(symbol_table, x64_code_size, tmp_x64_code_size);
+
+    return x64_code_size;
+}
+
+// Comparison operators(i64)
 
 uint32_t tp_encode_i64_ne_code(
     TP_SYMBOL_TABLE* symbol_table, uint8_t* x64_code_buffer, uint32_t x64_code_offset,

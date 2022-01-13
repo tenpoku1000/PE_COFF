@@ -17,6 +17,8 @@ typedef enum register_object_type_{
     UNDEFINED_REGISTER_OBJECT,
 }REGISTER_OBJECT_TYPE;
 
+typedef struct tp_c_object_ TP_C_OBJECT;
+
 typedef struct register_object_{
     REGISTER_OBJECT_TYPE member_register_object_type;
     // Use int_calc_compiler.
@@ -72,6 +74,31 @@ typedef struct register_object_hash_{
 #define TP_C_SCOPE_C_OBJECT_SIZE_ALLOCATE_UNIT 32
 #define TP_C_SCOPE_STACK_SIZE_ALLOCATE_UNIT 32
 
+#define TP_C_INHERIT_ATTR_TO_C_OBJECT_FROM_C_OBJECT(dst_obj, src_obj) \
+    (dst_obj)->member_function_parameter_attr = (src_obj)->member_function_parameter_attr; \
+    (dst_obj)->member_function_parameter_num_attr = (src_obj)->member_function_parameter_num_attr; \
+    (dst_obj)->member_c_return_type_attr = (src_obj)->member_c_return_type_attr;
+
+#define TP_C_INHERIT_ATTR_TO_COMPOUND_STATEMENT_FROM_C_OBJECT(dst_cs, src_obj) \
+    (dst_cs)->member_function_parameter_attr = (src_obj)->member_function_parameter_attr; \
+    (dst_cs)->member_function_parameter_num_attr = (src_obj)->member_function_parameter_num_attr; \
+    (dst_cs)->member_c_return_type_attr = (src_obj)->member_c_return_type_attr;
+
+#define TP_C_INHERIT_ATTR_TO_C_OBJECT_FROM_COMPOUND_STATEMENT(dst_obj, src_cs) \
+    (dst_obj)->member_function_parameter_attr = (src_cs)->member_function_parameter_attr; \
+    (dst_obj)->member_function_parameter_num_attr = (src_cs)->member_function_parameter_num_attr; \
+    (dst_obj)->member_c_return_type_attr = (src_cs)->member_c_return_type_attr;
+
+#define TP_C_INHERIT_ATTR_TO_COMPOUND_STATEMENT_FROM_COMPOUND_STATEMENT(dst_cs, src_cs) \
+    (dst_cs)->member_function_parameter_attr = (src_cs)->member_function_parameter_attr; \
+    (dst_cs)->member_function_parameter_num_attr = (src_cs)->member_function_parameter_num_attr; \
+    (dst_cs)->member_c_return_type_attr = (src_cs)->member_c_return_type_attr;
+
+#define TP_C_INHERIT_ATTR_TO_FUNCTION_BODY_FROM_C_OBJECT(dst_fb, src_obj) \
+    (dst_fb)->member_function_parameter_attr = (src_obj)->member_function_parameter_attr; \
+    (dst_fb)->member_function_parameter_num_attr = (src_obj)->member_function_parameter_num_attr; \
+    (dst_fb)->member_c_return_type_attr = (src_obj)->member_c_return_type_attr;
+
 typedef enum TP_GRAMMER_CONTEXT_{
     TP_GRAMMER_CONTEXT_NULL = 0,
     TP_GRAMMER_CONTEXT_TRANSLATION_UNIT,
@@ -125,18 +152,6 @@ typedef struct tp_c_scope_{
 typedef enum TP_C_EXPR_KIND_{
     TP_C_EXPR_KIND_IDENTIFIER_NULL,
 
-// Control flow operators
-    // ToDo:
-/*
-#define TP_WASM_OPCODE_LOOP 0x03 // sig: block_type
-#define TP_WASM_OPCODE_END 0x0b
-#define TP_WASM_OPCODE_BR_IF 0x0d // relative_depth: varuint32
- */
-
-// Proprietary specification : Value operators(pseudo opcode)
-    // ToDo:
-//#define TP_WASM_OPCODE_LOOP_LABEL 0xff03
-
 // Call operators
     TP_C_EXPR_KIND_CALL_INDIRECT_RIP,
     TP_C_EXPR_KIND_I32_RETURN,
@@ -172,9 +187,11 @@ typedef enum TP_C_EXPR_KIND_{
     TP_C_EXPR_KIND_I64_CONST,
     TP_C_EXPR_KIND_STRING_LITERAL,
 
-// Comparison operators
-    // ToDo:
-//#define TP_WASM_OPCODE_I64_NE 0x52 // op1 != op2
+// Comparison operators(i32)
+    TP_C_EXPR_KIND_I32_NE,  // op1 != op2
+
+// Comparison operators(i64)
+    TP_C_EXPR_KIND_I64_NE,  // op1 != op2
 
 // Numeric operators(i32)
     TP_C_EXPR_KIND_I32_ADD,
@@ -403,10 +420,10 @@ typedef struct tp_c_type_array_{
 typedef struct tp_c_function_f_param_ TP_C_TYPE_FUNCTION_F_PARAM;
 
 typedef struct tp_c_type_compound_statement_{
-    // NOTE: member_function_parameter must not free memory.
-    TP_C_TYPE_FUNCTION_F_PARAM* member_function_parameter;
-    uint32_t member_function_parameter_num;
-    TP_C_TYPE* member_c_return_type; // NOTE: member_c_return_type must not free memory.
+    // NOTE: member_function_parameter_attr must not free memory.
+    TP_C_TYPE_FUNCTION_F_PARAM* member_function_parameter_attr;
+    uint32_t member_function_parameter_num_attr;
+    TP_C_TYPE* member_c_return_type_attr; // NOTE: member_c_return_type_attr must not free memory.
     TP_C_OBJECT** member_statement_body;
     rsize_t member_statement_body_pos;
     rsize_t member_statement_body_size;
@@ -415,18 +432,18 @@ typedef struct tp_c_type_compound_statement_{
 typedef struct tp_c_type_labeled_statement_label_{
     // labeled-statement -> identifier : statement
     TP_TOKEN* member_identifier; // NOTE: member_token must not free memory.
-    TP_C_TYPE* member_statement;
+    TP_C_OBJECT* member_statement;
 }TP_C_TYPE_LABELED_STATEMENT_LABEL;
 
 typedef struct tp_c_type_labeled_statement_case_{
     // case constant-expression : statement
     TP_PARSE_TREE* member_constant_expression; // NOTE: member_constant_expression must not free memory.
-    TP_C_TYPE* member_statement;
+    TP_C_OBJECT* member_statement;
 }TP_C_TYPE_LABELED_STATEMENT_CASE;
 
 typedef struct tp_c_type_labeled_statement_default_{
     // default : statement
-    TP_C_TYPE* member_statement;
+    TP_C_OBJECT* member_statement;
 }TP_C_TYPE_LABELED_STATEMENT_DEFAULT;
 
 typedef struct tp_c_type_declaration_statement_{
@@ -453,8 +470,8 @@ typedef struct tp_c_type_expression_statement_{
 typedef struct tp_c_type_selection_statement_if_{
     // if ( expression ) statement (else statement)?
     TP_PARSE_TREE* member_expression; // NOTE: member_expression must not free memory.
-    TP_C_TYPE* member_statement;
-    TP_C_TYPE* member_statement_else;
+    TP_C_OBJECT* member_statement;
+    TP_C_OBJECT* member_statement_else;
 
 // expression
     TP_C_EXPR* member_c_expr;
@@ -465,7 +482,7 @@ typedef struct tp_c_type_selection_statement_if_{
 typedef struct tp_c_type_selection_statement_switch_{
     // switch ( expression ) statement
     TP_PARSE_TREE* member_expression; // NOTE: member_expression must not free memory.
-    TP_C_TYPE* member_statement;
+    TP_C_OBJECT* member_statement;
 
 // expression
     TP_C_EXPR* member_c_expr;
@@ -476,7 +493,7 @@ typedef struct tp_c_type_selection_statement_switch_{
 typedef struct tp_c_type_iteration_statement_while_{
     // while ( expression ) statement
     TP_PARSE_TREE* member_expression; // NOTE: member_expression must not free memory.
-    TP_C_TYPE* member_statement;
+    TP_C_OBJECT* member_statement;
 
 // expression
     TP_C_EXPR* member_c_expr;
@@ -486,7 +503,7 @@ typedef struct tp_c_type_iteration_statement_while_{
 
 typedef struct tp_c_type_iteration_statement_do_{
     // do statement while ( expression ) ;
-    TP_C_TYPE* member_statement;
+    TP_C_OBJECT* member_statement;
     TP_PARSE_TREE* member_expression; // NOTE: member_expression must not free memory.
 
 // expression
@@ -500,7 +517,7 @@ typedef struct tp_c_type_iteration_statement_for_{
     TP_PARSE_TREE* member_expression1; // NOTE: member_expression1 must not free memory.
     TP_PARSE_TREE* member_expression2; // NOTE: member_expression2 must not free memory.
     TP_PARSE_TREE* member_expression3; // NOTE: member_expression3 must not free memory.
-    TP_C_TYPE* member_statement;
+    TP_C_OBJECT* member_statement;
 
 // expression1
     TP_C_EXPR* member_c_expr1;
@@ -544,7 +561,7 @@ typedef struct tp_c_type_iteration_statement_for_decl_{
     TP_C_TYPE_DECLARATION_STATEMENT member_declaration;
     TP_PARSE_TREE* member_expression2; // NOTE: member_expression2 must not free memory.
     TP_PARSE_TREE* member_expression3; // NOTE: member_expression3 must not free memory.
-    TP_C_TYPE* member_statement;
+    TP_C_OBJECT* member_statement;
 
 // expression2
     TP_C_EXPR* member_c_expr2;

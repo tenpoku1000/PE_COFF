@@ -43,8 +43,7 @@ bool tp_make_C_IR_inclusive_OR_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         if ( ! make_C_IR_exclusive_OR_expression(
             symbol_table, parse_tree_child, grammer_context, c_object,
@@ -94,8 +93,7 @@ static bool make_C_IR_exclusive_OR_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         if ( ! make_C_IR_AND_expression(
             symbol_table, parse_tree_child, grammer_context, c_object,
@@ -145,8 +143,7 @@ static bool make_C_IR_AND_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_equality_expression(
             symbol_table, parse_tree_child, grammer_context, c_object,

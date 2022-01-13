@@ -308,8 +308,12 @@ static bool disasm_wasm_body(
             case TP_WASM_OPCODE_DROP:
 //              break;
 
-            // Comparison operators
-            case TP_WASM_OPCODE_I64_NE:
+            // Comparison operators(i32)
+            case TP_WASM_OPCODE_I32_NE:  // op1 != op2
+//              break;
+
+            // Comparison operators(i64)
+            case TP_WASM_OPCODE_I64_NE:  // op1 != op2
 //              break;
 
             // Control flow operators
@@ -383,7 +387,8 @@ static uint8_t* get_opcode_string(uint32_t wasm_opcode)
     // Parametric operators
     case TP_WASM_OPCODE_DROP: return "drop";
     // Comparison operators
-    case TP_WASM_OPCODE_I64_NE: return "i64_ne";
+    case TP_WASM_OPCODE_I32_NE: return "i32_ne";  // op1 != op2
+    case TP_WASM_OPCODE_I64_NE: return "i64_ne";  // op1 != op2
     // Control flow operators
     case TP_WASM_OPCODE_RETURN: return "return";
     case TP_WASM_OPCODE_END: return "end";

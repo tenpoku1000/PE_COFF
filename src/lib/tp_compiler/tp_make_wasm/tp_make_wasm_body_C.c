@@ -167,7 +167,7 @@ bool tp_make_wasm_C_body(
             symbol_table, entry_point_symbol,
             section, c_object,
             &(c_object->member_type.member_body.member_type_compound_statement),
-            NULL, NULL, NULL, NULL, parameter_num, parameter, NULL)){
+            NULL, NULL, type_return, NULL, parameter_num, parameter, NULL)){
 
             TP_PUT_LOG_MSG_TRACE(symbol_table);
             return false;
@@ -203,7 +203,8 @@ bool tp_make_wasm_C_body(
             symbol_table, entry_point_symbol,
             section, c_object,
             &(c_object->member_type.member_body.
-                member_type_iteration_statement_do))){
+                member_type_iteration_statement_do),
+            type_return, parameter_num, parameter)){
 
             TP_PUT_LOG_MSG_TRACE(symbol_table);
             return false;

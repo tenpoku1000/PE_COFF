@@ -50,8 +50,7 @@ bool tp_make_C_IR_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_assignment_expression(
             symbol_table, parse_tree_child, grammer_context,
@@ -126,8 +125,7 @@ bool tp_make_C_IR_assignment_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_right =
-            (TP_PARSE_TREE*)(element[2].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_right = element[2].member_body.member_child;
 
         if ( ! tp_make_C_IR_assignment_expression(
             symbol_table, parse_tree_child_right, TP_GRAMMER_CONTEXT_R_VALUES,
@@ -188,8 +186,7 @@ bool tp_make_C_IR_assignment_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_left =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_left = element[0].member_body.member_child;
 
         bool is_nesting_expression = 
             ((0 < symbol_table->member_nesting_level_of_expression) ||
@@ -223,8 +220,7 @@ bool tp_make_C_IR_assignment_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         ++(symbol_table->member_nesting_expression);
 
@@ -493,7 +489,39 @@ bool tp_c_return_type_check(
 
             switch (TP_MASK_C_TYPE_SPECIFIER(type_specifier)){
             case TP_C_TYPE_SPECIFIER_INT:
-                //              break;
+//              break;
+            case TP_C_TYPE_SPECIFIER_LONG1:
+                type_specifier_expr = TP_C_TYPE_SPECIFIER_INT;
+                break;
+            case TP_C_TYPE_SPECIFIER_LONG2:
+                type_specifier_expr = TP_C_TYPE_SPECIFIER_LONG2;
+                break;
+            default:
+                TP_PUT_LOG_MSG_ICE(symbol_table);
+                return false;
+            }
+            break;
+        }
+        default:
+            TP_PUT_LOG_MSG_ICE(symbol_table);
+            return false;
+        }
+        break;
+    }
+    case TP_C_TYPE_TYPE_DECLARATION_STATEMENT:{
+
+        TP_C_TYPE* type_declaration =
+            c_type->member_body.member_type_declaration_statement.member_declaration;
+
+        switch (type_declaration->member_type){
+        case TP_C_TYPE_TYPE_BASIC:{
+
+            TP_C_TYPE_SPECIFIER type_specifier =
+                type_declaration->member_body.member_type_basic.member_type_specifier;
+
+            switch (TP_MASK_C_TYPE_SPECIFIER(type_specifier)){
+            case TP_C_TYPE_SPECIFIER_INT:
+//              break;
             case TP_C_TYPE_SPECIFIER_LONG1:
                 type_specifier_expr = TP_C_TYPE_SPECIFIER_INT;
                 break;
@@ -570,6 +598,14 @@ bool tp_get_type(
             &(c_type_body->member_type_expression_statement);
         c_expr = type_expression_statement->member_c_expr;
         c_expr_pos = type_expression_statement->member_c_expr_pos;
+        break;
+    }
+    case TP_C_TYPE_TYPE_ITERATION_STATEMENT_DO:{
+
+        TP_C_TYPE_ITERATION_STATEMENT_DO* type_iteration_statement_do =
+            &(c_type_body->member_type_iteration_statement_do);
+        c_expr = type_iteration_statement_do->member_c_expr;
+        c_expr_pos = type_iteration_statement_do->member_c_expr_pos;
         break;
     }
     case TP_C_TYPE_TYPE_JUMP_STATEMENT_RETURN:{
@@ -728,6 +764,8 @@ static bool get_type_common(
 //      break;
     case TP_C_EXPR_KIND_I32_CONST:
 //      break;
+    case TP_C_EXPR_KIND_I32_NE:  // op1 != op2
+//      break;
     case TP_C_EXPR_KIND_I32_ADD:
 //      break;
     case TP_C_EXPR_KIND_I32_SUB:
@@ -752,6 +790,8 @@ static bool get_type_common(
     case TP_C_EXPR_KIND_I64_TEE_LOCAL_ARG:
 //      break;
     case TP_C_EXPR_KIND_I64_CONST:
+//      break;
+    case TP_C_EXPR_KIND_I64_NE:  // op1 != op2
 //      break;
     case TP_C_EXPR_KIND_I64_ADD:
 //      break;
@@ -800,6 +840,15 @@ bool tp_append_c_expr(
         c_expr = &(type_expression_statement->member_c_expr);
         c_expr_pos = &(type_expression_statement->member_c_expr_pos);
         c_expr_size = &(type_expression_statement->member_c_expr_size);
+        break;
+    }
+    case TP_C_TYPE_TYPE_ITERATION_STATEMENT_DO:{
+
+        TP_C_TYPE_ITERATION_STATEMENT_DO* type_iteration_statement_do =
+            &(c_type_body->member_type_iteration_statement_do);
+        c_expr = &(type_iteration_statement_do->member_c_expr);
+        c_expr_pos = &(type_iteration_statement_do->member_c_expr_pos);
+        c_expr_size = &(type_iteration_statement_do->member_c_expr_size);
         break;
     }
     case TP_C_TYPE_TYPE_JUMP_STATEMENT_RETURN:{

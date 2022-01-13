@@ -36,7 +36,7 @@ bool tp_make_C_IR_translation_unit(
 
             if (TP_PARSE_TREE_TYPE_NODE == element[i].member_type){
 
-                TP_PARSE_TREE* parse_tree_child = (TP_PARSE_TREE*)(element[i].member_body.member_child);
+                TP_PARSE_TREE* parse_tree_child = element[i].member_body.member_child;
 
                 switch (grammer_context){
                 case TP_GRAMMER_CONTEXT_TRANSLATION_UNIT:
@@ -105,8 +105,7 @@ static bool make_C_IR_translation_unit_body(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_left =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_left = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_translation_unit(
             symbol_table,
@@ -117,8 +116,7 @@ static bool make_C_IR_translation_unit_body(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_right =
-            (TP_PARSE_TREE*)(element[1].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_right = element[1].member_body.member_child;
 
         if ( ! tp_make_C_IR_translation_unit(
             symbol_table,
@@ -138,8 +136,7 @@ static bool make_C_IR_translation_unit_body(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_translation_unit(
             symbol_table,
@@ -158,8 +155,7 @@ static bool make_C_IR_translation_unit_body(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_function_definition(
             symbol_table,

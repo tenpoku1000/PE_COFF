@@ -36,9 +36,18 @@ C:\>echo.>PE_COFF-master.zip:Zone.Identifier
 
 ## 開発環境
 
-* Visual Studio Community 2019  
+* Visual Studio Community 2022
+
+Windows SDK and developer tools - Windows app development  
+https://developer.microsoft.com/en-us/windows/downloads/
+
+Visual Studio Older Downloads  
+https://visualstudio.microsoft.com/vs/older-downloads/
+
+Download the Windows Driver Kit (WDK) - Windows drivers | Microsoft Docs  
 https://docs.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk
-* 64 ビット版 Windows 10
+
+* 64 ビット版 Windows 10 / 11
 
 ## ビルド方法
 

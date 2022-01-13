@@ -318,6 +318,9 @@
     <ClCompile Include="tp_make_parse_tree\tp_parser_declaration_type_name.c">
       <Filter>ソース ファイル\tp_make_parse_tree</Filter>
     </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_statements_iteration.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tp_compiler.h">

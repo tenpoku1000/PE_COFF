@@ -175,8 +175,13 @@ uint32_t tp_make_i64_const_code(uint8_t* buffer, size_t offset, int64_t value)
     TP_MAKE_SLEB128_CODE(buffer, offset, TP_WASM_OPCODE_I64_CONST, value);
 }
 
-// Comparison operators
+// Comparison operators(i32)
+uint32_t tp_make_i32_ne_code(uint8_t* buffer, size_t offset)
+{
+    TP_MAKE_OPCODE(buffer, offset, TP_WASM_OPCODE_I32_NE); // op1 != op2
+}
 
+// Comparison operators(i64)
 uint32_t tp_make_i64_ne_code(uint8_t* buffer, size_t offset)
 {
     TP_MAKE_OPCODE(buffer, offset, TP_WASM_OPCODE_I64_NE); // op1 != op2

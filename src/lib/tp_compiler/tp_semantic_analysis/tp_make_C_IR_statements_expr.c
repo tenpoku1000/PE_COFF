@@ -74,8 +74,7 @@ bool tp_make_C_IR_expression_statement(
                 goto fail;
             }
 
-            TP_PARSE_TREE* parse_tree_child =
-                (TP_PARSE_TREE*)(element[0].member_body.member_child);
+            TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
             // Grammer: expression -> assignment-expression
             if (TP_PARSE_TREE_GRAMMER_C_EXPRESSION_2 !=
@@ -87,12 +86,12 @@ bool tp_make_C_IR_expression_statement(
 
             expression_statement->member_type.member_type =
                 TP_C_TYPE_TYPE_EXPRESSION_STATEMENT;
-            expression_statement->member_type.member_body.\
+            expression_statement->member_type.member_body.
 member_type_expression_statement.member_expression = parse_tree_child;
-            expression_statement->member_function_parameter_num_attr =
-                c_object->member_function_parameter_num_attr;
-            expression_statement->member_function_parameter_attr =
-                c_object->member_function_parameter_attr;
+
+            TP_C_INHERIT_ATTR_TO_C_OBJECT_FROM_C_OBJECT(
+                expression_statement, c_object
+            );
 
             int32_t func_arg_index = TP_WASM_ARG_INDEX_VOID;
             bool is_ignore_ABI = false;

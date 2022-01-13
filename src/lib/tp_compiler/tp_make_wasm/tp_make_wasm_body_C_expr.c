@@ -108,6 +108,14 @@ bool tp_make_wasm_C_expression(
         c_expr_pos = type_expression_statement->member_c_expr_pos;
         break;
     }
+    case TP_C_TYPE_TYPE_ITERATION_STATEMENT_DO:{
+
+        TP_C_TYPE_ITERATION_STATEMENT_DO* type_iteration_statement_do =
+            &(c_type_body->member_type_iteration_statement_do);
+        c_expr = type_iteration_statement_do->member_c_expr;
+        c_expr_pos = type_iteration_statement_do->member_c_expr_pos;
+        break;
+    }
     case TP_C_TYPE_TYPE_JUMP_STATEMENT_RETURN:{
 
         TP_C_TYPE_JUMP_STATEMENT_RETURN* type_jump_statement_return =
@@ -607,7 +615,23 @@ bool tp_make_wasm_C_expression(
             TP_PUT_LOG_MSG_ICE(symbol_table);
             goto fail;
 
-        // Comparison operators
+        // Comparison operators(i32)
+        case TP_C_EXPR_KIND_I32_NE: // op1 != op2
+            TP_MAKE_WASM_NUMERIC_OPERATOR(
+                symbol_table, index, c_expr,
+                tp_make_i32_ne_code(section_buffer, index),
+                TP_WASM_MODULE_SECTION_TYPE_RETURN_TYPE_I32
+            );
+            break;
+
+        // Comparison operators(i64)
+        case TP_C_EXPR_KIND_I64_NE: // op1 != op2
+            TP_MAKE_WASM_NUMERIC_OPERATOR(
+                symbol_table, index, c_expr,
+                tp_make_i64_ne_code(section_buffer, index),
+                TP_WASM_MODULE_SECTION_TYPE_RETURN_TYPE_I64
+            );
+            break;
 
         // Numeric operators(i32)
         case TP_C_EXPR_KIND_I32_ADD:
@@ -816,6 +840,10 @@ skip_1:
         case TP_C_EXPR_KIND_I64_SET_LOCAL_ARG:
         case TP_C_EXPR_KIND_I32_TEE_LOCAL_ARG:
         case TP_C_EXPR_KIND_I64_TEE_LOCAL_ARG:
+        // Comparison operators(i32)
+        case TP_C_EXPR_KIND_I32_NE:  // op1 != op2
+        // Comparison operators(i64)
+        case TP_C_EXPR_KIND_I64_NE:  // op1 != op2
         // Numeric operators(i32)
         case TP_C_EXPR_KIND_I32_ADD:
         case TP_C_EXPR_KIND_I32_SUB:

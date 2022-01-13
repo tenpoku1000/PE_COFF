@@ -321,6 +321,34 @@ TEST_CASE_TABLE tp_C_test_case_table[] = {
       "    return calc_body(g_value1 = (1 + 2) * 3, value2, g_value3, 51);\n"
       "}\n", 202 },
 
+    // No.29
+    { "int calc(void)\n"
+      "{\n"
+      "    int v = 3;\n"
+      "    int w = 3;\n"
+      "\n"
+      "    do{\n"
+      "        v = v - 1;\n"
+      "        do w = w - 1; while (w);\n"
+      "    }while (v);\n"
+      "\n"
+      "    return v;\n"
+      "}\n", 0 },
+
+    // No.30
+    { "int calc(void)\n"
+      "{\n"
+      "    int v = 0;\n"
+      "\n"
+      "    do{\n"
+      "        v = v + 1;\n"
+      "        int w = 0;\n"
+      "        do w = w + 1; while (w != 3);\n"
+      "    }while (v != 3);\n"
+      "\n"
+      "    return v;\n"
+      "}\n", 3 },
+
     { NULL, 0 }
 };
 

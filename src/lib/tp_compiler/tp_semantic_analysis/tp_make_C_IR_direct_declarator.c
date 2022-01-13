@@ -64,8 +64,7 @@ bool tp_make_C_IR_direct_declarator(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         switch (parse_tree_child->member_grammer){
         // Grammer: direct-declarator -> DirectDeclaratorTmp1 DirectDeclaratorTmp2+
@@ -126,8 +125,7 @@ static bool make_C_IR_direct_declarator_1(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_tmp1 =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_tmp1 = element[0].member_body.member_child;
 
         if ( ! make_C_IR_DirectDeclaratorTmp1(
             symbol_table,
@@ -137,8 +135,7 @@ static bool make_C_IR_direct_declarator_1(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_tmp2 =
-            (TP_PARSE_TREE*)(element[1].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_tmp2 = element[1].member_body.member_child;
 
         // Grammer: DirectDeclaratorTmp2 -> ( parameter-type-list )
         if (TP_PARSE_TREE_GRAMMER_DIRECT_DECLARATOR_TMP2_PAREN_1 !=
@@ -311,8 +308,7 @@ static bool make_C_IR_DirectDeclaratorTmp2(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[1].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[1].member_body.member_child;
 
         // Grammer: parameter-type-list -> parameter-list
         if (TP_PARSE_TREE_GRAMMER_PARAMETER_TYPE_LIST_2 !=
@@ -360,8 +356,7 @@ static bool make_C_IR_parameter_type_list(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         switch (parse_tree_child->member_grammer){
         // Grammer: parameter-list -> parameter-declaration (, parameter-declaration)+
@@ -428,8 +423,7 @@ static bool make_C_IR_parameter_list(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_left =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_left = element[0].member_body.member_child;
 
         switch (parse_tree_child_left->member_grammer){
         // Grammer: parameter-list -> parameter-declaration (, parameter-declaration)+
@@ -468,8 +462,7 @@ static bool make_C_IR_parameter_list(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_right =
-            (TP_PARSE_TREE*)(element[2].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_right = element[2].member_body.member_child;
 
         switch (parse_tree_child_right->member_grammer){
         // Grammer: parameter-declaration -> declaration-specifiers declarator
@@ -512,8 +505,7 @@ static bool make_C_IR_parameter_list(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         // Grammer: parameter-declaration -> declaration-specifiers
         switch (parse_tree_child->member_grammer){
@@ -593,8 +585,7 @@ static bool make_C_IR_parameter_declaration(
             goto fail;
         }
 
-        TP_PARSE_TREE* parse_tree_child_left =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_left = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_declaration_specifiers(
             symbol_table, parse_tree_child_left,
@@ -615,8 +606,7 @@ static bool make_C_IR_parameter_declaration(
             goto fail;
         }
 
-        TP_PARSE_TREE* parse_tree_child_right =
-            (TP_PARSE_TREE*)(element[1].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_right = element[1].member_body.member_child;
 
         if ( ! tp_make_C_IR_declarator(
             symbol_table, parse_tree_child_right,
@@ -640,8 +630,7 @@ static bool make_C_IR_parameter_declaration(
             goto fail;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         switch (parse_tree_child->member_grammer){
         // Grammer: declaration-specifiers ->
@@ -757,7 +746,7 @@ static bool append_function_formal_param(
     }
 
     arg_type->member_type = TP_C_TYPE_TYPE_BASIC;
-    arg_type->member_body.\
+    arg_type->member_body.
 member_type_basic.member_type_specifier = type_specifier;
 
     TP_C_DECL* c_decl = &(arg_type->member_decl);

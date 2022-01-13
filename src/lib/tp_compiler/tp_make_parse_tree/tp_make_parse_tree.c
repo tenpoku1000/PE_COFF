@@ -55,6 +55,8 @@ bool tp_make_parse_tree(TP_SYMBOL_TABLE* symbol_table)
     }else{
 
         // C compiler
+        TP_POS(symbol_table) += 2; // virtual_token: { }
+
         tmp_program = tp_parse_translation_unit(symbol_table);
     }
 
@@ -378,7 +380,8 @@ TP_PARSE_TREE* tp_make_parse_subtree(
     TP_SYMBOL_TABLE* symbol_table, TP_PARSE_TREE_GRAMMER grammer,
     TP_PARSE_TREE_ELEMENT* parse_tree_element, size_t parse_tree_element_num)
 {
-    TP_PARSE_TREE* parse_subtree = (TP_PARSE_TREE*)TP_CALLOC(symbol_table, 1, sizeof(TP_PARSE_TREE));
+    TP_PARSE_TREE* parse_subtree =
+        (TP_PARSE_TREE*)TP_CALLOC(symbol_table, 1, sizeof(TP_PARSE_TREE));
 
     if (NULL == parse_subtree){
 
@@ -538,7 +541,7 @@ static bool dump_parse_tree_main(TP_SYMBOL_TABLE* symbol_table, TP_PARSE_TREE* p
             fprintf(write_file, "%sTP_PARSE_TREE_TYPE_NODE\n", indent_string);
 
             if ( ! dump_parse_tree_main(
-                symbol_table, (TP_PARSE_TREE*)parse_tree_element[i].member_body.member_child, indent_level + 1)){
+                symbol_table, parse_tree_element[i].member_body.member_child, indent_level + 1)){
 
                 TP_PUT_LOG_MSG_TRACE(symbol_table);
 

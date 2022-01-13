@@ -55,8 +55,7 @@ bool tp_make_C_IR_external_declaration(
             goto fail;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         switch (parse_tree_child->member_grammer){
         // Grammer: declaration -> declaration-specifiers init-declarator-list ;

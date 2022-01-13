@@ -87,8 +87,7 @@ bool tp_make_C_IR_declaration(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_left =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_left = element[0].member_body.member_child;
 
         switch (parse_tree_child_left->member_grammer){
         // Grammer: declaration-specifiers ->
@@ -104,8 +103,7 @@ bool tp_make_C_IR_declaration(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_right =
-            (TP_PARSE_TREE*)(element[1].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_right = element[1].member_body.member_child;
 
         switch (parse_tree_child_right->member_grammer){
         // Grammer: init-declarator-list -> init-declarator
@@ -159,8 +157,7 @@ bool tp_make_C_IR_declaration(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         switch (parse_tree_child->member_grammer){
         // Grammer: declaration-specifiers ->
@@ -294,8 +291,7 @@ bool tp_make_C_IR_declaration_specifiers(
             }
         }
 
-        TP_PARSE_TREE* parse_tree_child_left =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_left = element[0].member_body.member_child;
 
         switch (parse_tree_child_left->member_grammer){
         // Grammer: storage-class-specifier -> extern | static | auto | register
@@ -334,8 +330,7 @@ bool tp_make_C_IR_declaration_specifiers(
         if (TP_PARSE_TREE_GRAMMER_DECLARATION_SPECIFIERS_1 ==
             parse_tree->member_grammer){
 
-            TP_PARSE_TREE* parse_tree_child_right =
-                (TP_PARSE_TREE*)(element[1].member_body.member_child);
+            TP_PARSE_TREE* parse_tree_child_right = element[1].member_body.member_child;
 
             switch (parse_tree_child_right->member_grammer){
             // Grammer: declaration-specifiers ->
@@ -755,8 +750,7 @@ static bool make_C_IR_init_declarator_list(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         switch (parse_tree_child->member_grammer){
         // Grammer: init-declarator -> declarator = initializer
@@ -818,8 +812,7 @@ static bool make_C_IR_init_declarator(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_left =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_left = element[0].member_body.member_child;
 
         if ( ! tp_make_C_IR_declarator(
             symbol_table, parse_tree_child_left, grammer_context, c_object, type)){
@@ -828,8 +821,7 @@ static bool make_C_IR_init_declarator(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child_right =
-            (TP_PARSE_TREE*)(element[2].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child_right = element[2].member_body.member_child;
 
         if ( ! tp_make_C_IR_initializer(
             symbol_table,
@@ -853,8 +845,7 @@ static bool make_C_IR_init_declarator(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-            (TP_PARSE_TREE*)(element[0].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[0].member_body.member_child;
 
         switch (parse_tree_child->member_grammer){
         // Grammer: declarator -> direct-declarator

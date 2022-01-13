@@ -569,7 +569,7 @@ static bool search_parse_tree(
         if (TP_PARSE_TREE_TYPE_NODE == element[i].member_type){
 
             if ( ! search_parse_tree(
-                symbol_table, (TP_PARSE_TREE*)(element[i].member_body.member_child), section, grammer_context)){
+                symbol_table, element[i].member_body.member_child, section, grammer_context)){
 
                 is_make_section_code_success = false;
             }

@@ -106,8 +106,7 @@ bool tp_make_C_IR_primary_expression(
             return false;
         }
 
-        TP_PARSE_TREE* parse_tree_child =
-        (TP_PARSE_TREE*)(element[1].member_body.member_child);
+        TP_PARSE_TREE* parse_tree_child = element[1].member_body.member_child;
 
         ++(symbol_table->member_nesting_level_of_expression);
 

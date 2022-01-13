@@ -381,7 +381,9 @@ bool tp_print_parse_tree_grammer(
 );
 
 TP_PARSE_TREE* tp_parse_translation_unit(TP_SYMBOL_TABLE* symbol_table);
-TP_PARSE_TREE* tp_parse_statement(TP_SYMBOL_TABLE* symbol_table);
+TP_PARSE_TREE* tp_parse_statement(
+    TP_SYMBOL_TABLE* symbol_table, TP_PARSE_WRAP_CONTEXT parse_wrap_context
+);
 TP_PARSE_TREE* tp_parse_compound_statement(TP_SYMBOL_TABLE* symbol_table);
 TP_PARSE_TREE* tp_parse_expression(TP_SYMBOL_TABLE* symbol_table);
 TP_PARSE_TREE* tp_parse_constant_expression(TP_SYMBOL_TABLE* symbol_table);
@@ -502,6 +504,11 @@ bool tp_append_c_object_to_compound_statement(
     TP_C_OBJECT* parent_c_object, TP_C_OBJECT* c_object
 );
 bool tp_make_C_IR_expression_statement(
+    TP_SYMBOL_TABLE* symbol_table,
+    TP_PARSE_TREE* parse_tree, TP_GRAMMER_CONTEXT grammer_context,
+    TP_C_OBJECT* c_object
+);
+bool tp_make_C_IR_iteration_statement(
     TP_SYMBOL_TABLE* symbol_table,
     TP_PARSE_TREE* parse_tree, TP_GRAMMER_CONTEXT grammer_context,
     TP_C_OBJECT* c_object
@@ -692,7 +699,8 @@ bool tp_make_wasm_C_expression(
 bool tp_make_wasm_C_iteration_statement_do(
     TP_SYMBOL_TABLE* symbol_table, uint8_t* entry_point_symbol,
     TP_WASM_MODULE_SECTION* section, TP_C_OBJECT* c_object,
-    TP_C_TYPE_ITERATION_STATEMENT_DO* type_iteration_statement_do
+    TP_C_TYPE_ITERATION_STATEMENT_DO* type_iteration_statement_do,
+    TP_C_TYPE* type_return, uint32_t parameter_num, TP_C_TYPE_FUNCTION_F_PARAM* parameter
 );
 bool tp_make_wasm_C_jump_statement_return(
     TP_SYMBOL_TABLE* symbol_table, uint8_t* entry_point_symbol,
@@ -833,7 +841,10 @@ uint32_t tp_make_i64_store_code(
 uint32_t tp_make_i32_const_code(uint8_t* buffer, size_t offset, int32_t value);
 uint32_t tp_make_i64_const_code(uint8_t* buffer, size_t offset, int64_t value);
 
-// Comparison operators
+// Comparison operators(i32)
+uint32_t tp_make_i32_ne_code(uint8_t* buffer, size_t offset);
+
+// Comparison operators(i64)
 uint32_t tp_make_i64_ne_code(uint8_t* buffer, size_t offset);
 
 // Numeric operators(i32)
@@ -963,7 +974,14 @@ uint32_t tp_encode_i64_const_code(
     TP_WASM_RELOCATION* wasm_relocation, int64_t value, bool* status
 );
 
-// Comparison operators
+// Comparison operators(i32)
+
+uint32_t tp_encode_i32_ne_code(
+    TP_SYMBOL_TABLE* symbol_table, uint8_t* x64_code_buffer, uint32_t x64_code_offset,
+    TP_WASM_RELOCATION* wasm_relocation, TP_WASM_STACK_ELEMENT* op1, TP_WASM_STACK_ELEMENT* op2
+);
+
+// Comparison operators(i64)
 
 uint32_t tp_encode_i64_ne_code(
     TP_SYMBOL_TABLE* symbol_table, uint8_t* x64_code_buffer, uint32_t x64_code_offset,
