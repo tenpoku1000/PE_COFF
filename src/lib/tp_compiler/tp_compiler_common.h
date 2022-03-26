@@ -6,6 +6,7 @@
 
 #define WINVER 0x0A00       // Windows 10
 #define _WIN32_WINNT 0x0A00 // Windows 10
+#define MICROSOFT_WINDOWS_WINBASE_H_DEFINE_INTERLOCKED_CPLUSPLUS_OVERLOADS 0
 #include <sdkddkver.h>
 #include <windows.h>
 #include <stdio.h>
