@@ -73,7 +73,8 @@
     <ClCompile Include="tp_make_x64_code\tp_make_x64_code_opcode_etc.c" />
     <ClCompile Include="tp_make_x64_code\tp_make_x64_disasm.c" />
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR.c" />
-    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_declarations.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_declaration.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_declaration_specifiers.c" />
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_declarator.c" />
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_direct_declarator.c" />
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_const_expr_eval.c" />
@@ -89,11 +90,15 @@
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_external_declarations.c" />
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_function_definition.c" />
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_initializer.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_parameter_type_list.c" />
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_statements.c" />
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_statements_expr.c" />
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_statements_iteration.c" />
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_statements_jump.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_struct_or_union_specifier.c" />
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_translation_unit.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_type_check.c" />
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_type_specifier.c" />
     <ClCompile Include="tp_semantic_analysis\tp_semantic_analysis.c" />
     <ClCompile Include="tp_semantic_analysis\tp_semantic_analysis_expr.c" />
     <ClCompile Include="tp_utils\tp_file.c" />

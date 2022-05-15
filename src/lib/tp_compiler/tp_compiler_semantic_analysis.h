@@ -367,15 +367,21 @@ typedef struct tp_c_type_struct_content_ TP_C_TYPE_STRUCT_CONTENT;
 typedef struct tp_c_type_struct_content_{
     TP_C_TYPE* member_type_member;
     TP_TOKEN* member_identifier; // NOTE: member_token must not free memory.
-    uint32_t member_bits;
-    size_t member_offset;
+//  ToDo:
+//  uint32_t member_bits;
+    rsize_t member_offset;
+    uint32_t member_alignment;
+    uint32_t member_padding_bytes;
+    rsize_t member_size;
     TP_C_TYPE_STRUCT_CONTENT* member_next;
 }TP_C_TYPE_STRUCT_CONTENT;
 
 typedef struct tp_c_type_struct_{
     rsize_t member_struct_member_num;
     TP_C_TYPE_STRUCT_CONTENT* member_struct_content;
-    size_t member_align;
+    uint32_t member_alignment;
+    uint32_t member_padding_bytes;
+    rsize_t member_size;
 }TP_C_TYPE_STRUCT;
 
 typedef struct tp_c_type_union_content_ TP_C_TYPE_UNION_CONTENT;
@@ -383,13 +389,17 @@ typedef struct tp_c_type_union_content_ TP_C_TYPE_UNION_CONTENT;
 typedef struct tp_c_type_union_content_{
     TP_C_TYPE* member_type_member;
     TP_TOKEN* member_identifier; // NOTE: member_token must not free memory.
+    uint32_t member_alignment;
+    rsize_t member_size;
     TP_C_TYPE_UNION_CONTENT* member_next;
 }TP_C_TYPE_UNION_CONTENT;
 
 typedef struct tp_c_type_union_{
     rsize_t member_union_member_num;
     TP_C_TYPE_UNION_CONTENT* member_union_content;
-    size_t member_align;
+    uint32_t member_alignment;
+    uint32_t member_padding_bytes;
+    rsize_t member_size;
 }TP_C_TYPE_UNION;
 
 typedef struct tp_c_type_enum_content_ TP_C_TYPE_ENUM_CONTENT;

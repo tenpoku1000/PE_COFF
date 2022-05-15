@@ -518,21 +518,36 @@ bool tp_make_C_IR_jump_statement(
     TP_PARSE_TREE* parse_tree, TP_GRAMMER_CONTEXT grammer_context,
     TP_C_OBJECT* c_object
 );
-// Convert parse tree to C IR(declarations).
+// Convert parse tree to C IR(declaration).
 bool tp_make_C_IR_declaration(
     TP_SYMBOL_TABLE* symbol_table,
     TP_PARSE_TREE* parse_tree, TP_GRAMMER_CONTEXT grammer_context,
     TP_C_OBJECT* c_object
 );
+// Convert parse tree to C IR(declaration specifiers).
 bool tp_make_C_IR_declaration_specifiers(
     TP_SYMBOL_TABLE* symbol_table,
     TP_PARSE_TREE* parse_tree, TP_GRAMMER_CONTEXT grammer_context,
     TP_C_OBJECT* c_object, TP_C_OBJECT* type
 );
+// Convert parse tree to C IR(type specifier).
+bool tp_make_C_IR_type_specifier(
+    TP_SYMBOL_TABLE* symbol_table,
+    TP_PARSE_TREE* parse_tree, TP_GRAMMER_CONTEXT grammer_context,
+    TP_C_OBJECT* c_object, TP_C_TYPE* type
+);
+// Convert parse tree to C IR(struct or union specifier).
+bool tp_make_C_IR_struct_or_union_specifier(
+    TP_SYMBOL_TABLE* symbol_table,
+    TP_PARSE_TREE* parse_tree, TP_GRAMMER_CONTEXT grammer_context,
+    TP_C_OBJECT* c_object, TP_C_TYPE* type
+);
+// C IR(type check).
 bool tp_check_C_IR_type_specifier(
     TP_SYMBOL_TABLE* symbol_table,
     TP_GRAMMER_CONTEXT grammer_context, TP_C_OBJECT* type
 );
+// Convert parse tree to C IR(declarator).
 bool tp_make_C_IR_declarator(
     TP_SYMBOL_TABLE* symbol_table,
     TP_PARSE_TREE* parse_tree, TP_GRAMMER_CONTEXT grammer_context,
@@ -540,6 +555,12 @@ bool tp_make_C_IR_declarator(
 );
 // Convert parse tree to C IR(direct declarator).
 bool tp_make_C_IR_direct_declarator(
+    TP_SYMBOL_TABLE* symbol_table,
+    TP_PARSE_TREE* parse_tree, TP_GRAMMER_CONTEXT grammer_context,
+    TP_C_OBJECT* c_object, TP_C_OBJECT* type
+);
+// Convert parse tree to C IR(parameter type list).
+bool tp_make_C_IR_parameter_type_list(
     TP_SYMBOL_TABLE* symbol_table,
     TP_PARSE_TREE* parse_tree, TP_GRAMMER_CONTEXT grammer_context,
     TP_C_OBJECT* c_object, TP_C_OBJECT* type

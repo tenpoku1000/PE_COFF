@@ -228,7 +228,7 @@
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR.c">
       <Filter>ソース ファイル\tp_semantic_analysis</Filter>
     </ClCompile>
-    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_declarations.c">
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_declaration.c">
       <Filter>ソース ファイル\tp_semantic_analysis</Filter>
     </ClCompile>
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_expr.c">
@@ -319,6 +319,21 @@
       <Filter>ソース ファイル\tp_make_parse_tree</Filter>
     </ClCompile>
     <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_statements_iteration.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_type_specifier.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_struct_or_union_specifier.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_declaration_specifiers.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_type_check.c">
+      <Filter>ソース ファイル\tp_semantic_analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_semantic_analysis\tp_make_C_IR_parameter_type_list.c">
       <Filter>ソース ファイル\tp_semantic_analysis</Filter>
     </ClCompile>
   </ItemGroup>
